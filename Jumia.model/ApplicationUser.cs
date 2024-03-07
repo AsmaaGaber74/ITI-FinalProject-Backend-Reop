@@ -18,17 +18,17 @@ namespace Jumia.Model
         [MaxLength(256)]
         public string Email { get; set; }
 
-        [Required]
-        public string Password { get; set; } 
+        //[Required]
+        //public string Password { get; set; } 
 
-        [Required]
-        [MaxLength(256)]
-        public string FullName { get; set; }
+        //[Required]
+        //[MaxLength(256)]
+        ////public string ?FullName { get; set; }
 
-        public string AddressId { get; set; }
+        public string? AddressId { get; set; }
 
         [MaxLength(20)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         public bool? IsDeleted { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Jumia.Dtos;
+using Jumia.Dtos.ViewModel;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,10 @@ namespace Jumia.Application.Mapper
         public AutoMapperProfile()
         {
             CreateMap<ProductDTO, Product>().ReverseMap();
+            CreateMap<RegisterViewModel,ApplicationUser>().ReverseMap();
+            CreateMap<LoginViewModel,ApplicationUser>().ReverseMap();
+            
+            CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();
          
         }
     }

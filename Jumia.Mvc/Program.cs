@@ -1,4 +1,7 @@
+using Jumia.Application.Services;
 using Jumia.Context;
+using Jumia.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jumia.Mvc
@@ -15,6 +18,12 @@ namespace Jumia.Mvc
             {
                 op.UseSqlServer(builder.Configuration.GetConnectionString("Db"));
             });
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Password.RequireDigit = true)
+        .AddEntityFrameworkStores<JumiaContext>()
+        .AddDefaultTokenProviders();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,7 +34,7 @@ namespace Jumia.Mvc
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();//to check the cockie
             app.UseAuthorization();
 
             app.MapControllerRoute(
