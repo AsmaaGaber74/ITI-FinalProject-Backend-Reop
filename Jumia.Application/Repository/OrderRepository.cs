@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.InfraStructure
+namespace Jumia.Application.Repository
 {
-    public class OrderRepository:IOrderReposatory
+    public class OrderRepository : IOrderReposatory
     {
         private readonly JumiaContext _context;
 

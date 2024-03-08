@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Jumia.InfraStructure
+namespace Jumia.Application.Repository
 {
     public class Repository<TEntity, Tid> : IRepository<TEntity, Tid> where TEntity : BaseEntity
     {
@@ -27,7 +27,7 @@ namespace Jumia.InfraStructure
         public Task<TEntity> DeleteAsync(TEntity entity)
         {
 
-            return Task.FromResult((_Dbset.Remove(entity)).Entity);
+            return Task.FromResult(_Dbset.Remove(entity).Entity);
         }
 
         public Task<IQueryable<TEntity>> GetAllAsync()

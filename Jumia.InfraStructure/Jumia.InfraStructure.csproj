@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Jumia.Application\Jumia.Application.csproj" />
     <ProjectReference Include="..\Jumia.Context\Jumia.Context.csproj" />
     <ProjectReference Include="..\Jumia.model\Jumia.model.csproj" />
+    <ProjectReference Include="..\Jumia.Mvc\Jumia.Mvc.csproj" />
   </ItemGroup>
 
 </Project>

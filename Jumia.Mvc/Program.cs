@@ -1,3 +1,5 @@
+using Jumia.Application.Contract;
+using Jumia.Application.Repository;
 using Jumia.Application.Services;
 using Jumia.Context;
 using Jumia.Model;
@@ -24,6 +26,8 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderReposatory,OrderRepository>();
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
@@ -42,7 +46,7 @@ namespace Jumia.Mvc
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=admin}/{action=Index}/{id?}");
 
             app.Run();
         }

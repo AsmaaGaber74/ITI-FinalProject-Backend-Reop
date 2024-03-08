@@ -25,8 +25,20 @@ namespace Jumia.Application.Services
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
         {
             var orders = await _orderRepository.GetAllOrdersAsync();
-            return _mapper.Map<IEnumerable<OrderDto>>(orders);
-            // If you choose to not use AutoMapper, you can manually map the entities to DTOs as done in your provided example.
+            //return _mapper.Map<IEnumerable<OrderDto>>(orders);
+            
+            var ordersDto = orders.Select(o => new OrderDto
+            {
+                Id = o.Id,
+                UserID = o.User.Id,
+                UserName = o.User.UserName,
+                DatePlaced = o.DatePlaced,
+                TotalPrice = o.TotalPrice,
+                Status = o.Status
+
+            }).ToList();
+
+            return ordersDto;
         }
 
         public async Task UpdateOrderStatusAsync(int orderId, string newStatus)

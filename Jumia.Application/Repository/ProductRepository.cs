@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.InfraStructure
+namespace Jumia.Application.Repository
 {
-    public class ProductRepository : Repository<Product, int> , IProductReposatory
+    public class ProductRepository : Repository<Product, int>, IProductReposatory
     {
         public ProductRepository(JumiaContext jumiaContext) : base(jumiaContext)
         {
-            
+
         }
     }
 }
