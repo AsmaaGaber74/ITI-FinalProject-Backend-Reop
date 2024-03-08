@@ -7,54 +7,31 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jumia.Application.Contract;
 
 namespace Jumia.Application.Services
 {
     public class OrderService:IOrderService
     {
-        private readonly JumiaContext jumiaContext;
-        private readonly IMapper mapper;
+        private readonly IOrderReposatory _orderRepository;
+        private readonly IMapper _mapper;
 
-        public OrderService(JumiaContext jumiaContext, IMapper mapper)
+        public OrderService(IOrderReposatory orderRepository, IMapper mapper)
         {
-            this.jumiaContext = jumiaContext;
-            this.mapper = mapper;
+            _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
-        //public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
-        //{
-        //    var orders = await jumiaContext.orders.AsNoTracking().ToListAsync();
-        //    return mapper.Map<IEnumerable<OrderDto>>(orders);
-        //}
         public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync()
         {
-            var orders = await jumiaContext.orders
-                .Include(o => o.User) // Assuming `User` is the navigation property in `Order` for `ApplicationUser`
-                .AsNoTracking()
-                .ToListAsync();
-
-            var ordersDto = orders.Select(o => new OrderDto
-            {
-                Id = o.Id,
-                UserID = o.User.Id,
-                UserName=o.User.UserName,
-                DatePlaced = o.DatePlaced,
-                TotalPrice = o.TotalPrice,
-                Status = o.Status
-                
-            }).ToList();
-
-            return ordersDto;
+            var orders = await _orderRepository.GetAllOrdersAsync();
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
+            // If you choose to not use AutoMapper, you can manually map the entities to DTOs as done in your provided example.
         }
 
         public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         {
-            var order = await jumiaContext.orders.FindAsync(orderId);
-            if (order != null)
-            {
-                order.Status = newStatus;
-                await jumiaContext.SaveChangesAsync();
-            }
+            await _orderRepository.UpdateOrderStatusAsync(orderId, newStatus);
         }
     }
 }

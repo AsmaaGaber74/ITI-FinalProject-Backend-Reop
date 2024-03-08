@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Jumia.Application.Contract
 {
-    public interface IOrderReposatory : IRepository<Order, int>
+    public interface IOrderReposatory 
     {
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
+        Task UpdateOrderStatusAsync(int orderId, string newStatus);
     }
 }
