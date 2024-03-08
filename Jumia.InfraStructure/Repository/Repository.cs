@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Jumia.Application.Repository
+namespace Jumia.InfraStructure.Repository
 {
     public class Repository<TEntity, Tid> : IRepository<TEntity, Tid> where TEntity : BaseEntity
     {

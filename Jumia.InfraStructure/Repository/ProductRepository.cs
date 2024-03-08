@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.Application.Repository
+namespace Jumia.InfraStructure.Repository
 {
     public class ProductRepository : Repository<Product, int>, IProductReposatory
     {
