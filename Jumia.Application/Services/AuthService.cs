@@ -25,12 +25,13 @@ namespace Jumia.Application.Services
         public async Task<IdentityResult> RegisterUserAsync(RegisterViewModel model)
         {
 
-            
+
             var user = new ApplicationUser
             {
                 UserName = model.UserName,
                 Email = model.Email,
-                PasswordHash=model.Password,
+                PasswordHash = model.Password,
+                
                 
 
             };

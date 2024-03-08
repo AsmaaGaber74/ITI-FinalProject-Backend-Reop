@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Jumia.Context.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class hf : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,6 +33,7 @@ namespace Jumia.Context.Migrations
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AddressId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -329,18 +330,19 @@ namespace Jumia.Context.Migrations
                 name: "items",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    String = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_items_products_Id",
-                        column: x => x.Id,
+                        name: "FK_items_products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -415,6 +417,11 @@ namespace Jumia.Context.Migrations
                 name: "IX_cartItems_ProductID",
                 table: "cartItems",
                 column: "ProductID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_items_ProductId",
+                table: "items",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_orders_UserId",

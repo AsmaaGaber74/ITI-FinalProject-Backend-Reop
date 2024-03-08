@@ -9,7 +9,8 @@ namespace Jumia.Dtos
         public int Id { get; set; }
 
         [Required]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
+        [Required] public string UserName { get; set; }
 
         [Required]
         public DateTime DatePlaced { get; set; }

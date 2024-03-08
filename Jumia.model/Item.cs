@@ -13,8 +13,7 @@ namespace Jumia.Model
         public int Id { get; set; }
         public int Quantity { get; set; }
         public string Color { get; set; }
-        public string String { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("ProductId")]
         public Product Product { get; set; }
     }
 }

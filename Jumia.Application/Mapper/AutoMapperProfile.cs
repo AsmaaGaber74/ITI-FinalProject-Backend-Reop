@@ -18,8 +18,8 @@ namespace Jumia.Application.Mapper
             CreateMap<ProductDTO, Product>().ReverseMap();
             CreateMap<RegisterViewModel,ApplicationUser>().ReverseMap();
             CreateMap<LoginViewModel,ApplicationUser>().ReverseMap();
-            
             CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();
+            CreateMap<OrderDto,Order>().ReverseMap();
          
         }
     }
