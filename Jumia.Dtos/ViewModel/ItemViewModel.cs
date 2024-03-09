@@ -15,6 +15,6 @@ namespace Jumia.Dtos.ViewModel
         public string Color { get; set; }
         public string ProductName { get; set; }
         public int ProductId { get; set; }
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
