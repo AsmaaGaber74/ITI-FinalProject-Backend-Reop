@@ -22,8 +22,8 @@ namespace Jumia.Mvc
                 op.UseSqlServer(builder.Configuration.GetConnectionString("Db"));
             });
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Password.RequireDigit = true)
-        .AddEntityFrameworkStores<JumiaContext>()
-        .AddDefaultTokenProviders();
+             .AddEntityFrameworkStores<JumiaContext>()
+              .AddDefaultTokenProviders();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
