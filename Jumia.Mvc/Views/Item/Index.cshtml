@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Items";
+}
+@model ResultDataList<ItemViewModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <form method="Get" asp-action="Create">
+    <button type="submit" >Create Item</button>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Item Color</th>
+                <th scope="col">Item Quantity</th>
+                <th scope="col">Edit Item</th>
+                <th scope="col">Delete item</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Entities)
+            {
+                <tr>
+                    <td>@r.ProductName</td>
+                    <td>@r.Color</td>
+                    <td>@r.Quantity</td>
+                    <td><a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a></td>
+                    <td><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</body>
+</html>

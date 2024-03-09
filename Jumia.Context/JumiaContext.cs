@@ -27,14 +27,34 @@ namespace Jumia.Context
         }
         public JumiaContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             base.OnModelCreating(modelBuilder);
+
+            
             modelBuilder.Entity<CartItem>()
           .HasOne(c => c.Product) // Assuming CartItem has a navigation property called Product
           .WithMany(p => p.OrderDetails) // Assuming Product has a collection property called CartItems
           .HasForeignKey(c => c.ProductID) // Assuming CartItem has a foreign key called ProductId
           .OnDelete(DeleteBehavior.Restrict);
+
+
+
+            modelBuilder
+                .Entity<Item>().Property(s=>s.Id).UseIdentityColumn();
+
+            modelBuilder.Entity<Item>().HasOne(a=>a.Product)
+                .WithMany(a=>a.items)
+                .HasForeignKey(a=>a.ProductID);
+
 
         }
 

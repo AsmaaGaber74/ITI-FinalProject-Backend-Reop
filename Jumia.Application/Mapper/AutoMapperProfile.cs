@@ -20,6 +20,8 @@ namespace Jumia.Application.Mapper
             CreateMap<LoginViewModel,ApplicationUser>().ReverseMap();
             
             CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();
+
+            CreateMap<ItemViewModel,Item>().ReverseMap();
          
         }
     }

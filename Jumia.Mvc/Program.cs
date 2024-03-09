@@ -1,5 +1,7 @@
+using Jumia.Application.Contract;
 using Jumia.Application.Services;
 using Jumia.Context;
+using Jumia.InfraStructure;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,9 @@ namespace Jumia.Mvc
         .AddDefaultTokenProviders();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IItemServices, ItemServices>();
+            builder.Services.AddScoped<IItemReposatory, ItemRepostory>();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
 

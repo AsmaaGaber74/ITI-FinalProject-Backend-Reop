@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create Item";
+}
+@model ItemViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control" asp-for="ProductName">
+        </div>
+        <div class="mb-3"hidden>
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control" asp-for="ProductId">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Item Color</label>
+            <input type="text" class="form-control" asp-for="Color">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Item Quantity</label>
+            <input type="text" class="form-control" asp-for="Quantity">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
