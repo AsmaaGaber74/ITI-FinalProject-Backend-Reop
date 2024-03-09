@@ -36,7 +36,7 @@ namespace Jumia.Mvc.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("index","item");
                 }
             }
             catch
