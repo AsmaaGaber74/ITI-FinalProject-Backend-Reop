@@ -8,6 +8,6 @@ namespace Jumia.model
 {
     public class BaseEntity
     {
-        public bool? IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }=false;
     }
 }
