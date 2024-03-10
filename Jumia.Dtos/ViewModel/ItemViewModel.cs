@@ -12,8 +12,10 @@ namespace Jumia.Dtos.ViewModel
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
+        public string? Size { get; set; }
         public string Color { get; set; }
         public string ProductName { get; set; }
+        public string ItemImage { get; set; } = "Empty";
         public int ProductId { get; set; }
         public bool IsDeleted { get; set; }
     }
