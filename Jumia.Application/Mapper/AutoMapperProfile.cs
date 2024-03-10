@@ -16,6 +16,14 @@ namespace Jumia.Application.Mapper
         public AutoMapperProfile()
         {
             CreateMap<ProductDTO, Product>().ReverseMap();
+            CreateMap<CreateOrUpdateProuductDTO, Product>().ReverseMap();
+            CreateMap<GetAllProuductDTO, Product>().ReverseMap();
+            CreateMap<ProuductViewModel, Product>().ReverseMap()
+             .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryID))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ReverseMap();
+
+            CreateMap<CateogaryViewModel, Category>().ReverseMap();
             CreateMap<RegisterViewModel,ApplicationUser>().ReverseMap();
             CreateMap<LoginViewModel,ApplicationUser>().ReverseMap();
             CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();

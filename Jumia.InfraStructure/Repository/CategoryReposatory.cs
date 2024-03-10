@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Jumia.InfraStructure
 {
-    public class ProductRepository : Repository<Product, int>, IProductReposatory
+    public class CategoryReposatory : Repository<Category, int>, ICategoryReposatory
     {
-        public ProductRepository(JumiaContext jumiaContext) : base(jumiaContext)
+        public CategoryReposatory(JumiaContext jumiaContext) : base(jumiaContext)
         {
 
         }

@@ -1,0 +1,198 @@
+﻿@*  @model Jumia.Dtos.ViewModel.ProudectViewModel
+
+@{
+    Layout = "_Layout2";
+    ViewData["Title"] = "Index";
+}
+
+
+<style>
+    .body
+    {
+        justify-content:space-around
+    }
+
+    .table {
+        width:99%;
+        align-items:center
+    }
+
+    .trr th
+    {
+        width:170px;
+       color:aliceblue
+    }
+
+    .tb td
+    {
+        margin-top:10px
+    }
+</style>
+<body>
+    <h4>Index</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Register">
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StockQuantity" class="control-label"></label>
+                    <input asp-for="StockQuantity" class="form-control" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Category" class="control-label"></label>
+                    <input asp-for="Category" class="form-control" />
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <a asp-action="Edit"  style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Edit..</a> |
+
+                    <a asp-action="Delete"  style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Delete</a>|
+
+
+                </div>
+            </form>
+        </div>
+
+</body>
+ *@
+
+
+@model List<Jumia.Dtos.ViewModel.ProuductViewModel>
+
+@{
+
+    ViewData["Title"] = "Index";
+}
+
+
+
+
+
+<style>
+    .body {
+        justify-content: space-around
+    }
+
+    .table {
+        width: 99%;
+        align-items: center
+    }
+
+    .trr th {
+        width: 170px;
+    }
+
+    .tb td {
+        margin-top: 10px
+    }
+</style>
+<body>
+    <h1>Index</h1>
+    <a asp-action="Create" style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Add new Proudect</a>
+
+    <form asp-controller="Product" asp-action="Index" method="get">
+        <input type="text" name="searchString" placeholder="Enter product name">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr class="trr">
+
+                <th class="thh" style=" width:200px;">
+                    <label>Name</label>
+                </th>
+
+                <th>
+                    <label>Price</label>
+                </th>
+
+                <th>
+                    <label> StockQuantity</label>
+                </th>
+                <th>
+                    <label> Description</label>
+                </th>
+                <th>
+                    <label> DateListed</label>
+                </th>
+                <th>
+                    <label> Sellerid</label>
+                </th>
+                <th>
+                    <label> Catogery</label>
+                </th>
+                <th>
+                    <label> IsDeleted</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tb">
+            @foreach (var proudect in Model)
+            {
+                <tr>
+                    <td>
+                        @proudect.Name
+                    </td>
+
+                    <td>
+                        @proudect.Price
+                    </td>
+
+                    <td>
+                        @proudect.StockQuantity
+                    </td>
+                    <td>
+                        @proudect.Description
+                    </td>
+
+                    <td>
+                        @proudect.DateListed
+                    </td>
+                    <td>
+                        @proudect.SellerID
+                    </td>
+                    <td>
+                        @proudect.CategoryName
+                    </td>
+                    <td>
+                        @proudect.IsDeleted
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@proudect.Id" style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Edit..</a> |
+
+                        <a asp-action="Delete" asp-route-id="@proudect.Id" style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Delete</a>|
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</body>
