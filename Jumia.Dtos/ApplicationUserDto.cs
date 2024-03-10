@@ -15,7 +15,7 @@ namespace Jumia.Dtos
         [Required]
         [MaxLength(256)]
         public string FullName { get; set; }
-
+        public string ?Role { get; set; }
         public string AddressId { get; set; }
 
         [MaxLength(20)]

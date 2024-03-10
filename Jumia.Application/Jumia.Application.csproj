@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jumia.Context\Jumia.Context.csproj" />
     <ProjectReference Include="..\Jumia.Dtos\Jumia.Dtos.csproj" />
     <ProjectReference Include="..\Jumia.model\Jumia.model.csproj" />
   </ItemGroup>

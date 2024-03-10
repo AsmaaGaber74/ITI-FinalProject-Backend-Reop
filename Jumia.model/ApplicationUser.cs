@@ -29,7 +29,7 @@ namespace Jumia.Model
 
         [MaxLength(20)]
         public string? Phone { get; set; }
-
+        public string ?Role {  get; set; }
         public bool? IsDeleted { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Product> Products { get; set; }

@@ -1,7 +1,6 @@
 ﻿using Jumia.model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,7 @@ namespace Jumia.Model
         public int Id { get; set; }
         public int Quantity { get; set; }
         public string Color { get; set; }
-        public int ProductID { get; set; }
+        [ForeignKey("ProductId")]
         public Product Product { get; set; }
     }
 }

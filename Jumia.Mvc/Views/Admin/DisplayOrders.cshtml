@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Jumia.Dtos.OrderDto>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User ID</th>
+            <th>User Name</th>
+            <th>Date Placed</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.UserID</td>
+                <td>@order.UserName</td>
+                <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.Status</td>
+                <td>
+                    @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+                    {
+                        @Html.Hidden("orderId", order.Id)
+                        <select name="status" class="form-control">
+                            @if (order.Status == "Pending")
+                            {
+                                <option value="Pending" selected>Pending</option>
+                            }
+                            else
+                            {
+                                <option value="Pending">Pending</option>
+                            }
+                            @if (order.Status == "Processing")
+                            {
+                                <option value="Processing" selected>Processing</option>
+                            }
+                            else
+                            {
+                                <option value="Processing">Processing</option>
+                            }
+                            @if (order.Status == "Shipped")
+                            {
+                                <option value="Shipped" selected>Shipped</option>
+                            }
+                            else
+                            {
+                                <option value="Shipped">Shipped</option>
+                            }
+                            @if (order.Status == "Delivered")
+                            {
+                                <option value="Delivered" selected>Delivered</option>
+                            }
+                            else
+                            {
+                                <option value="Delivered">Delivered</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
