@@ -27,16 +27,24 @@ namespace Jumia.Mvc.Controllers
             try
             {
                 var ProductId = await _itemServices.GetProductID(itemView.ProductName);
-                itemView.ProductId = ProductId;
-                var Result = await _itemServices.Create(itemView);
-                if(Result.Entity == null)
+                if (ProductId == 0)
                 {
-                    ViewBag.Error = Result.Message;
+                    ModelState.AddModelError("ProductName", "The Product Name Not Correct");
                     return View(itemView);
                 }
                 else
                 {
-                    return RedirectToAction("index","item");
+                    itemView.ProductId = ProductId;
+                    var Result = await _itemServices.Create(itemView);
+                    if (Result.Entity == null)
+                    {
+                        ViewBag.Error = Result.Message;
+                        return View(itemView);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
             }
             catch
