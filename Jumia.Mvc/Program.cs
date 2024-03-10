@@ -1,7 +1,7 @@
 using Jumia.Application.Contract;
 using Jumia.Application.Services;
 using Jumia.Context;
-using Jumia.InfraStructure;
+using Jumia.InfraStructure.Repository;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +27,8 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IItemServices, ItemServices>();
             builder.Services.AddScoped<IItemReposatory, ItemRepostory>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderReposatory, OrderRepository>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.InfraStructure
+namespace Jumia.InfraStructure.Repository
 {
-    public class ItemRepostory : Repository<Item, int> , IItemReposatory
+    public class ItemRepostory : Repository<Item, int>, IItemReposatory
     {
         private readonly JumiaContext _context;
 
