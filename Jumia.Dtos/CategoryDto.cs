@@ -12,6 +12,6 @@ namespace Jumia.Dtos
         [MaxLength(256)]
         public string Name { get; set; }
 
-        public virtual ICollection<ProductDTO> Products { get; set; }
+      
     }
 }

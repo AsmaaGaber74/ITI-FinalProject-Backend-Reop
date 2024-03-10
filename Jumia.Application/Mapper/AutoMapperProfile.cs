@@ -16,6 +16,8 @@ namespace Jumia.Application.Mapper
         public AutoMapperProfile()
         {
             CreateMap<ProductDTO, Product>().ReverseMap();
+            CreateMap<CategoryDto,Category >().ReverseMap();
+
             CreateMap<CreateOrUpdateProuductDTO, Product>().ReverseMap();
             CreateMap<GetAllProuductDTO, Product>().ReverseMap();
             CreateMap<ProuductViewModel, Product>().ReverseMap()

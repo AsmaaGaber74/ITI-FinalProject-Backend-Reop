@@ -32,6 +32,7 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IOrderReposatory, OrderRepository>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IProductReposatory, ProductRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryReposatory, CategoryReposatory>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

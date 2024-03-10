@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Jumia.Dtos.CategoryDto
+
+<h2>Create Category</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+
+
+    @*     <div class="form-group">
+    <label asp-for="Products"></label>
+    <input asp-for="Products" class="form-control" placeholder="Enter image URL" />
+    <span asp-validation-for="Products" class="text-danger"></span>
+    </div> *@
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
