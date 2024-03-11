@@ -37,7 +37,8 @@ namespace Jumia.Dtos.ViewModel
         public virtual CateogaryViewModel Category { get; set; }
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
-
+        public virtual LoginViewModel? Seller { get; set; }
+        public string? SellerName { get; set; }
         public bool IsDeleted { get; set; }=false;
 
         // public virtual ICollection<ProductImageViewModel> ProductImages { get; set; }

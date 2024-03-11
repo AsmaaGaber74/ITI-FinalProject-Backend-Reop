@@ -1,48 +1,140 @@
 ﻿@model Jumia.Dtos.ViewModel.RegisterViewModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Create Account";
 }
 
-<h1>Register</h1>
+<head>
+    <link href="~/css/Account.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-<h4>RegisterViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        .parent {
+            border: 2px solid #ddd;
+            margin-bottom: 50px;
+        }
+
+        .create {
+            text-align: left;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 130px;
+        }
+
+        .main {
+            padding: 20px;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .registration-container h1 {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .form-check {
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .main {
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            background-color: #FFD814;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<main class="main">
+    <div class="registration-container">
+        <header class="header">
+            <a href="#" class="logo">
+                <img src="~/images/amazon.webp" alt="Company Logo">
+            </a>
+        </header>
+        <h1 class="create">Create account</h1>
         <form asp-action="Register">
             <div asp-validation-summary="All" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
+                <label asp-label-for="Name">Your UserName</label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-label-for="Email">Mobile number or email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-label-for="Password">Password</label>
+                <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="password-info">
+                    <p>At least 6 characters</p>
+                </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <label asp-label-for="ConfirmPassword">Re-enter password</label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
+                    <label class="form-check-label" for="agreeCheckbox">
+                        By creating an account, you agree to our <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn">Create Account</button>
             </div>
         </form>
+        <div class="footer">
+            <p>Already have an account? <a asp-action="Login">Sign in</a></p>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</main>

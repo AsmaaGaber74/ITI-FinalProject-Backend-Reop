@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace Jumia.Dtos.ViewModel
         public string? Size { get; set; }
         public string Color { get; set; }
         public string ProductName { get; set; }
-        public string ItemImage { get; set; } = "Empty";
+        public IFormFile? ItemImage { get; set; }
+        public string ItemImagestring { get; set; }
         public int ProductId { get; set; }
         public bool IsDeleted { get; set; }
     }

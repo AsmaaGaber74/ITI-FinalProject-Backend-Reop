@@ -32,7 +32,12 @@ namespace Jumia.Application.Mapper
             CreateMap<ItemViewModel,Item>().ReverseMap();
             CreateMap<OrderDto,Order>().ReverseMap();
             CreateMap<ProductImageDto,ProductImage>().ReverseMap();
-         
+            CreateMap<ItemViewModel, Item>()
+                            .ForMember(dest => dest.ItemImage, opt => opt.MapFrom(src => src.ItemImagestring))
+                            .ReverseMap()
+                            .ForMember(dest => dest.ItemImage, opt => opt.Ignore())
+                            .ForMember(dest => dest.ItemImagestring, opt => opt.MapFrom(src => src.ItemImage));
+
         }
     }
 }

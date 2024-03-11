@@ -22,6 +22,7 @@ namespace Jumia.Mvc.Controllers
             return View();
         }
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Create(ItemViewModel itemView)
         {
             try
@@ -35,6 +36,15 @@ namespace Jumia.Mvc.Controllers
                 else
                 {
                     itemView.ProductId = ProductId;
+                    string filename = "";
+                    if (itemView.ItemImage != null)
+                    {
+                        string itemimages = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ItemImages");
+                        filename = itemView.ItemImage.FileName;
+                        string fullpath = Path.Combine(itemimages, filename);
+                        itemView.ItemImage.CopyTo(new FileStream(fullpath, FileMode.Create));
+                        itemView.ItemImagestring = filename;
+                    }
                     var Result = await _itemServices.Create(itemView);
                     if (Result.Entity == null)
                     {
@@ -51,7 +61,7 @@ namespace Jumia.Mvc.Controllers
             {
                 return View();
             }
-        } 
+        }
         public async Task<IActionResult> Update(int id)
         {
             var item = await _itemServices.GetOne(id);
@@ -60,12 +70,32 @@ namespace Jumia.Mvc.Controllers
             return View(item.Entity);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(ItemViewModel item , int id)
+        public async Task<IActionResult> Update(ItemViewModel item, int id)
         {
             try
             {
+
+                string filename = "";
+                if (item.ItemImage != null)
+                {
+                    //var olditem = await _itemServices.GetOne(id);
+                    //var olditemimage = olditem.Entity.ItemImagestring;
+                    string itemimages = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ItemImages");
+                    filename = item.ItemImage.FileName;
+                    string fullpath = Path.Combine(itemimages, filename);
+
+                    //string oldfullpath = Path.Combine(itemimages, olditemimage);
+                    //if(fullpath != oldfullpath)
+                    //{
+                    //System.IO.File.Delete(oldfullpath);
+                    item.ItemImage.CopyTo(new FileStream(fullpath, FileMode.Create));
+                    item.ItemImagestring = filename;
+                    // }
+
+
+                }
                 var result = await _itemServices.Update(item);
-                if(result.Entity == null)
+                if (result.Entity == null)
                 {
                     ViewBag.Error = result.Message;
                     return View(item);
@@ -75,8 +105,8 @@ namespace Jumia.Mvc.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch 
-            { 
+            catch
+            {
                 return View(item);
             }
 

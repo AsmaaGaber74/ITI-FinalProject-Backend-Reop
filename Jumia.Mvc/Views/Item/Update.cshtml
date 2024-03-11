@@ -10,7 +10,7 @@
 <head>
 </head>
 <body>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">Product Name</label>
             <input type="text" class="form-control" asp-for="ProductName" value="@Model.ProductName">
@@ -28,13 +28,15 @@
             <label class="form-label">Item Quantity</label>
             <input type="text" class="form-control" asp-for="Quantity" value="@Model.Quantity">
         </div>
-        <div class="mb-3" >
+        <div class="mb-3">
             <label class="form-label">Item Size</label>
             <input type="text" class="form-control" asp-for="Size" value="@Model.Size">
         </div>
         <div class="mb-3">
             <label class="form-label">Item Image</label>
-            <input type="text" class="form-control" asp-for="ItemImage" value="@Model.ItemImage">
+            <input type="file" class="form-control" name="ItemImage" asp-for="ItemImage">
+            <input type="hidden" asp-for="ItemImagestring" />
+            <img src="~/ItemImages/@Model.ItemImagestring" alt="@Model.ItemImagestring" />
         </div>
         <div class="mb-3">
             <label class="form-label">Item Color</label>

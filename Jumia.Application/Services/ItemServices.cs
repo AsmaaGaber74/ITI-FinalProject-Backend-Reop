@@ -66,9 +66,9 @@ namespace Jumia.Application.Services
                                                  ProductName = p.Product.Name,
                                                  ProductId = p.Product.Id,
                                                  Id = p.Id,
-                                                 ItemImage=p.ItemImage,
                                                  Size = p.Size,
-                                                 IsDeleted = p.IsDeleted
+                                                 IsDeleted = p.IsDeleted,
+                                                 ItemImagestring = p.ItemImage
                                              }).ToList();
             var ResultData = new ResultDataList<ItemViewModel>();
             ResultData.Entities = items;

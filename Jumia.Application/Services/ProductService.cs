@@ -72,7 +72,8 @@ namespace Jumia.Application.Services
                 uproudect.Description = proudect.Description;
                 uproudect.DateListed = proudect.DateListed;
                 uproudect.CategoryID = proudect.CategoryId;
-                uproudect.IsDeleted = proudect.IsDeleted;
+                uproudect.SellerID = proudect.SellerID;
+
 
 
                 await productReposatory.SaveChangesAsync();
@@ -86,6 +87,7 @@ namespace Jumia.Application.Services
                 return new ResultView<ProuductViewModel> { Entity = null, IsSuccess = false, Message = ex.Message };
             }
         }
+
 
         public async Task<ProuductViewModel> GetOne(int ID)
         {
@@ -107,8 +109,9 @@ namespace Jumia.Application.Services
                 Price = p.Price,
                 DateListed = p.DateListed,
                 Description = p.Description,
-                SellerID = p.SellerID,
-                IsDeleted = p.IsDeleted,
+                SellerName = p.Seller.UserName,
+                // IsDeleted=p.IsDeleted,
+                // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();
             ResultDataList<ProuductViewModel> resultDataList = new ResultDataList<ProuductViewModel>();
             resultDataList.Entities = proudects;
