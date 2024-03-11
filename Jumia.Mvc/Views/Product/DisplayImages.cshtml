@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Jumia.Dtos.ProductImageDto>
+
+@{
+    ViewData["Title"] = "Product Images";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var image in Model)
+        {
+            <div class="col-md-4 text-center">
+                <img src="@image.Path" class="img-fluid" alt="Product Image" />
+                <form asp-action="DeleteImage" method="post" class="mt-2">
+                    <input type="hidden" name="id" value="@image.Id" /> <!-- Ensure this name attribute matches the action method parameter -->
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No images to display.</p>
+}
+
+<a asp-action="Index">Back to Products</a>

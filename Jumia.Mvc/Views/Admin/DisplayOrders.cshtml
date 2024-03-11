@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>Order ID</th>
-            <th>User ID</th>
+            <th hidden>User ID</th>
             <th>User Name</th>
             <th>Date Placed</th>
             <th>Total Price</th>
@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>@order.Id</td>
-                <td>@order.UserID</td>
+                <td hidden>@order.UserID</td>
                 <td>@order.UserName</td>
                 <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
                 <td>@order.TotalPrice</td>

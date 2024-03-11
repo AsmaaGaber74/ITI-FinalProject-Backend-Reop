@@ -6,7 +6,7 @@ namespace Jumia.Dtos
     {
         public int Id { get; set; }
         public string Path { get; set; }
-        [ForeignKey("ProductID")]
-        public virtual ProductDTO Product { get; set; }
+        public int ProductID { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

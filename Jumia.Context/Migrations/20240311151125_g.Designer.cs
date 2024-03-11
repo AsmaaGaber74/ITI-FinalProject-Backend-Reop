@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240310181448_g")]
+    [Migration("20240311151125_g")]
     partial class g
     {
         /// <inheritdoc />

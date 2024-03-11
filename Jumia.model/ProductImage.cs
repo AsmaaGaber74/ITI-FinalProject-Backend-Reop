@@ -12,6 +12,7 @@ namespace Jumia.Model
     {
         public int Id { get; set; }
         public string Path{ get; set; }
+        public int ProductID { get; set; }
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
 
