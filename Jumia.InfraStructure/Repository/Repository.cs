@@ -10,10 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jumia.InfraStructure.Repository
 {
-    public class Repository<TEntity, Tid> : IRepository<TEntity, Tid> where TEntity : BaseEntity
+    public class Repository<TEntity, Tid> : IRepository<TEntity, Tid> where TEntity : class, IBaseEntity
     {
         private readonly JumiaContext _jumiaContext;
         private readonly DbSet<TEntity> _Dbset;
+
         public Repository(JumiaContext jumiaContext)
         {
             _jumiaContext = jumiaContext;

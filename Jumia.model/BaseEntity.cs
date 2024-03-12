@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Jumia.model
 {
-    public class BaseEntity
+    public class BaseEntity:IBaseEntity
     {
         public bool IsDeleted { get; set; }=false;
     }

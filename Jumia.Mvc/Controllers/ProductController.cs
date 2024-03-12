@@ -11,11 +11,13 @@ namespace Jumia.Mvc.Controllers
 
         private readonly IProductService _proudectService;
         private readonly IProductImageService _productImageService;
+        private readonly IUserService userService;
 
-        public ProductController(IProductService productService, IProductImageService productImageService)
+        public ProductController(IProductService productService, IProductImageService productImageService,IUserService userService)
         {
             _proudectService = productService;
             _productImageService = productImageService;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Index(string searchString)
@@ -34,61 +36,73 @@ namespace Jumia.Mvc.Controllers
         public async Task<ActionResult> Create()
         {
             var categories = await _proudectService.GetAllCategories();
+            var sellers = await userService.GetAllUsersAsync(); // Assume this method exists and fetches all sellers
 
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName"); // Assuming sellers are identified by Id and UserName
 
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(ProuductViewModel proudect)
+        public async Task<ActionResult> Create(ProuductViewModel product)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    var result = await _proudectService.Create(proudect);
+            //if (ModelState.IsValid)
+            //{
+                var result = await _proudectService.Create(product);
 
+                if (result.IsSuccess)
+                {
                     TempData["SuccessMessage"] = result.Message;
                     return RedirectToAction("Index");
-
                 }
                 else
                 {
+                    TempData["ErrorMessage"] = result.Message;
+                    // Repopulate the sellers and categories in case of failure so that the form can display them again
                     var categories = await _proudectService.GetAllCategories();
+                    var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
                     ViewBag.Categories = new SelectList(categories, "Id", "Name");
-                    return View(proudect);
-
-
+                    ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
+                    return View(product);
                 }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = "An error occurred while creating the book.";
-                return View(proudect);
-            }
+            //}
+            //else
+            //{
+            //    // The model state is not valid, so fetch the lists again to show the form with validation messages
+            //    var categories = await _proudectService.GetAllCategories();
+            //    var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
+            //    ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            //    ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
+            //    return View(product);
+            //}
         }
+
         public async Task<ActionResult> Edit(int id)
         {
-            var proudect = await _proudectService.GetOne(id);
+            var product = await _proudectService.GetOne(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             var categories = await _proudectService.GetAllCategories();
+            var sellers = await userService.GetAllUsersAsync(); // Assuming userService can fetch all users
 
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", product.SellerID);
 
-            return View(proudect);
+            return View(product);
         }
+
         [HttpPost]
-
-        public async Task<ActionResult> Edit(int id, ProuductViewModel newproudect)
+        public async Task<ActionResult> Edit(int id, ProuductViewModel productViewModel)
         {
-
-
-            if (!ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
-
-                    var result = await _proudectService.Update(newproudect);
+                    var result = await _proudectService.Update(productViewModel);
                     if (result.IsSuccess)
                     {
                         TempData["SuccessMessage"] = result.Message;
@@ -96,22 +110,24 @@ namespace Jumia.Mvc.Controllers
                     }
                     else
                     {
-                        ViewBag.Error = result.Message;
-                        return View(newproudect);
+                        TempData["ErrorMessage"] = result.Message;
                     }
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Error = "An error occurred while updating the book.";
-                    return View(newproudect);
+                    TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
                 }
-            }
-            else
-            {
-                return View(newproudect);
-            }
+            //}
 
+            // If we get to this point, it means something went wrong; reload categories and sellers
+            var categories = await _proudectService.GetAllCategories();
+            var sellers = await userService.GetAllUsersAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", productViewModel.CategoryId);
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", productViewModel.SellerID);
+
+            return View(productViewModel);
         }
+
         public async Task<ActionResult> Delete(int id)
         {
             var proudect = await _proudectService.GetOne(id);

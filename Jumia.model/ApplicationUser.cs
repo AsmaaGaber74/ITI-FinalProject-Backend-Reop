@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Jumia.Model
 {
-    public class ApplicationUser : Microsoft.AspNetCore.Identity.IdentityUser
+    public class ApplicationUser : Microsoft.AspNetCore.Identity.IdentityUser,IBaseEntity
     {
+        private BaseEntity _baseEntity = new BaseEntity();
 
+        public bool IsDeleted { get; set; } = false;
         [Required]
         [MaxLength(256)]
         public string Email { get; set; }
@@ -30,7 +32,6 @@ namespace Jumia.Model
         [MaxLength(20)]
         public string? Phone { get; set; }
         public string ?Role {  get; set; }
-        public bool? IsDeleted { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Product> Products { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }

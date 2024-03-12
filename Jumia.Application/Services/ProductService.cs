@@ -18,12 +18,14 @@ namespace Jumia.Application.Services
         private readonly IProductReposatory productReposatory;
         private readonly IMapper _mapper;
         private readonly ICategoryReposatory categoryRepository;
+        private readonly IUserService userService;
 
-        public ProductService(IProductReposatory productReposatory, IMapper mapper, ICategoryReposatory categoryRepository)
+        public ProductService(IProductReposatory productReposatory, IMapper mapper, ICategoryReposatory categoryRepository,IUserService userService)
         {
             this.productReposatory = productReposatory;
             _mapper = mapper;
             this.categoryRepository = categoryRepository;
+            this.userService = userService;
         }
 
         public async Task<ResultView<ProuductViewModel>> Create(ProuductViewModel product)
@@ -133,6 +135,15 @@ namespace Jumia.Application.Services
                 throw ex;
             }
         }
+
+        public async Task<List<UserViewModel>> GetAllSellers()
+        {
+            var users = await userService.GetAllUsersAsync(); // Assuming GetAllUsersAsync() is implemented in IUserService
+                                                               // Filter users based on a role or any other criteria if necessary
+            var sellers = users.Where(u => u.Role.Equals("Seller")).ToList(); // Example filter, adjust according to your role setup
+            return sellers;
+        }
+
 
     }
     //public async Task<List<CateogaryViewModel>> GetAllCategories()
