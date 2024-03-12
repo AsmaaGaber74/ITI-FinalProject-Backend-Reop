@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Jumia.Mvc.Controllers
 {
+    [Authorize]
+
     public class AdminController : Controller
     {
         private readonly IOrderService orderService;
@@ -26,6 +28,8 @@ namespace Jumia.Mvc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> UpdateStatus(int orderId, string status)
         {
             await orderService.UpdateOrderStatusAsync(orderId, status);

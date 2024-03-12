@@ -24,6 +24,15 @@ namespace Jumia.Mvc
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.Password.RequireDigit = true)
         .AddEntityFrameworkStores<JumiaContext>()
         .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Set session timeout duration
+                options.LoginPath = "/Account/Login"; // Define login path
+                options.LogoutPath = "/Account/Logout"; // Define logout path
+                options.SlidingExpiration = true; // Enable sliding expiration
+            });
+
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IItemServices, ItemServices>();
@@ -53,7 +62,7 @@ namespace Jumia.Mvc
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Index}/{id?}");
 
             app.Run();
         }

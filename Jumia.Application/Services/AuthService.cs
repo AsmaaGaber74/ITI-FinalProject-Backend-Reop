@@ -1,4 +1,5 @@
-﻿using Jumia.Dtos.ViewModel;
+﻿using Jumia.Dtos;
+using Jumia.Dtos.ViewModel;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -55,6 +56,24 @@ namespace Jumia.Application.Services
         {
             await _signInManager.SignOutAsync();
 
+        }
+
+        public async Task<List<UserViewModel>> GetAllUsersAsync()
+        {
+            // Fetch all users
+            var users = _userManager.Users.ToList();
+
+            // Map users to your UserViewModel
+            // This step assumes you have a UserViewModel defined somewhere that fits your needs
+            var userViewModels = users.Select(user => new UserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email
+                // Add other properties as needed
+            }).ToList();
+
+            return userViewModels;
         }
     }
 

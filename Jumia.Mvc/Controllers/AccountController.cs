@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Jumia.Mvc.Controllers
 {
+    
     public class AccountController : Controller
     {
         private readonly IAuthService _authService; // Fixed naming convention

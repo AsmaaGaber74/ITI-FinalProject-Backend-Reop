@@ -15,6 +15,6 @@ namespace Jumia.Application.Services
          Task LogoutAsync();
         Task<SignInResult> SignInAsync(LoginViewModel model);
 
-
+        Task<List<UserViewModel>> GetAllUsersAsync();
     }
 }

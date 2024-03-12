@@ -37,7 +37,8 @@ namespace Jumia.Application.Mapper
                             .ReverseMap()
                             .ForMember(dest => dest.ItemImage, opt => opt.Ignore())
                             .ForMember(dest => dest.ItemImagestring, opt => opt.MapFrom(src => src.ItemImage));
-
+            CreateMap<UserViewModel, ApplicationUser>().ReverseMap();
         }
+
     }
 }

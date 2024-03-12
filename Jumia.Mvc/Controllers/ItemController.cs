@@ -1,9 +1,12 @@
 ﻿using Jumia.Application.Services;
 using Jumia.Dtos.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jumia.Mvc.Controllers
 {
+    [Authorize]
+
     public class ItemController : Controller
     {
         private readonly IItemServices _itemServices;

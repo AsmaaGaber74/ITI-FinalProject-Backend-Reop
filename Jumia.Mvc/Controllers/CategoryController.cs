@@ -1,9 +1,12 @@
 ﻿using Jumia.Application.Services;
 using Jumia.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jumia.Mvc.Controllers
 {
+    [Authorize]
+
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
