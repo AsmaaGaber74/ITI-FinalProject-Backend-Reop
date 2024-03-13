@@ -46,8 +46,8 @@ namespace Jumia.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(ProuductViewModel product)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 var result = await _proudectService.Create(product);
 
                 if (result.IsSuccess)
@@ -65,19 +65,19 @@ namespace Jumia.Mvc.Controllers
                     ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
                     return View(product);
                 }
-            //}
-            //else
-            //{
-            //    // The model state is not valid, so fetch the lists again to show the form with validation messages
-            //    var categories = await _proudectService.GetAllCategories();
-            //    var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
-            //    ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            //    ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
-            //    return View(product);
-            //}
+            }
+            else
+            {
+                // The model state is not valid, so fetch the lists again to show the form with validation messages
+                var categories = await _proudectService.GetAllCategories();
+                var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
+                ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
+                return View(product);
+            }
         }
 
-        public async Task<ActionResult> Edit(int id)
+            public async Task<ActionResult> Edit(int id)
         {
             var product = await _proudectService.GetOne(id);
 
@@ -98,8 +98,8 @@ namespace Jumia.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(int id, ProuductViewModel productViewModel)
         {
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     var result = await _proudectService.Update(productViewModel);
@@ -117,7 +117,7 @@ namespace Jumia.Mvc.Controllers
                 {
                     TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
                 }
-            //}
+            }
 
             // If we get to this point, it means something went wrong; reload categories and sellers
             var categories = await _proudectService.GetAllCategories();

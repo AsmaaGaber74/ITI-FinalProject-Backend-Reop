@@ -34,7 +34,7 @@ namespace Jumia.Dtos.ViewModel
         public DateTime DateListed { get; set; }
         public string? SellerID { get; set; }
 
-        public virtual CateogaryViewModel Category { get; set; }
+        //public virtual CateogaryViewModel Category { get; set; }
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
         public virtual LoginViewModel? Seller { get; set; }
