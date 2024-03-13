@@ -77,36 +77,43 @@ namespace Jumia.Mvc.Controllers
         {
             try
             {
-
-                string filename = "";
-                if (item.ItemImage != null)
+                var olditem = await _itemServices.GetProductID(item.ProductName);
+                if (olditem != 0)
                 {
-                    //var olditem = await _itemServices.GetOne(id);
-                    //var olditemimage = olditem.Entity.ItemImagestring;
-                    string itemimages = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ItemImages");
-                    filename = item.ItemImage.FileName;
-                    string fullpath = Path.Combine(itemimages, filename);
+                    string filename = "";
+                    if (item.ItemImage != null)
+                    {
+                        //var olditem = await _itemServices.GetOne(id);
+                        //var olditemimage = olditem.Entity.ItemImagestring;
+                        string itemimages = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ItemImages");
+                        filename = item.ItemImage.FileName;
+                        string fullpath = Path.Combine(itemimages, filename);
 
-                    //string oldfullpath = Path.Combine(itemimages, olditemimage);
-                    //if(fullpath != oldfullpath)
-                    //{
-                    //System.IO.File.Delete(oldfullpath);
-                    item.ItemImage.CopyTo(new FileStream(fullpath, FileMode.Create));
-                    item.ItemImagestring = filename;
-                    // }
-
-
-                }
-                var result = await _itemServices.Update(item);
-                if (result.Entity == null)
-                {
-                    ViewBag.Error = result.Message;
-                    return View(item);
+                        //string oldfullpath = Path.Combine(itemimages, olditemimage);
+                        //if(fullpath != oldfullpath)
+                        //{
+                        //System.IO.File.Delete(oldfullpath);
+                        item.ItemImage.CopyTo(new FileStream(fullpath, FileMode.Create));
+                        item.ItemImagestring = filename;
+                        // }
+                    }
+                    var result = await _itemServices.Update(item);
+                    if (result.Entity == null)
+                    {
+                        ViewBag.Error = result.Message;
+                        return View(item);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError("ProductName", "The Product Name is not correct");
                 }
+                return View(item);
+
             }
             catch
             {

@@ -9,40 +9,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .Allitems {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .item {
+            width: 22%;
+            /*             border: 2px black solid;
+         */ padding: 28px;
+            background-color: #8080805c;
+            font-size: 1.12vw;
+            font-family: monospace;
+            margin-top: 35px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        img {
+            width: 80%;
+            position: relative;
+            height: 27%;
+            left: 23px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+        }
+
+        .Allitems a {
+            text-decoration: none;
+            color: white;
+            /*             border: 2px solid black;
+         */ padding: 7px;
+            background-color: #818181;
+            font-size: 22px;
+        }
+
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        button {
+            position: relative;
+            right: 0;
+            left: 100%;
+            margin-top: 22px;
+            width: 15%;
+            height: 47px;
+            background-color: #80808059;
+            border: 0;
+            font-weight: 600;
+            font-size: 1.1vw;
+            color: white;
+        }
+
+            button:hover {
+                color: black;
+                background-color: #80808059;
+            }
+    </style>
 </head>
 <body>
     <form method="Get" asp-action="Create">
         <button type="submit">Create Item</button>
     </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Product ID</th>
-                <th scope="col">Item Color</th>
-                <th scope="col">Item Quantity</th>
-                <th scope="col">Item Size</th>
-                <th scope="col">Item Image</th>
-                <th scope="col">Edit Item</th>
-                <th scope="col">Delete item</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var r in Model.Entities)
-            {
-                <tr>
-                    <td>@r.ProductName</td>
-                    <td>@r.ProductId</td>
-                    <td>@r.Color</td>
-                    <td>@r.Quantity</td>
-                    <td>@r.Size</td>
-                    <td><img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true" style="width:50px; height:50px;"></td>
-                    <td><a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a></td>
-                    <td><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a></td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
+    @*    <table class="table">
+    <thead>
+    <tr>
+    <th scope="col">Product Name</th>
+    <th scope="col">Product ID</th>
+    <th scope="col">Item Color</th>
+    <th scope="col">Item Quantity</th>
+    <th scope="col">Item Size</th>
+    <th scope="col">Item Image</th>
+    <th scope="col">Edit Item</th>
+    <th scope="col">Delete item</th>
+    </tr>
+    </thead>
+    <tbody> *@
+    <div class="Allitems">
+        @foreach (var r in Model.Entities)
+        {
+            <div class="item">
+                <img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true">
+                <pre>Product Name :
+                    @r.ProductName</pre>
+                <p>ProductId :@r.ProductId</p>
+                <p>Color : @r.Color</p>
+                <p>Quantity : @r.Quantity</p>
+                <p>Size : @r.Size</p>
+                <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a>
+                <a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a>
+            </div>
+        }
+    </div>
+    @*         </tbody>
+    </table> *@
 </body>
 </html>
