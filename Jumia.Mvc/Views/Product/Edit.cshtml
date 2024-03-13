@@ -1,55 +1,64 @@
-﻿@model Jumia.Dtos.ViewModel.ProuductViewModel
+﻿  @model Jumia.Dtos.ViewModel.ProuductViewModel
 
 @{
-    ViewData["Title"] = "Edit Product";
+
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Edit Product</h1>
 
+<h1>Creat</h1>
 <body>
-    <form method="post" enctype="multipart/form-data">
+    <a asp-action="Create">Add New Employee</a>
+
+    <form method="post">
         <div class="form-group">
-            <label asp-for="Name">Name</label>
+            <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
+
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-
         <div class="form-group">
-            <label asp-for="Price">Price</label>
+            <label asp-for="Price"></label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
-
         <div class="form-group">
-            <label asp-for="StockQuantity">Stock Quantity</label>
+            <label asp-for="StockQuantity"></label>
             <input asp-for="StockQuantity" class="form-control" />
             <span asp-validation-for="StockQuantity" class="text-danger"></span>
         </div>
-
         <div class="form-group">
-            <label asp-for="Description">Description</label>
+            <label asp-for="Description"></label>
             <input asp-for="Description" class="form-control" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-
-        <div class="form-group">
-            <label asp-for="SellerID">Seller</label>
+        <div>
+            <label asp-for="SellerID">Select SellerName</label>
             <select asp-for="SellerID" class="form-control" asp-items="ViewBag.Sellers"></select>
-            <span asp-validation-for="SellerID" class="text-danger"></span>
+            <span asp-validation-for="SellerID" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateListed"></label>
+            <input asp-for="DateListed" class="form-control" />
+            <span asp-validation-for="DateListed" style="color:red"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="DateListed">Date Listed</label>
-            <input asp-for="DateListed" class="form-control" type="date" />
-            <span asp-validation-for="DateListed" class="text-danger"></span>
+
+
         </div>
 
-        <div class="form-group">
-            <label asp-for="CategoryId">Category</label>
+        <div>
+            <label asp-for="CategoryId">Ctegory</label>
             <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <span asp-validation-for="CategoryId" style="color:red"></span>
         </div>
-
+        @*
+        <div class="form-group">
+        <label asp-for="IsDeleted"></label>
+        <input asp-for="IsDeleted" class="form-control" />
+        <span asp-validation-for="IsDeleted" style="color:red"></span>
+        </div> *@
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>
+
 </body>

@@ -61,13 +61,13 @@
                 <th>
                     <label> DateListed</label>
                 </th>
-              @*   <th>
-                    <label> Sellerid</label>
-                </th> *@
+                <th>
+                    <label> Seller Name</label>
+                </th>
                 <th>
                     <label> Catogery</label>
                 </th>
-               
+
             </tr>
         </thead>
         <tbody class="tb">
@@ -89,13 +89,13 @@
                     <td>
                         @product.DateListed
                     </td>
-                   @*  <td>
-                        @product.SellerID
-                    </td> *@
+                    <td>
+                        @product.SellerName
+                    </td>
                     <td>
                         @product.CategoryName
                     </td>
-                   
+
                     <td>
                         <a asp-action="Edit" asp-route-id="@product.Id" style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Edit..</a> |
                         <a asp-action="Delete" asp-route-id="@product.Id" style="color:cadetblue; text-decoration: none; width: 200px; height: 100px; border: 1px solid black; margin: 10px;">Delete</a> |
@@ -106,7 +106,7 @@
             }
 
 
-                </tr>
+            </tr>
             }
         </tbody>
     </table>

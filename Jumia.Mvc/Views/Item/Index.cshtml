@@ -1,4 +1,4 @@
-﻿@*
+﻿﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -73,40 +73,26 @@
     </style>
 </head>
 <body>
-    <form method="Get" asp-action="Create">
-        <button type="submit">Create Item</button>
-    </form>
-    @*    <table class="table">
-    <thead>
-    <tr>
-    <th scope="col">Product Name</th>
-    <th scope="col">Product ID</th>
-    <th scope="col">Item Color</th>
-    <th scope="col">Item Quantity</th>
-    <th scope="col">Item Size</th>
-    <th scope="col">Item Image</th>
-    <th scope="col">Edit Item</th>
-    <th scope="col">Delete item</th>
-    </tr>
-    </thead>
-    <tbody> *@
-    <div class="Allitems">
-        @foreach (var r in Model.Entities)
-        {
-            <div class="item">
-                <img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true">
-                <pre>Product Name :
-                    @r.ProductName</pre>
-                <p>ProductId :@r.ProductId</p>
-                <p>Color : @r.Color</p>
-                <p>Quantity : @r.Quantity</p>
-                <p>Size : @r.Size</p>
-                <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a>
-                <a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a>
-            </div>
-        }
+    <div class="container">
+        <form method="Get" asp-action="Create">
+            <button type="submit">Create Item</button>
+        </form>
+        <div class="Allitems">
+            @foreach (var r in Model.Entities)
+            {
+                <div class="item">
+                    <img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true">
+                    <pre>Product Name :
+                        @r.ProductName</pre>
+                    <p>ProductId :@r.ProductId</p>
+                    <p>Color : @r.Color</p>
+                    <p>Quantity : @r.Quantity</p>
+                    <p>Size : @r.Size</p>
+                    <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a>
+                    <a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a>
+                </div>
+            }
+        </div>
     </div>
-    @*         </tbody>
-    </table> *@
 </body>
 </html>

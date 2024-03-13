@@ -9,7 +9,7 @@ namespace Jumia.Dtos.ViewModel
 {
     public class LoginViewModel
     {
-
+        public string? Id { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

@@ -23,6 +23,7 @@ namespace Jumia.Application.Services
 
 
         Task<List<CateogaryViewModel>> GetAllCategories();
+        Task<List<LoginViewModel>> GetAllSellers();
 
     }
 }
