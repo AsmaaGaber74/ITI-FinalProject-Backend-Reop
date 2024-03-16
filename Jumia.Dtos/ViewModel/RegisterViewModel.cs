@@ -21,7 +21,7 @@ namespace Jumia.Dtos.ViewModel
         [Required]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-        public string RoleName { get; set; } = "User";
+        public string? RoleName { get; set; } = "User";
 
     }
 }

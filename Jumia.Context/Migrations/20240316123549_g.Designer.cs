@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240312193752_g")]
+    [Migration("20240316123549_g")]
     partial class g
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Jumia.Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

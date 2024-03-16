@@ -26,6 +26,7 @@ namespace Jumia.Application.Mapper
                 .ReverseMap();
 
             CreateMap<CateogaryViewModel, Category>().ReverseMap();
+            CreateMap<CategoryDto, Category>().ReverseMap();
             CreateMap<RegisterViewModel,ApplicationUser>().ReverseMap();
             CreateMap<LoginViewModel,ApplicationUser>().ReverseMap();
             CreateMap<RoleViewModel,ApplicationUser>().ReverseMap();

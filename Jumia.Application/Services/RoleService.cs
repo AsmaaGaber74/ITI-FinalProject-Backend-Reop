@@ -52,6 +52,22 @@ namespace Jumia.Application.Services
             var roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
             return roles;
         }
+        public async Task<bool> RoleExistsAsync(string roleName)
+        {
+            return await _roleManager.RoleExistsAsync(roleName);
+        }
+
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string roleName)
+        {
+            // If the role doesn't exist, create it
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            // Then, assign the user to the role
+            return await _userManager.AddToRoleAsync(user, roleName);
+        }
     }
     }
 

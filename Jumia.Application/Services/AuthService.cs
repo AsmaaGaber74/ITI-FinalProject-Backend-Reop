@@ -75,6 +75,12 @@ namespace Jumia.Application.Services
 
             return userViewModels;
         }
+
+        public async Task<ApplicationUser> GetUserByUserNameAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            return user;
+        }
     }
 
 

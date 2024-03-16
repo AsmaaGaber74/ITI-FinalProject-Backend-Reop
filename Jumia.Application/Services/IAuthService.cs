@@ -1,4 +1,5 @@
 ﻿using Jumia.Dtos.ViewModel;
+using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,7 @@ namespace Jumia.Application.Services
         Task<SignInResult> SignInAsync(LoginViewModel model);
 
         Task<List<UserViewModel>> GetAllUsersAsync();
+        Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+
     }
 }
