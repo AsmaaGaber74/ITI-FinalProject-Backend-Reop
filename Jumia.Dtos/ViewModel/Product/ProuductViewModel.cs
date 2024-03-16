@@ -9,7 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Jumia.Dtos.ViewModel
+using Jumia.Dtos.ViewModel.User;
+namespace Jumia.Dtos.ViewModel.Product
 {
     public class ProuductViewModel
     {
@@ -39,7 +40,7 @@ namespace Jumia.Dtos.ViewModel
         public string? CategoryName { get; set; }
         public virtual LoginViewModel? Seller { get; set; }
         public string? SellerName { get; set; }
-        public bool IsDeleted { get; set; }=false;
+        public bool IsDeleted { get; set; } = false;
 
         // public virtual ICollection<ProductImageViewModel> ProductImages { get; set; }
     }

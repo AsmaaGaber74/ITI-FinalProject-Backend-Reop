@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Jumia.Dtos.ViewModel
+using Jumia.Dtos.ViewModel.Product;
+namespace Jumia.Dtos.ViewModel.category
 {
     public class CateogaryViewModel
     {

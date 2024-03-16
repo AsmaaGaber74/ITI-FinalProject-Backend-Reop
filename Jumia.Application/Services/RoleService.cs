@@ -1,5 +1,4 @@
-﻿using Jumia.Dtos.ViewModel;
-using Jumia.Model;
+﻿using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -7,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Jumia.Dtos.ViewModel.User;
 
 namespace Jumia.Application.Services
 {
-   
-        public class RoleService : IRoleService
+
+    public class RoleService : IRoleService
         {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;

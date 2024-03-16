@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Jumia.Dtos.ViewModel.Product;
+using Jumia.Dtos.ViewModel.Order;
 
 namespace Jumia.Dtos
 {

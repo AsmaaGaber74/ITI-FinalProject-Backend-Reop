@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Jumia.Dtos.ViewModel.Order;
+using Jumia.Dtos.ViewModel.Product;
 
-namespace Jumia.Dtos
+namespace Jumia.Dtos.ViewModel.User
 {
     public class ApplicationUserDto
     {
@@ -15,7 +17,7 @@ namespace Jumia.Dtos
         [Required]
         [MaxLength(256)]
         public string FullName { get; set; }
-        public string ?Role { get; set; }
+        public string? Role { get; set; }
         public string AddressId { get; set; }
 
         [MaxLength(20)]

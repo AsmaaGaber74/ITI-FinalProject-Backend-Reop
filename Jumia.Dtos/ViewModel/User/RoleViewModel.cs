@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.Dtos.ViewModel
+namespace Jumia.Dtos.ViewModel.User
 {
     public class RoleViewModel
     {

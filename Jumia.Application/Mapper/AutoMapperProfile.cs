@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
-using Jumia.Dtos;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.category;
+using Jumia.Dtos.ViewModel.Item;
+using Jumia.Dtos.ViewModel.Order;
+using Jumia.Dtos.ViewModel.Product;
+using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;

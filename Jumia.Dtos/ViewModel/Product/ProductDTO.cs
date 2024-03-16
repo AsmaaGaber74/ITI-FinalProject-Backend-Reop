@@ -5,8 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jumia.Dtos.ViewModel.category;
+using Jumia.Dtos.ViewModel.Item;
+using Jumia.Dtos.ViewModel.User;
 
-namespace Jumia.Dtos
+namespace Jumia.Dtos.ViewModel.Product
 {
     public class ProductDTO
     {

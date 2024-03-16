@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Jumia.Dtos.ViewModel.Product;
 
-namespace Jumia.Dtos
+namespace Jumia.Dtos.ViewModel.Item
 {
     public class ItemDto
     {

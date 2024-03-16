@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Jumia.Context;
-using Jumia.Dtos;
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jumia.Application.Contract;
+using Jumia.Dtos.ViewModel.Order;
 
 namespace Jumia.Application.Services
 {

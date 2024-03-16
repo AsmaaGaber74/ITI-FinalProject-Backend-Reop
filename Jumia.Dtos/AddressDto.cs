@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Jumia.Dtos.ViewModel.User;
 
 namespace Jumia.Dtos
 {

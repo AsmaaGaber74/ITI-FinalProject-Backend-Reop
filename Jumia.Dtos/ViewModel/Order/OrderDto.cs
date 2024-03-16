@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Jumia.Dtos.ViewModel.User;
 
-namespace Jumia.Dtos
+namespace Jumia.Dtos.ViewModel.Order
 {
     public class OrderDto
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Jumia.Dtos
+namespace Jumia.Dtos.ViewModel.category
 {
     public class CategoryDto
     {
@@ -12,6 +12,6 @@ namespace Jumia.Dtos
         [MaxLength(256)]
         public string Name { get; set; }
 
-      
+
     }
 }

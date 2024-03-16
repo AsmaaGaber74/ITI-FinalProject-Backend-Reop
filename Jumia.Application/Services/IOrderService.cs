@@ -1,4 +1,4 @@
-﻿using Jumia.Dtos;
+﻿using Jumia.Dtos.ViewModel.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Jumia.Application.Services;
-using Jumia.Dtos;
+using Jumia.Dtos.ViewModel.category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

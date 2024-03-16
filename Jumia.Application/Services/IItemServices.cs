@@ -1,5 +1,5 @@
 ﻿using Jumia.Dtos.ResultView;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;

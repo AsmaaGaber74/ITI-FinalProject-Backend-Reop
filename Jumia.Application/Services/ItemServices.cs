@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Jumia.Application.Contract;
 using Jumia.Dtos.ResultView;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.Item;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;

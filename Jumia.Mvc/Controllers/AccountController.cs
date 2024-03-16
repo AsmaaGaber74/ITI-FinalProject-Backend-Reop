@@ -1,12 +1,12 @@
 ﻿using Jumia.Application.Services;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace Jumia.Mvc.Controllers
 {
-    
+
     public class AccountController : Controller
     {
         private readonly IAuthService _authService; // Fixed naming convention

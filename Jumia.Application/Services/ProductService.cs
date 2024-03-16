@@ -9,9 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Jumia.Dtos.ViewModel;
 
 using Microsoft.AspNetCore.Identity;
+using Jumia.Dtos.ViewModel.category;
+using Jumia.Dtos.ViewModel.Product;
+using Jumia.Dtos.ViewModel.User;
 namespace Jumia.Application.Services
 {
     public class ProductService : IProductService

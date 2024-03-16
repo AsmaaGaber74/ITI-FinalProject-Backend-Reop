@@ -1,4 +1,4 @@
-﻿using Jumia.Dtos;
+﻿using Jumia.Dtos.ViewModel.Product;
 
 namespace Jumia.Application.Services
 {

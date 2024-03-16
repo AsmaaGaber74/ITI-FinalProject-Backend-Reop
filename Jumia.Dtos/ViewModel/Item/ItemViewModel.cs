@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.Dtos.ViewModel
+namespace Jumia.Dtos.ViewModel.Item
 {
     public class ItemViewModel
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
         public string? Size { get; set; }

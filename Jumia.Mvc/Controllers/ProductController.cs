@@ -1,9 +1,9 @@
 ﻿using Jumia.Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Jumia.Dtos.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Jumia.Context;
 using Jumia.Dtos;
+using Jumia.Dtos.ViewModel.Product;
 namespace Jumia.Mvc.Controllers
 {
     public class ProductController : Controller

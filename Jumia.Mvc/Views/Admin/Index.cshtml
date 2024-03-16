@@ -1,5 +1,119 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/AccountLayout.cshtml";
+
 }
+<head>
+    <link rel="stylesheet" href="~/css/Admin.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo_details">
+            <div class="logo_name">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="logout">Welcome @User.Identity.Name</a>
+                        </li>
+                    </ul>
+                }
+            </div>
+            <i class="bx bx-menu" id="btn"></i>
+        </div>
+
+        <ul class="nav-list">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">
+                        <i class="bx bx-log-in"></i>
+                        <span class="link_name">Login</span>
+                    </a>
+                    <span class="tooltip">Login</span>
+                </li>
+
+                <li>
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">
+                        <i class="bx bx-user-plus"></i>
+                        <span class="link_name">Register</span>
+                    </a>
+                    <span class="tooltip">Register</span>
+                </li>
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="AddRole">
+                        <i class="bx bx-user-plus"></i>
+                        <span class="link_name">Add Role</span>
+                    </a>
+                    <span class="tooltip">Add Role</span>
+                </li>
+
+                <li>
+                    <a class="nav-link" asp-controller="Roles" asp-action="RegisterUserWithRole">
+                        <i class="bx bx-user-check"></i>
+                        <span class="link_name">Assign Role</span>
+                    </a>
+                    <span class="tooltip">Assign Role</span>
+                </li>
+
+                <li class="profile">
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">
+                        <i class="bx bx-log-out"></i>
+                        <span class="link_name">Logout</span>
+                    </a>
+                    <span class="tooltip">Logout</span>
+                </li>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <!-- Existing sidebar items for authenticated users -->
+
+                <li>
+                    <a asp-area="" asp-controller="Category" asp-action="Index" class="nav-link">
+                        <i class="bx bx-category"></i>
+                        <span class="link_name">Categories</span>
+                    </a>
+                    <span class="tooltip">Categories</span>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Item" asp-action="Index" class="nav-link">
+                        <i class="bx bx-list-ul"></i>
+                        <span class="link_name">Items</span>
+                    </a>
+                    <span class="tooltip">Items</span>
+                </li>
+
+                <li>
+                    <a asp-area="" asp-controller="Product" asp-action="Index" class="nav-link">
+                        <i class="bx bx-package"></i>
+                        <span class="link_name">Products</span>
+                    </a>
+                    <span class="tooltip">Products</span>
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">
+                        <i class="bx bx-list-check"></i>
+                        <span class="link_name">Orders</span>
+                    </a>
+                    <span class="tooltip">Orders</span>
+                </li>
+            }
+
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="text">Dashboard</div>
+    </section>
+
+
+
+
+    <!-- Scripts -->
+    <script src="~/js/Admin.js"></script>
+</body>

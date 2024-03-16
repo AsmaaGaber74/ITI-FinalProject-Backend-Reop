@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Jumia.Dtos.ViewModel
+namespace Jumia.Dtos.ViewModel.User
 {
     public class UserViewModel
     {
@@ -25,7 +25,7 @@ namespace Jumia.Dtos.ViewModel
 
         public string? Role { get; set; }
 
-        public string? AddressId { get; set; } 
+        public string? AddressId { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 

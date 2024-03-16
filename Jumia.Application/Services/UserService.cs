@@ -1,5 +1,5 @@
 ﻿using Jumia.Application.Contract;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;

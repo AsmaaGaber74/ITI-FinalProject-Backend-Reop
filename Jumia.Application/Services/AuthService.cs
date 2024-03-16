@@ -1,5 +1,5 @@
 ﻿using Jumia.Dtos;
-using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
 using System;

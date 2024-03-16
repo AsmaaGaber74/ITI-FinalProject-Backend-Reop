@@ -1,5 +1,6 @@
 ﻿using Jumia.Application.Services;
 using Jumia.Dtos.ViewModel;
+using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
