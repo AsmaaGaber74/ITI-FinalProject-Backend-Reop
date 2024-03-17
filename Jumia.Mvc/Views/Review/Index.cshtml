@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Jumia.Dtos.ViewModel.Review.ReviewAdminDTO> 
+
+@{
+    ViewData["Title"] = "Review Index";
+}
+
+<h2>Review Index</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>User ID</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date Posted</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td>@review.ProductID</td>
+                <td>@review.UserID</td>
+                <td>@review.Rating</td>
+                <td>@review.Comment</td>
+                <td>@review.DatePosted.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>

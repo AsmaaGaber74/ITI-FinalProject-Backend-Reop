@@ -108,7 +108,64 @@
         </ul>
     </div>
     <section class="home-section">
-        <div class="text">Dashboard</div>
+      
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="text" >
+                <ul>
+                    <li class="nav-item" style="list-style:none">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="logout">Welcome @User.Identity.Name</a>
+                    </li>
+                </ul>
+            </div>
+         
+        }
+        
+            @if (User.Identity.IsAuthenticated)
+            {
+            <li style="list-style:none">
+                    <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="AddRole">
+                        <i class="bx bx-user-plus"></i>
+                        <span class="link_name">Add Role</span>
+                    </a>
+                    <span class="tooltip">Add Role</span>
+                </li>
+            }
+             @if (User.Identity.IsAuthenticated)
+            {
+                <!-- Existing sidebar items for authenticated users -->
+
+            <li style="list-style:none">
+                    <a asp-area="" asp-controller="Category" asp-action="Index" class="nav-link">
+                        <i class="bx bx-category"></i>
+                        <span class="link_name">Categories</span>
+                    </a>
+                    <span class="tooltip">Categories</span>
+                </li>
+
+            <li style="list-style:none">
+                    <a asp-area="" asp-controller="Item" asp-action="Index" class="nav-link">
+                        <i class="bx bx-list-ul"></i>
+                        <span class="link_name">Items</span>
+                    </a>
+                    <span class="tooltip">Items</span>
+                </li>
+
+            <li style="list-style:none">
+                    <a asp-area="" asp-controller="Product" asp-action="Index" class="nav-link">
+                        <i class="bx bx-package"></i>
+                        <span class="link_name">Products</span>
+                    </a>
+                    <span class="tooltip">Products</span>
+                </li>
+            <li style="list-style:none">
+                    <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">
+                        <i class="bx bx-list-check"></i>
+                        <span class="link_name">Orders</span>
+                    </a>
+                    <span class="tooltip">Orders</span>
+                </li>
+            }
     </section>
 
 
