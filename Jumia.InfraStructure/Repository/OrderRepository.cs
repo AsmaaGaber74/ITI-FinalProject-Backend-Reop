@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//using System.Data.Entity;
 
 namespace Jumia.InfraStructure.Repository
 {
@@ -15,7 +15,7 @@ namespace Jumia.InfraStructure.Repository
     {
         private readonly JumiaContext context;
 
-        public OrderRepository(JumiaContext context) : base(context) // Pass the context to the base class
+        public OrderRepository(JumiaContext context) : base(context) 
         {
             this.context = context;
         }
@@ -23,7 +23,7 @@ namespace Jumia.InfraStructure.Repository
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await context.orders
-                .Include(o => o.User) // Correct if "orders" is the correct DbSet name; otherwise, it should match your DbSet name exactly, case-sensitive
+                .Include(o => o.User)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -34,6 +34,16 @@ namespace Jumia.InfraStructure.Repository
             if (order != null)
             {
                 order.Status = newStatus;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteOrderAsync(int orderId)
+        {
+            var order = await context.orders.FindAsync(orderId);
+            if (order != null)
+            {
+                context.orders.Remove(order);
                 await context.SaveChangesAsync();
             }
         }

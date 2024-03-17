@@ -46,7 +46,7 @@ namespace Jumia.Mvc.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     var result = await _proudectService.Create(proudect);
 
@@ -88,7 +88,7 @@ namespace Jumia.Mvc.Controllers
         {
 
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

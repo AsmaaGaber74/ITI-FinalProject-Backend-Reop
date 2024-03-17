@@ -45,6 +45,11 @@ namespace Jumia.Application.Services
         {
             await _orderRepository.UpdateOrderStatusAsync(orderId, newStatus);
         }
+
+        public async Task DeleteOrderAsync(int orderId)
+        {
+            await _orderRepository.DeleteOrderAsync(orderId);
+        }
     }
 }
 

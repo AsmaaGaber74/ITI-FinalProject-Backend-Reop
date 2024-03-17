@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Jumia.Context.Migrations
 {
     /// <inheritdoc />
-    public partial class g : Migration
+    public partial class apii : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
