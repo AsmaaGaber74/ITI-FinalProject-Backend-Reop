@@ -37,10 +37,10 @@ namespace Jumia.Mvc.Controllers
         public async Task<ActionResult> Create()
         {
             var categories = await _proudectService.GetAllCategories();
-            var sellers = await userService.GetAllUsersAsync(); // Assume this method exists and fetches all sellers
+            var sellers = await _proudectService.GetAllSellers();
 
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName"); // Assuming sellers are identified by Id and UserName
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
 
             return View();
         }
@@ -51,15 +51,25 @@ namespace Jumia.Mvc.Controllers
             {
                 var result = await _proudectService.Create(product);
 
-            if (result.IsSuccess)
-            {
-                TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("Index");
+                if (result.IsSuccess)
+                {
+                    TempData["SuccessMessage"] = result.Message;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = result.Message;
+                    // Repopulate the sellers and categories in case of failure so that the form can display them again
+                    var categories = await _proudectService.GetAllCategories();
+                    var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
+                    ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                    ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
+                    return View(product);
+                }
             }
             else
             {
-                TempData["ErrorMessage"] = result.Message;
-                // Repopulate the sellers and categories in case of failure so that the form can display them again
+                // The model state is not valid, so fetch the lists again to show the form with validation messages
                 var categories = await _proudectService.GetAllCategories();
                 var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
                 ViewBag.Categories = new SelectList(categories, "Id", "Name");
@@ -67,16 +77,6 @@ namespace Jumia.Mvc.Controllers
                 return View(product);
             }
         }
-            else
-            {
-                // The model state is not valid, so fetch the lists again to show the form with validation messages
-                var categories = await _proudectService.GetAllCategories();
-        var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
-        ViewBag.Categories = new SelectList(categories, "Id", "Name");
-        ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
-                return View(product);
-    }
-}
 
         public async Task<ActionResult> Edit(int id)
         {
@@ -101,23 +101,23 @@ namespace Jumia.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-            try
-            {
-                var result = await _proudectService.Update(productViewModel);
-                if (result.IsSuccess)
+                try
                 {
-                    TempData["SuccessMessage"] = result.Message;
-                    return RedirectToAction(nameof(Index));
+                    var result = await _proudectService.Update(productViewModel);
+                    if (result.IsSuccess)
+                    {
+                        TempData["SuccessMessage"] = result.Message;
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = result.Message;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = result.Message;
+                    TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
                 }
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
-            }
             }
 
             // If we get to this point, it means something went wrong; reload categories and sellers
