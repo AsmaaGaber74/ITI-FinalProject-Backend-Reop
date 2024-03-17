@@ -29,8 +29,9 @@
 
 
         .container-fluid {
-            background-color: #e16009; /* #dfc33b; */
+            background-color: #131921; /* #dfc33b; */
             padding: 15px;
+            color: white
         }
 
 
@@ -226,6 +227,26 @@
                     color: white;
                 }
 
+        .navbar {
+            background-color: #131921;
+            color: white;
+        }
+
+
+        .nav-link,
+        .navbar-brand {
+            color: white !important;
+        }
+
+            /*  .nav-link img.amazon-logo {
+                        width: 1000px;
+                        height: auto;
+                        border-radius: 5px;
+                    } */
+
+            .nav-link img.amazon-logo:hover {
+                border: 1px solid black;
+            }
     </style>
 </head>
 <body>
@@ -233,7 +254,7 @@
         <nav id="navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
 
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Jumia.Mvc</a>
+                @* <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Amazon.Mvc</a> *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -241,17 +262,21 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="admin" asp-action="Index">Home</a>
+                            @*  <a class="nav-link " asp-area="" asp-controller="admin" asp-action="Index">Home</a> *@
+                            <a class="nav-link" asp-area="" asp-controller="admin" asp-action="Index">
+                                <img src="~/LayoutImg/Logo.png" alt="Amazon Logo" style=" width: 150px; height: auto;  border-radius: 5px;padding:5px; border: 1px solid white;">
+                            </a>
+
                         </li>
                     </ul>
                     @if (User.Identity.IsAuthenticated == true)    @* @if (User.IsInRole("Admin")) *@
                     {
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="AddRole">Add Role</a>
+                                <a class="nav-link " asp-area="" asp-controller="Roles" asp-action="AddRole">Add Role</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark " asp-area="" asp-controller="Roles" asp-action="RegisterUserWithRole">Assign Role</a>
+                                <a class="nav-link " asp-area="" asp-controller="Roles" asp-action="RegisterUserWithRole">Assign Role</a>
                             </li>
                         </ul>
                     }
@@ -391,4 +416,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+<style>
+    .navbar {
+        background-color: #131921;
+        color: white;
+    }
+</style>
 </html>

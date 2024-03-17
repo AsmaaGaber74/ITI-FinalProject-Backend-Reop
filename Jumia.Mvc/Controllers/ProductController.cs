@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Jumia.Context;
 using Jumia.Dtos;
 using Jumia.Dtos.ViewModel.Product;
+using Jumia.Model;
 namespace Jumia.Mvc.Controllers
 {
     public class ProductController : Controller
@@ -59,9 +60,8 @@ namespace Jumia.Mvc.Controllers
                 else
                 {
                     TempData["ErrorMessage"] = result.Message;
-                    // Repopulate the sellers and categories in case of failure so that the form can display them again
                     var categories = await _proudectService.GetAllCategories();
-                    var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
+                    var sellers = await _proudectService.GetAllSellers();
                     ViewBag.Categories = new SelectList(categories, "Id", "Name");
                     ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
                     return View(product);
@@ -69,9 +69,8 @@ namespace Jumia.Mvc.Controllers
             }
             else
             {
-                // The model state is not valid, so fetch the lists again to show the form with validation messages
                 var categories = await _proudectService.GetAllCategories();
-                var sellers = await userService.GetAllUsersAsync(); // Same assumption as above
+                var sellers = await _proudectService.GetAllSellers();
                 ViewBag.Categories = new SelectList(categories, "Id", "Name");
                 ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
                 return View(product);
@@ -88,7 +87,7 @@ namespace Jumia.Mvc.Controllers
             }
 
             var categories = await _proudectService.GetAllCategories();
-            var sellers = await userService.GetAllUsersAsync(); // Assuming userService can fetch all users
+            var sellers = await _proudectService.GetAllSellers();
 
             ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
             ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", product.SellerID);
@@ -120,9 +119,8 @@ namespace Jumia.Mvc.Controllers
                 }
             }
 
-            // If we get to this point, it means something went wrong; reload categories and sellers
             var categories = await _proudectService.GetAllCategories();
-            var sellers = await userService.GetAllUsersAsync();
+            var sellers = await _proudectService.GetAllSellers();
             ViewBag.Categories = new SelectList(categories, "Id", "Name", productViewModel.CategoryId);
             ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", productViewModel.SellerID);
 
@@ -145,7 +143,28 @@ namespace Jumia.Mvc.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+        public async Task<ActionResult> Details(int id)
+        {
 
+
+            var product = await _proudectService.GetOne(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var categories = await _proudectService.GetAllCategories();
+            var categoryName = categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name;
+
+            var sellers = await _proudectService.GetAllSellers();
+            var sellerName = sellers.FirstOrDefault(s => s.Id == product.SellerID)?.UserName;
+
+
+            product.CategoryName = categoryName;
+            product.SellerName = sellerName;
+
+            return View(product);
+
+        }
 
         [HttpGet]
         public ActionResult AssignImage(int productId)

@@ -6,11 +6,115 @@
     <link rel="stylesheet" href="~/css/Admin.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+<style>
+    .foot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white !important;
+    }
+
+    .text {
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 20px
+    }
+
+        .text a {
+            font-weight: bold;
+            font-size: 40px;
+            color: #232f3e !important
+        }
+
+    .icon-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .icon-card {
+        width: calc(30% - 10px); /* 30% width with margin between cards */
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #eaeded;
+        color: #232F3E;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        text-align: center;
+        transition: background-color 0.3s ease; /* Smooth transition for background color */
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        align-items: center;
+        height: 150px;
+        transition: 0.3s;
+    }
+
+        .icon-card:hover {
+            /* Change background color on hover */
+            box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ddd;
+        }
+
+        .icon-card a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .icon-card i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+    .link_name {
+        margin-bottom: 5px;
+    }
+
+    .tooltip {
+        display: none;
+    }
+
+    .sidebar li a:hover .link_name,
+    .sidebar li a:hover a {
+        color: #232F3E;
+    }
+
+    .sidebar li i:hover .link_name,
+    .sidebar li i:hover {
+        color: #232F3E;
+    }
+
+    .sidebar li a {
+        background-color: transparent !important;
+    }
+
+        .sidebar li a::after {
+            background-color: #ddd !important;
+            color: #232F3E !important;
+        }
+    /*
+             .sidebar li a:hover .link_name,i
+            .sidebar li a:hover {
+                color: #232F3E;
+            } */
+
+    .sidebar .logo_details .logo_name a:hover {
+        background-color: #eaeded !important;
+        color: #232F3E !important;
+    }
+
+</style>
+<link href="~/css/site.css" rel="stylesheet" />
 
 <body>
-    <div class="sidebar">
+    <div class="sidebar" style="background-color:#232f3e">
         <div class="logo_details">
-            <div class="logo_name">
+            <div class="logo_name" style="background-color:#232f3e">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul>
@@ -107,66 +211,111 @@
 
         </ul>
     </div>
-    <section class="home-section">
-      
+    <section class="home-section foot">
         @if (User.Identity.IsAuthenticated)
         {
-            <div class="text" >
+            <div class="text">
                 <ul>
-                    <li class="nav-item" style="list-style:none">
+                    <li class="nav-item" style="list-style:none;display:flex;flex-direction:column">
                         <a class="nav-link" asp-area="" asp-controller="Account" asp-action="logout">Welcome @User.Identity.Name</a>
                     </li>
                 </ul>
             </div>
-         
         }
-        
+        <div class="icon-cards">
             @if (User.Identity.IsAuthenticated)
             {
-            <li style="list-style:none">
+                <!-- Icon Card 1 -->
+                <div class="icon-card">
                     <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="AddRole">
                         <i class="bx bx-user-plus"></i>
                         <span class="link_name">Add Role</span>
                     </a>
                     <span class="tooltip">Add Role</span>
-                </li>
-            }
-             @if (User.Identity.IsAuthenticated)
-            {
-                <!-- Existing sidebar items for authenticated users -->
+                </div>
 
-            <li style="list-style:none">
+                <!-- Icon Card 2 -->
+                <div class="icon-card">
+                    <a class="nav-link" asp-controller="Roles" asp-action="RegisterUserWithRole">
+                        <i class="bx bx-user-check"></i>
+                        <span class="link_name">Assign Role</span>
+                    </a>
+                    <span class="tooltip">Assign Role</span>
+                </div>
+
+                <!-- Icon Card 3 -->
+                <div class="icon-card">
                     <a asp-area="" asp-controller="Category" asp-action="Index" class="nav-link">
                         <i class="bx bx-category"></i>
                         <span class="link_name">Categories</span>
                     </a>
                     <span class="tooltip">Categories</span>
-                </li>
+                </div>
 
-            <li style="list-style:none">
+                <!-- Icon Card 4 -->
+                <div class="icon-card">
                     <a asp-area="" asp-controller="Item" asp-action="Index" class="nav-link">
                         <i class="bx bx-list-ul"></i>
                         <span class="link_name">Items</span>
                     </a>
                     <span class="tooltip">Items</span>
-                </li>
+                </div>
 
-            <li style="list-style:none">
+                <!-- Icon Card 5 -->
+                <div class="icon-card">
                     <a asp-area="" asp-controller="Product" asp-action="Index" class="nav-link">
                         <i class="bx bx-package"></i>
                         <span class="link_name">Products</span>
                     </a>
                     <span class="tooltip">Products</span>
-                </li>
-            <li style="list-style:none">
+                </div>
+
+                <!-- Icon Card 6 -->
+                <div class="icon-card">
                     <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">
                         <i class="bx bx-list-check"></i>
                         <span class="link_name">Orders</span>
                     </a>
                     <span class="tooltip">Orders</span>
-                </li>
+                </div>
+
+
+                <!-- Icon Card 7 -->
+                <div class="icon-card">
+                    <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">
+                        <i class="bx bx-dollar"></i>
+                        <span class="link_name">Payment</span>
+                    </a>
+                    <span class="tooltip">Payment</span>
+
+                </div>
+                <!-- Icon Card 8 -->
+                <div class="icon-card">
+
+                    <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders" class="nav-link">
+                        <i class="bx bx-star"></i>
+                        <span class="link_name">Reviews</span>
+                    </a>
+                    <span class="tooltip">Reviews</span>
+
+
+                </div>
+                <!-- Icon Card 8 -->
+                <div class="icon-card">
+
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">
+                        <i class="bx bx-log-out"></i>
+                        <span class="link_name">Logout</span>
+                    </a>
+                    <span class="tooltip">Logout</span>
+                </div>
+
+
+
+
             }
     </section>
+
 
 
 

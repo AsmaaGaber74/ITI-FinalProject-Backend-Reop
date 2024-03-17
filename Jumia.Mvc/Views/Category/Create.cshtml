@@ -1,26 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model CategoryDto
+﻿@model CategoryDto
 
-<h2>Create Category</h2>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="background-color: #232f3e; color: white;">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Create Category</h2>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" placeholder="Enter category name" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+                    <form asp-action="Create" method="post">
+                        <div class="form-group">
+                            <label asp-for="Name" class="text-white"></label>
+                            <input asp-for="Name" class="form-control" style="background-color:" placeholder="Enter category name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary" style="background-color: #eaeded; color:#232f3e">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-    @*     <div class="form-group">
-    <label asp-for="Products"></label>
-    <input asp-for="Products" class="form-control" placeholder="Enter image URL" />
-    <span asp-validation-for="Products" class="text-danger"></span>
-    </div> *@
-
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
+</div>
