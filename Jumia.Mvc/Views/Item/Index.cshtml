@@ -12,26 +12,40 @@
     <link rel="stylesheet" href="~/css/Item/Index.css" />
 </head>
 <body>
-    <div class="container">
+    <div class="container col-md-12 col-sm-12">
         <form method="Get" asp-action="Create">
             <button type="submit">Create Item</button>
         </form>
-        <div class="Allitems">
-            @foreach (var r in Model.Entities)
-            {
-                <div class="item">
-                    <img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true">
-                    <pre>Product Name :
- @r.ProductName</pre>
-                    <p>ProductId :@r.ProductId</p>
-                    <p>Color : @r.Color</p>
-                    <p>Quantity : @r.Quantity</p>
-                    <p>Size : @r.Size</p>
-                    <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a>
-                    <a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a>
-                </div>
-            }
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Item Image</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">ProductId</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var r in Model.Entities)
+                {
+                    <tr>
+                        <td><img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true"></td>
+                        <td>@r.ProductName</td>
+                        <td>@r.ProductId</td>
+                        <td>@r.Color</td>
+                        <td> @r.Quantity</td>
+                        <td>@r.Size</td>
+                        <td class="link"> <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a></td>
+                        <td class="link"><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

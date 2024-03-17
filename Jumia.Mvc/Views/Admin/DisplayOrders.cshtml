@@ -6,58 +6,76 @@
 <head>
     <link rel="stylesheet" href="~/css//Ordersdisplay.css" />
 </head>
-<h2>Orders</h2>
-<div class="container">
-    @foreach (var order in Model)
-    {
-        <div class="orders">
-            <p>Order ID:@order.Id</p>
-            <p hidden>User ID:@order.UserID</p>
-            <p>User Name:@order.UserName</p>
-            <p>Date Placed:@order.DatePlaced.ToString("dd/MM/yyyy")</p>
-            <p>TotalPrice:@order.TotalPrice</p>
-            <p>Update Status:@order.Status</p>
-            <p>
-                @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+<body>
+    <h2>Orders</h2>
+    <div class="container col-md-12 col-sm-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">DatePlaced</th>
+                    <th scope="col">TotalPrice</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var order in Model)
                 {
-                    @Html.Hidden("orderId", order.Id)
-                    <select name="status" class="form-control">
-                        @if (order.Status == "Pending")
-                        {
-                            <option value="Pending" selected>Pending</option>
-                        }
-                        else
-                        {
-                            <option value="Pending">Pending</option>
-                        }
-                        @if (order.Status == "Processing")
-                        {
-                            <option value="Processing" selected>Processing</option>
-                        }
-                        else
-                        {
-                            <option value="Processing">Processing</option>
-                        }
-                        @if (order.Status == "Shipped")
-                        {
-                            <option value="Shipped" selected>Shipped</option>
-                        }
-                        else
-                        {
-                            <option value="Shipped">Shipped</option>
-                        }
-                        @if (order.Status == "Delivered")
-                        {
-                            <option value="Delivered" selected>Delivered</option>
-                        }
-                        else
-                        {
-                            <option value="Delivered">Delivered</option>
-                        }
-                    </select>
-                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    <tr>
+                        <td>@order.Id</td>
+                        <td hidden>:@order.UserID</td>
+                        <td>@order.UserName</td>
+                        <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
+                        <td>@order.TotalPrice</td>
+                        <td>@order.Status</td>
+                        <td>
+                            @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+                            {
+                                @Html.Hidden("orderId", order.Id)
+                                <select name="status" class="form-control">
+                                    @if (order.Status == "Pending")
+                                    {
+                                        <option value="Pending" selected>Pending</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Pending">Pending</option>
+                                    }
+                                    @if (order.Status == "Processing")
+                                    {
+                                        <option value="Processing" selected>Processing</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Processing">Processing</option>
+                                    }
+                                    @if (order.Status == "Shipped")
+                                    {
+                                        <option value="Shipped" selected>Shipped</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Shipped">Shipped</option>
+                                    }
+                                    @if (order.Status == "Delivered")
+                                    {
+                                        <option value="Delivered" selected>Delivered</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Delivered">Delivered</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                            }
+                        </td>
+                    </tr>
                 }
-            </p>
-        </div>
-    }
-</div>
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
