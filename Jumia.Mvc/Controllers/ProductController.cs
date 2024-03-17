@@ -37,10 +37,10 @@ namespace Jumia.Mvc.Controllers
         public async Task<ActionResult> Create()
         {
             var categories = await _proudectService.GetAllCategories();
-            var sellers = await userService.GetAllUsersAsync(); // Assume this method exists and fetches all sellers
+            var sellers = await _proudectService.GetAllSellers();
 
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName"); // Assuming sellers are identified by Id and UserName
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName"); 
 
             return View();
         }
