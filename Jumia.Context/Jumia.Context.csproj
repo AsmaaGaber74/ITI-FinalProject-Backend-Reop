@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Jumia.model\Jumia.model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Principal;
 using System.Text;
 using AutoMapper;
+using Jumia.InfraStructure.Repository;
 
 namespace AmazonWebSite
 {
@@ -57,6 +58,8 @@ namespace AmazonWebSite
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICategoryReposatory, CategoryReposatory>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();           
+            builder.Services.AddScoped<IOrderReposatory, OrderRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

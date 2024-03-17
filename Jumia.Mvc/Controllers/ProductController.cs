@@ -40,7 +40,7 @@ namespace Jumia.Mvc.Controllers
             var sellers = await _proudectService.GetAllSellers();
 
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
+            ViewBag.Sellers = new SelectList(sellers, "Id", "UserName"); 
 
             return View();
         }

@@ -13,5 +13,6 @@ namespace Jumia.Application.Contract
     {
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task UpdateOrderStatusAsync(int orderId, string newStatus);
+        Task DeleteOrderAsync(int orderId);
     }
 }

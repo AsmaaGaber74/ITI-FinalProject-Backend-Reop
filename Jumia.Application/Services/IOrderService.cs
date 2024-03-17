@@ -11,5 +11,6 @@ namespace Jumia.Application.Services
     {
         Task<IEnumerable<OrderDto>> GetAllOrdersAsync();
         Task UpdateOrderStatusAsync(int orderId, string newStatus);
+        Task DeleteOrderAsync(int orderId);
     }
 }
