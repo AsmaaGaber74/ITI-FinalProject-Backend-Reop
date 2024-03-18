@@ -62,6 +62,13 @@ namespace AmazonWebSite
             builder.Services.AddScoped<IOrderReposatory, OrderRepository>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductReposatory, ProductRepository>();
+            builder.Services.AddScoped<IItemServices, ItemServices>();
+            builder.Services.AddScoped<IItemReposatory, ItemRepostory>();
+            builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+            builder.Services.AddScoped<IProductImageService, ProductImageService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
