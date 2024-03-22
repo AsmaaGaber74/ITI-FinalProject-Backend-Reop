@@ -11,9 +11,14 @@ namespace Jumia.Application.Services
     {
         Task<UserViewModel> CreateUserAsync(UserViewModel model);
         Task<UserViewModel> GetUserByIdAsync(string id);
+
         Task<UserViewModel> UpdateUserAsync(UserViewModel model);
+        //Task<LoginViewModel> UpdatePasswordAsync(LoginViewModel model);
+        Task<UpdatUserInfo> UpdateUsernameAndPasswordAsync(string userId, string currentPassword, string newUsername, string newPassword, string confirmPassword);
+
         Task<bool> DeleteUserAsync(string id);
         Task<IEnumerable<UserViewModel>> GetAllUsersAsync();
-        // Add other necessary methods
+
+
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Product;
 using Jumia.Dtos.ViewModel.User;
+using Jumia.Model;
 
 namespace Jumia.Application.Services
 {
@@ -26,6 +27,11 @@ namespace Jumia.Application.Services
 
         Task<List<CateogaryViewModel>> GetAllCategories();
         Task<List<LoginViewModel>> GetAllSellers();
+
+
+        Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber);
+        Task<ResultDataList<ProuductViewModel>> SearchByPrice(decimal minprice, decimal maxprice, int items, int pagenumber);
+        Task<ResultDataList<ProuductViewModel>> SearchByCategoriey(int catid, int items, int pagenumber);
 
     }
 }

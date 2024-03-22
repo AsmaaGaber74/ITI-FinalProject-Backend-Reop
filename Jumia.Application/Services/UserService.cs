@@ -1,4 +1,6 @@
-﻿using Jumia.Application.Contract;
+﻿using AutoMapper;
+using Jumia.Application.Contract;
+using Jumia.Dtos.ViewModel.Product;
 using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using System;
@@ -7,15 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Jumia.Dtos.ViewModel.User;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using Jumia.Application.Contract;
 namespace Jumia.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-
-        public UserService(IUserRepository userRepository)
+        private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserService(IUserRepository userRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<UserViewModel> CreateUserAsync(UserViewModel model)
@@ -25,6 +34,7 @@ namespace Jumia.Application.Services
                 Email = model.Email,
                 UserName = model.UserName,
                 PhoneNumber = model.Phone,
+
                 // Map other properties as needed
             };
 
@@ -32,6 +42,7 @@ namespace Jumia.Application.Services
             await _userRepository.SaveChangesAsync();
 
             // Map result back to UserViewModel if necessary
+            var updatuser = _mapper.Map<UserViewModel>(user);
             return model; // This should be replaced with a proper mapping
         }
 
@@ -70,6 +81,7 @@ namespace Jumia.Application.Services
             return model; // This should be replaced with proper mapping
         }
 
+
         public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -92,13 +104,47 @@ namespace Jumia.Application.Services
                 Email = user.Email,
                 UserName = user.UserName,
                 Phone = user.PhoneNumber,
-                // Map other necessary fields from ApplicationUser to UserViewModel
+
             }).ToList();
 
             return userViewModels;
         }
 
+        public async Task<UpdatUserInfo> UpdateUsernameAndPasswordAsync(string userId, string currentPassword, string newUsername, string newPassword, string confirmPassword)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            user.UserName = newUsername;
+            //--------- see  if the current password matches witch user entered
+            var passwordVerificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, currentPassword);
+            if (passwordVerificationResult != PasswordVerificationResult.Success)
+            {
+                return null;
+            }
+            ///---var result = await _userManager.SetUserNameAsync(user, newUsername);
 
-        // Implement other methods as necessary
+            ///----- see if  new password matches  confirmed password
+            if (newPassword != confirmPassword)
+            {
+                return null;
+            }
+
+
+            if (!string.IsNullOrEmpty(newPassword))
+            {
+                var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, newPassword);
+                user.PasswordHash = newPasswordHash;
+            }
+            await _userManager.UpdateAsync(user);
+            await _userRepository.UpdateAsync(user);
+            await _userRepository.SaveChangesAsync();
+
+            var updatedUserViewModel = _mapper.Map<UpdatUserInfo>(user);
+            return updatedUserViewModel;
+        }
+
     }
 }
+
+
+
+

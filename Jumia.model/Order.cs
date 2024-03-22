@@ -31,7 +31,7 @@ namespace Jumia.Model
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
 
-        public virtual ICollection<CartItem> OrderDetails { get; set; }
+        public virtual ICollection<OrderProduct> Products { get; set; }
         public virtual Payment Payment { get; set; }
         
     }

@@ -114,7 +114,7 @@ namespace Jumia.Application.Services
                 DateListed = p.DateListed,
                 Description = p.Description,
                 SellerName = p.Seller.UserName,
-                CategoryId=p.Category.Id,
+                CategoryId = p.Category.Id,
                 // IsDeleted=p.IsDeleted,
                 // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();
@@ -143,6 +143,27 @@ namespace Jumia.Application.Services
             var sellers = await _userManager.GetUsersInRoleAsync("Seller");
             var sellerViewModels = _mapper.Map<List<LoginViewModel>>(sellers);
             return sellerViewModels;
+        }
+
+        public async Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber)
+        {
+            var Products = (await productReposatory.SearchByName(name)).Skip(items * (pagenumber - 1)).Take(items);
+            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
+            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
+        }
+
+        public async Task<ResultDataList<ProuductViewModel>> SearchByPrice(decimal minprice, decimal maxprice, int items, int pagenumber)
+        {
+            var Products = (await productReposatory.SearchByPrice(minprice, maxprice)).Skip(items * (pagenumber - 1)).Take(items);
+            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
+            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
+        }
+
+        public async Task<ResultDataList<ProuductViewModel>> SearchByCategoriey(int catid, int items, int pagenumber)
+        {
+            var Products = (await productReposatory.SearchByCategoriey(catid)).Skip(items * (pagenumber - 1)).Take(items);
+            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
+            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
         }
     }
 

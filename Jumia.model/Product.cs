@@ -43,7 +43,7 @@ namespace Jumia.Model
         public virtual Category Category { get; set; }
 
         //public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<CartItem> OrderDetails { get; set; }
+        public virtual ICollection<OrderProduct> Orders { get; set; }
         public virtual ICollection<Item> items { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
     }

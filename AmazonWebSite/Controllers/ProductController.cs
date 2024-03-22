@@ -73,5 +73,24 @@ namespace AmazonWebSite.Controllers
             }).ToList();
             return Ok(productscatogery);
         }
+        [HttpGet("searchname")]
+        public async Task<IActionResult> SearchByName(string name)
+        {
+            var Products = await _productService.SearchByName(name, 1, 1);
+            return Ok(Products);
+        }
+        [HttpGet("searchbycategory")]
+        public async Task<IActionResult> SearchByCategory(int catid)
+        {
+            var products = await _productService.SearchByCategoriey(catid, 10, 1);
+            return Ok(products);
+        }
+        [HttpGet("searhbyprice")]
+        public async Task<IActionResult> SearchByPrice(int minprice, int maxprice)
+        {
+            var peoducts = await _productService.SearchByPrice(minprice, maxprice, 10, 1);
+            return Ok(peoducts);
+        }
+
     }
 }

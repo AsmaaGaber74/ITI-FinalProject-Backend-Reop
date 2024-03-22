@@ -1,4 +1,5 @@
-﻿using Jumia.Model;
+﻿using Jumia.Dtos.ResultView;
+using Jumia.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace Jumia.Application.Contract
     public interface IProductReposatory : IRepository<Product, int>
     {
         //to add any bonus functionality that not found on ireposatory 
+        Task<IQueryable<Product>> SearchByName(string name);
+        Task<IQueryable<Product>> SearchByPrice(decimal minprice, decimal maxprice);
+        Task<IQueryable<Product>> SearchByCategoriey(int catid);
     }
 }

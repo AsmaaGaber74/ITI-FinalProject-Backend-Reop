@@ -14,7 +14,7 @@ namespace Jumia.Context
     {
         public DbSet<Product> products { get; set; }
         public DbSet<Address> addresses { get; set; }
-        public DbSet<CartItem> cartItems { get; set; }
+        public DbSet<OrderProduct> orderProducts { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<Item> items { get; set; }
         public DbSet<Order> orders { get; set; }
@@ -40,10 +40,10 @@ namespace Jumia.Context
             base.OnModelCreating(modelBuilder);
 
             
-            modelBuilder.Entity<CartItem>()
+            modelBuilder.Entity<OrderProduct>()
           .HasOne(c => c.Product) // Assuming CartItem has a navigation property called Product
-          .WithMany(p => p.OrderDetails) // Assuming Product has a collection property called CartItems
-          .HasForeignKey(c => c.ProductID) // Assuming CartItem has a foreign key called ProductId
+          .WithMany(p => p.Orders) // Assuming Product has a collection property called CartItems
+          .HasForeignKey(c => c.ProductId) // Assuming CartItem has a foreign key called ProductId
           .OnDelete(DeleteBehavior.Restrict);
 
 
