@@ -13,34 +13,64 @@ namespace AmazonWebSite.Controllers
         private readonly IProductService _productService;
         private readonly IItemServices _itemServices;
         private readonly IProductImageService _productImageService;
+        private readonly IConfiguration configuration;
 
-        public ProductController(IProductService productService, IItemServices itemServices, IProductImageService productImageService)
+        public ProductController(IProductService productService, IItemServices itemServices, IProductImageService productImageService, IConfiguration configuration)
         {
             _productService = productService;
             _itemServices = itemServices;
             _productImageService = productImageService;
+            this.configuration = configuration;
         }
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetAllPagination(10, 1);
             var items = await _itemServices.GetAllPagination(10, 1);
-            var ProductsDTo = products.Entities.Select(p => new GetAllPaginationUser
+            var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 Price = p.Price,
                 Description = p.Description,
                 Name = p.Name,
-                id = p.Id
+                id = p.Id,
+                ProductImages = new List<string>(), // Initialize here to ensure it's not null
+                itemscolor = new List<string>() // Assuming you'll populate this similarly
             }).ToList();
-            foreach (var item in ProductsDTo)
+
+            var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+            foreach (var item in productsDTO)
             {
-                var Productimages = (await _productImageService.GetByProductIdAsync(item.id)).Select(p => p.Path).ToList();
-                var Productsimage = items.Entities.Where(p => p.ProductId == item.id).Select(p => p.Color).ToList();
-                item.itemscolor = Productsimage;
-                item.ProductImages = Productimages;
+                var productImagePaths = (await _productImageService.GetByProductIdAsync(item.id)).Select(p => p.Path).ToList();
+
+                foreach (var imagePath in productImagePaths)
+                {
+                    try
+                    {
+                        var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                            var base64String = Convert.ToBase64String(imageBytes);
+                            item.ProductImages.Add(base64String);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error
+                        // Consider how to handle errors; skipping image in this example
+                    }
+                }
+
+                // Fetch and assign colors; assuming this is done correctly above
+                var productColors = items.Entities.Where(p => p.ProductId == item.id).Select(p => p.Color).ToList();
+                item.itemscolor = productColors;
             }
-            return Ok(ProductsDTo);
+
+            return Ok(productsDTO);
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Getone(int id)
         {
@@ -50,6 +80,7 @@ namespace AmazonWebSite.Controllers
                 price = Products.Price,
                 ProductDescription = Products.Description,
                 Id = Products.Id
+              
             };
             var Productimages = (await _productImageService.GetByProductIdAsync(id)).Select(p => p.Path).ToList();
             Productdetails.Productimages = Productimages;
