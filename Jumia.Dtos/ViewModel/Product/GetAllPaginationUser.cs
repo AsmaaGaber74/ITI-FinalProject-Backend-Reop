@@ -12,6 +12,8 @@ namespace Jumia.Dtos.ViewModel.Product
     public class GetAllPaginationUser
     {
         public int id { get; set; }
+        public string BrandName { get; set; }
+
         public ICollection<string> itemscolor { get; set; }
         public virtual ICollection<string> ProductImages { get; set; }
         public string Name { get; set; }

@@ -21,6 +21,7 @@ namespace Jumia.Dtos.ViewModel.Product
 
         [Required]
         public int CategoryID { get; set; }
+        public string BrandName { get; set; }
 
         [Required]
         [MaxLength(256)]

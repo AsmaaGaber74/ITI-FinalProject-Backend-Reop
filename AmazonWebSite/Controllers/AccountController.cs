@@ -2,6 +2,7 @@
 using Jumia.Dtos.ViewModel;
 using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -112,7 +113,20 @@ namespace AmazonWebSite.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        [Authorize]
+        [HttpGet("currentUserId")] // api/account/currentUserId
+        public IActionResult GetCurrentUserId()
+        {
+            // Assuming the user's ID is stored in the NameIdentifier claim
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+
+            return Ok(new { userId = userId });
+        }
 
     }
 }

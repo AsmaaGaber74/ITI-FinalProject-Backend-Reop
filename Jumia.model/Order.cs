@@ -14,8 +14,9 @@ namespace Jumia.Model
         [Key]
         public int Id { get; set; }
 
-        //[Required]
-        //public int UserID { get; set; }
+        [Required]
+        [ForeignKey("User")]
+        public string UserID { get; set; }
 
         [Required]
         public DateTime DatePlaced { get; set; }
@@ -27,8 +28,7 @@ namespace Jumia.Model
         [Required]
         [MaxLength(50)]
         public string Status { get; set; }
-        [Required]
-        [ForeignKey("UserId")]
+
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<OrderProduct> Products { get; set; }
