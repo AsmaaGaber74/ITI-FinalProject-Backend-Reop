@@ -16,6 +16,7 @@ namespace Jumia.Model
 
         [Required]
         public string SellerID { get; set; }
+        public string BrandName { get; set; }
 
         public string BrandName { get; set; } = "Amazon";
         [Required]
