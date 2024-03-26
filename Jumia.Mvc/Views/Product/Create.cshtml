@@ -104,7 +104,11 @@
             <input asp-for="Description" class="form-control" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-
+        <div class="form-group">
+            <label asp-for="BrandName"></label>
+            <input asp-for="BrandName" class="form-control" />
+            <span asp-validation-for="BrandName" class="text-danger"></span>
+        </div>
         <div>
             <label asp-for="SellerID">Select SellerName</label>
             <select asp-for="SellerID" class="form-control" asp-items="ViewBag.Sellers"></select>

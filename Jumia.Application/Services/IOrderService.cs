@@ -1,4 +1,5 @@
-﻿using Jumia.Dtos.ViewModel.Order;
+﻿using Jumia.Dtos.ResultView;
+using Jumia.Dtos.ViewModel.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace Jumia.Application.Services
         Task<IEnumerable<OrderDto>> GetAllOrdersAsync();
         Task UpdateOrderStatusAsync(int orderId, string newStatus);
         Task DeleteOrderAsync(int orderId);
+        Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(int orderId, int quantity);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId);
+        Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProdactID, String UserID);
     }
 }

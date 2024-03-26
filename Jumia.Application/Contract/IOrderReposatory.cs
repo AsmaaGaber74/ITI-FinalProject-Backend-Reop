@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Jumia.Dtos.ViewModel.Order;
 
 
 namespace Jumia.Application.Contract
@@ -14,5 +15,6 @@ namespace Jumia.Application.Contract
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task UpdateOrderStatusAsync(int orderId, string newStatus);
         Task DeleteOrderAsync(int orderId);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId);
     }
 }

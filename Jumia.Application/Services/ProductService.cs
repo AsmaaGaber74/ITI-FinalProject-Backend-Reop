@@ -115,6 +115,7 @@ namespace Jumia.Application.Services
                 Description = p.Description,
                 SellerName = p.Seller.UserName,
                 CategoryId = p.Category.Id,
+                BrandName=p.BrandName,
                 // IsDeleted=p.IsDeleted,
                 // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();

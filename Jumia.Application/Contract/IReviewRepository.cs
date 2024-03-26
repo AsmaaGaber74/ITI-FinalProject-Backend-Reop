@@ -10,6 +10,7 @@ namespace Jumia.Application.Contract
     public interface IReviewRepository : IRepository<Review, int>
     {
         Task<IEnumerable<Review>> GetByUserIdAsync(string userId);
+        Task<IEnumerable<Review>> GetByProductIdAsync(int productId);
         // Additional signatures as needed...
     }
 }

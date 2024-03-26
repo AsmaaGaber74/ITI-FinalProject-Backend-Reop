@@ -70,6 +70,23 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+       [HttpGet("Product/{productId}")]
+        public async Task<ActionResult<IEnumerable<ReviewUserDTO>>> GetReviewsByProductId(int productId)
+        {
+            try
+            {
+                var reviews = await _reviewService.GetReviewsByProductIdAsync(productId);
+                if (reviews == null || reviews.Count == 0)
+                {
+                    return NotFound($"No reviews found for product ID {productId}.");
+                }
+                return Ok(reviews);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving data from the database: {ex.Message}");
+            }
+        }
 
     }
 }

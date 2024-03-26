@@ -33,6 +33,7 @@ namespace AmazonWebSite.Controllers
                 Description = p.Description,
                 Name = p.Name,
                 id = p.Id,
+                BrandName = p.BrandName,
                 ProductImages = new List<string>(), // Initialize here to ensure it's not null
                 itemscolor = new List<string>() // Assuming you'll populate this similarly
             }).ToList();
@@ -72,24 +73,58 @@ namespace AmazonWebSite.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Getone(int id)
+        public async Task<IActionResult> GetOne(int id)
         {
-            var Products = await _productService.GetOne(id);
-            var Productdetails = new GetOneUser
+            var product = await _productService.GetOne(id);
+            if (product == null)
             {
-                price = Products.Price,
-                ProductDescription = Products.Description,
-                Id = Products.Id
-              
+                return NotFound("Product not found.");
+            }
+
+            var productDTO = new GetOneUser
+            {
+                
+                price = product.Price,
+                Name = product.Name,
+                ProductDescription = product.Description,
+                Id = product.Id,
+                BrandName = product.BrandName,
+                Productimages = new List<string>(), // Initialize here to ensure it's not null
+                itemimages = new List<string>(), // Assuming similar adjustment needed
+                colors = new List<string>() // Initialize here; assuming you'll populate this similarly
             };
-            var Productimages = (await _productImageService.GetByProductIdAsync(id)).Select(p => p.Path).ToList();
-            Productdetails.Productimages = Productimages;
-            var Productitems = (await _itemServices.GetAllPagination(10, 1)).Entities;
-            var itemimages = Productitems.Where(p => p.ProductId == id).Select(p => p.ItemImagestring).ToList();
-            Productdetails.itemimages = itemimages;
-            var itemcolor = Productitems.Where(p => p.ProductId == id).Select(i => i.Color).ToList();
-            Productdetails.colors = itemcolor;
-            return Ok(Productdetails);
+
+            var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+            var productImagePaths = (await _productImageService.GetByProductIdAsync(id)).Select(p => p.Path).ToList();
+
+            foreach (var imagePath in productImagePaths)
+            {
+                try
+                {
+                    var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                        var base64String = Convert.ToBase64String(imageBytes);
+                        productDTO.Productimages.Add(base64String);
+                    }
+                }
+                catch (Exception ex)
+                {
+                   
+                }
+            }
+
+            // Assuming there's a method to fetch items related to this product
+            // For item images and colors, apply similar logic as needed based on your model
+            //var items = await _itemServices.GetOne(id); // This method needs to be defined or adjusted according to your actual service layer
+            //var itemColors = items.Select(i => i.Color).ToList();
+            //productDTO.colors = itemColors;
+
+
+
+
+            return Ok(productDTO);
         }
         [HttpGet("bycatogry")]
         public async Task<IActionResult> Getbycatogery(int catid)

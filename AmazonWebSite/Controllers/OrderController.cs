@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Jumia.Dtos.ViewModel.Order;
 using Jumia.Application.Services;
+using Jumia.Dtos.ResultView;
+using Jumia.Dtos.ViewModel.Product;
+using Jumia.Model;
 namespace AmazonWebSite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -15,7 +18,27 @@ namespace AmazonWebSite.Controllers
         {
             _orderService = orderService;
         }
-                                //// GET: api/Order
+        [HttpPost]
+        public async Task<IActionResult> CreateOrderAsync([FromBody] List<OrderQuantity> ProductIds, String UserID)
+        {
+            try
+            {
+                var result = await _orderService.CreateOrderAsync(ProductIds, UserID);
+                if (result.IsSuccess)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        //// GET: api/Order
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -27,8 +50,7 @@ namespace AmazonWebSite.Controllers
             catch (Exception ex) { return StatusCode(500, ex.Message); }
         }
 
-
-                                   /// DELETE: api/Order/{id}
+        /// DELETE: api/Order/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -42,5 +64,42 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrderProduct(int orderId, UpdateOrderProductDto updateOrderProductDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _orderService.UpdateOrderProductAsync(orderId, updateOrderProductDto.Quantity);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Entity);
+            }
+
+            return BadRequest(new { message = result.Message });
+        }
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetOrdersByUserId(string userId)
+        {
+            try
+            {
+                var orders = await _orderService.GetOrdersByUserId(userId);
+                if (orders == null)
+                {
+                    return NotFound();
+                }
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
+

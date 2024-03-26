@@ -1,6 +1,7 @@
 using Jumia.Application.Contract;
 using Jumia.Application.Services;
 using Jumia.Context;
+using Jumia.Infrastructure.Repository;
 using Jumia.InfraStructure;
 using Jumia.InfraStructure.Repository;
 using Jumia.Model;
@@ -49,6 +50,8 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<IOrderProuduct, OrderProductReposatory>();
+
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();

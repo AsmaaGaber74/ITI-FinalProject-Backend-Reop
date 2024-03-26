@@ -23,7 +23,7 @@ namespace Jumia.Application.Services
             var review = new Review
             {
                 // Map DTO to Review entity
-                ProductID = reviewDto.ProductID,
+                ProductID = reviewDto.ProductID.Value,
                 UserID = reviewDto.UserID,
                 Rating = reviewDto.Rating,
                 Comment = reviewDto.Comment,
@@ -71,6 +71,20 @@ namespace Jumia.Application.Services
 
             return reviewDto;
         }
+        public async Task<List<ReviewUserDTO>> GetReviewsByProductIdAsync(int productId)
+        {
+            var reviews = await _reviewRepository.GetByProductIdAsync(productId);
+            var reviewDtos = reviews.Select(r => new ReviewUserDTO
+            {
+                Id = r.Id,
+                ProductID = r.ProductID,
+                UserID = r.UserID,
+                Rating = r.Rating,
+                Comment = r.Comment,
+                DatePosted = r.DatePosted
+            }).ToList();
 
+            return reviewDtos;
+        }
     }
 }

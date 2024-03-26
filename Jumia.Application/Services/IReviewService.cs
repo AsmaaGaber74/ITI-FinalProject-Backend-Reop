@@ -12,6 +12,7 @@ namespace Jumia.Application.Services
         Task<ReviewUserDTO> AddReviewAsync(ReviewUserDTO reviewDto);
         Task<List<ReviewAdminDTO>> GetAllReviewsAsync();
         Task<ReviewUserDTO> GetReviewByIdAsync(int id);
+        Task<List<ReviewUserDTO>> GetReviewsByProductIdAsync(int productId);
     }
 
 }

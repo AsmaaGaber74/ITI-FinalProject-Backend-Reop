@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jumia.Dtos.ViewModel.Order;
 //using System.Data.Entity;
 
 namespace Jumia.InfraStructure.Repository
@@ -47,6 +48,23 @@ namespace Jumia.InfraStructure.Repository
                 await context.SaveChangesAsync();
             }
         }
+        public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId)
+        {
+            var ordersDto = await context.orders
+           .Where(o => o.UserID == userId)
+           .Select(o => new OrderDto
+           {
+               Id = o.Id,
+               UserID = o.UserID,
+               DatePlaced = o.DatePlaced,
+               TotalPrice = o.TotalPrice,
+               Status = o.Status
+           })
+           .ToListAsync();
+
+            return ordersDto;
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@ using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Item;
 using Jumia.Dtos.ViewModel.Order;
 using Jumia.Dtos.ViewModel.Product;
+using Jumia.Dtos.ViewModel.Review;
 using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using System;
@@ -27,6 +28,7 @@ namespace Jumia.Application.Mapper
              .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryID))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
                 .ReverseMap();
+            CreateMap<OrderProducutDTo, OrderProduct>().ReverseMap();
 
             CreateMap<CateogaryViewModel, Category>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
@@ -44,6 +46,7 @@ namespace Jumia.Application.Mapper
             CreateMap<UserViewModel, ApplicationUser>().ReverseMap();
             CreateMap<LoginViewModel, ApplicationUser>().ReverseMap();
             CreateMap<UpdatUserInfo, ApplicationUser>().ReverseMap();
+            CreateMap<ReviewUserDTO,Review>().ReverseMap();
         }
 
     }

@@ -12,6 +12,7 @@ using System.Security.Principal;
 using System.Text;
 using AutoMapper;
 using Jumia.InfraStructure.Repository;
+using Jumia.Infrastructure.Repository;
 
 namespace AmazonWebSite
 {
@@ -68,6 +69,9 @@ namespace AmazonWebSite
             builder.Services.AddScoped<IItemReposatory, ItemRepostory>();
             builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
             builder.Services.AddScoped<IProductImageService, ProductImageService>();
+            builder.Services.AddScoped<IOrderProuduct, OrderProductReposatory>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderReposatory, OrderRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
