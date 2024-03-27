@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Jumia.Dtos.ViewModel.Order
 {
-    public class OrderQuantity
+    public class Createorder
     {
-        public int quantity { get; set; }
+        public string UserID { get; set; }
+        public List<OrderQuantity> orderQuantities {  get; set; }
 
-        public int productID { get; set; }
     }
 }

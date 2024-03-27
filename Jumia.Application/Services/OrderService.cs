@@ -44,11 +44,11 @@ namespace Jumia.Application.Services
                 decimal totalPrice = 0;
                 foreach (var orderProductDto in ProdactID)
                 {
-                    var product = await _productService.GetOne(orderProductDto.ProductID);
+                    var product = await _productService.GetOne(orderProductDto.productID);
                     if (product != null && product.Price >= 0)
                     {
 
-                        totalPrice += product.Price * orderProductDto.Quantity;
+                        totalPrice += product.Price * orderProductDto.quantity;
 
                     }
                 }
@@ -70,10 +70,10 @@ namespace Jumia.Application.Services
                 {
                     var NewOrderPrd = _orderProuduct.CreateAsync(new OrderProduct
                     {
-                        ProductId = id.ProductID,
+                        ProductId = id.productID,
                         OrderId = newprd.Id,
                         TotalPrice = totalPrice,
-                        Quantity = id.Quantity,
+                        Quantity = id.quantity,
 
 
                     });

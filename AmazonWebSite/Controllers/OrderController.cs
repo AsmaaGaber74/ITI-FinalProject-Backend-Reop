@@ -19,11 +19,11 @@ namespace AmazonWebSite.Controllers
             _orderService = orderService;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateOrderAsync([FromBody] List<OrderQuantity> ProductIds, String UserID)
+        public async Task<IActionResult> CreateOrderAsync([FromBody]Createorder createorder)
         {
             try
             {
-                var result = await _orderService.CreateOrderAsync(ProductIds, UserID);
+                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID);
                 if (result.IsSuccess)
                 {
                     return Ok(result);
