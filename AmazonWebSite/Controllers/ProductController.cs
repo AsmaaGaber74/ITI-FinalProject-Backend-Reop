@@ -142,8 +142,44 @@ namespace AmazonWebSite.Controllers
         [HttpGet("searchname")]
         public async Task<IActionResult> SearchByName(string name)
         {
-            var Products = await _productService.SearchByName(name, 1, 1);
-            return Ok(Products);
+            var products = await _productService.SearchByName(name, 10, 1);
+
+            var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
+            {
+                id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Description = p.Description,
+                ProductImages = new List<string>()
+            }).ToList();
+
+            var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+            foreach (var product in productsDTO)
+            {
+                var productImagePaths = (await _productImageService.GetByProductIdAsync(product.id)).Select(p => p.Path).ToList();
+
+                foreach (var imagePath in productImagePaths)
+                {
+                    try
+                    {
+                        var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                            var base64String = Convert.ToBase64String(imageBytes);
+                            product.ProductImages.Add(base64String);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error
+                        // Consider how to handle errors; skipping image in this example
+                    }
+                }
+            }
+
+            return Ok(productsDTO);
         }
         [HttpGet("searchbycategory")]
         public async Task<IActionResult> SearchByCategory(int catid)
