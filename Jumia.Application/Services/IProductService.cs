@@ -27,6 +27,7 @@ namespace Jumia.Application.Services
 
         Task<List<CateogaryViewModel>> GetAllCategories();
         Task<List<LoginViewModel>> GetAllSellers();
+        Task<int> SaveShanges();
 
 
         Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber);

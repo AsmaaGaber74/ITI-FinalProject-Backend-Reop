@@ -22,15 +22,17 @@ namespace Jumia.Application.Services
         private readonly IOrderReposatory _orderRepository;
         private readonly IProductService _productService;
         private readonly IOrderProuduct _orderProuduct;
+        private readonly IProductReposatory _productReposatory;
         private readonly IMapper _mapper;
 
 
 
-        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct)
+        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct,IProductReposatory productReposatory)
         {
             _orderRepository = orderRepository;
             _productService = productService;
             _orderProuduct = orderProuduct;
+            _productReposatory = productReposatory;
             _mapper = mapper;
 
         }
@@ -51,7 +53,9 @@ namespace Jumia.Application.Services
                         totalPrice += product.Price * orderProductDto.quantity;
 
                     }
+                    product.StockQuantity -= orderProductDto.quantity;
                 }
+                await _productReposatory.SaveChangesAsync();
                 string status = "Pending";
                 DateTime datePlaced = DateTime.Now;
                 var order = new Order
