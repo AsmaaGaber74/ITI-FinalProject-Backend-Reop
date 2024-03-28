@@ -130,6 +130,23 @@ namespace AmazonWebSite.Controllers
 
             return Ok(new { userId = userId });
         }
+       // [Authorize]
+        [HttpGet("currentUserDetails")] // api/account/currentUserDetails
+        public IActionResult GetCurrentUserDetails()
+        {
+            // Extracting the user's ID from the NameIdentifier claim
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            // Extracting the username from the Name claim
+            var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userName))
+            {
+                return Unauthorized("User is not authenticated or information is missing.");
+            }
+
+            return Ok(new { UserId = userId, UserName = userName });
+        }
 
     }
 }

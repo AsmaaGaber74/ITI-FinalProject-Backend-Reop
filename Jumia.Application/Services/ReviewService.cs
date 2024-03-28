@@ -12,10 +12,12 @@ namespace Jumia.Application.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IUserService userService;
 
-        public ReviewService(IReviewRepository reviewRepository)
+        public ReviewService(IReviewRepository reviewRepository,IUserService userService)
         {
             _reviewRepository = reviewRepository;
+            this.userService = userService;
         }
 
         public async Task<ReviewUserDTO> AddReviewAsync(ReviewUserDTO reviewDto)
@@ -64,6 +66,7 @@ namespace Jumia.Application.Services
                 Id = review.Id,
                 ProductID = review.ProductID,
                 UserID = review.UserID,
+                
                 Rating = review.Rating,
                 Comment = review.Comment,
                 DatePosted = review.DatePosted
