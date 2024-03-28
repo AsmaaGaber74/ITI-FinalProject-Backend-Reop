@@ -166,6 +166,11 @@ namespace Jumia.Application.Services
             var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
             return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
         }
+
+        public async Task<int> SaveShanges()
+        {
+           return await productReposatory.SaveChangesAsync();
+        }
     }
 
 }

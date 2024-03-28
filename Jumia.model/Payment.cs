@@ -12,26 +12,26 @@ namespace Jumia.Model
     public class Payment : BaseEntity
     {
         [Key]
-        [ForeignKey("Order")]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Amount { get; set; }
+        [ForeignKey("Order")]
+        public int orderID { get; set; }
 
         [Required]
         public DateTime DatePaid { get; set; }
 
-        public enum PaymentMethod
-        {
-            PayPal,
-            CashOnDelievary,
-            
-        }
+        //public enum PaymentMethod
+        //{
+        //    PayPal,
+        //    CashOnDelievary,
+
+        //}
 
         [Required]
         [MaxLength(50)]
-        public PaymentMethod paymentMethod { get; set; } 
+        public string paymentMethod { get; set; } = "PayPal";
         public virtual Order Order { get; set; }
     }
 

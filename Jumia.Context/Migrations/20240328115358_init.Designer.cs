@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jumia.Context.Migrations
 {
     [DbContext(typeof(JumiaContext))]
-    [Migration("20240325215958_init")]
+    [Migration("20240328115358_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -269,11 +269,11 @@ namespace Jumia.Context.Migrations
 
             modelBuilder.Entity("Jumia.Model.Payment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime>("DatePaid")
                         .HasColumnType("datetime2");
@@ -281,11 +281,18 @@ namespace Jumia.Context.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("paymentMethod")
-                        .HasMaxLength(50)
+                    b.Property<int>("orderID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("paymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("orderID")
+                        .IsUnique();
 
                     b.ToTable("payments");
                 });
@@ -588,7 +595,7 @@ namespace Jumia.Context.Migrations
                 {
                     b.HasOne("Jumia.Model.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("Jumia.Model.Payment", "Id")
+                        .HasForeignKey("Jumia.Model.Payment", "orderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

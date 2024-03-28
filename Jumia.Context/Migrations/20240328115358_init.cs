@@ -282,18 +282,19 @@ namespace Jumia.Context.Migrations
                 name: "payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    orderID = table.Column<int>(type: "int", nullable: false),
                     DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    paymentMethod = table.Column<int>(type: "int", maxLength: 50, nullable: false),
+                    paymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_payments", x => x.Id);
+                    table.PrimaryKey("PK_payments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_payments_orders_Id",
-                        column: x => x.Id,
+                        name: "FK_payments_orders_orderID",
+                        column: x => x.orderID,
                         principalTable: "orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -436,6 +437,12 @@ namespace Jumia.Context.Migrations
                 name: "IX_orders_UserID",
                 table: "orders",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_payments_orderID",
+                table: "payments",
+                column: "orderID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_productImages_ProductID",

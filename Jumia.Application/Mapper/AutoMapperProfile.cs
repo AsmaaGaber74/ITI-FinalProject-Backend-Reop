@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Jumia.Dtos;
 using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Item;
 using Jumia.Dtos.ViewModel.Order;
@@ -47,6 +48,7 @@ namespace Jumia.Application.Mapper
             CreateMap<LoginViewModel, ApplicationUser>().ReverseMap();
             CreateMap<UpdatUserInfo, ApplicationUser>().ReverseMap();
             CreateMap<ReviewUserDTO,Review>().ReverseMap();
+            CreateMap<Payment,PaymentDto>().ReverseMap();
         }
 
     }

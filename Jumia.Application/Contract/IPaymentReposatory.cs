@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Jumia.Application.Contract
 {
-    public interface IPaymentReposatory : IRepository<Payment, int>
+    public interface IPaymentReposatory
     {
+        Task<Payment> CreateAsync(Payment payment);
+        Task<int> SaveChangesAsync();
     }
 }

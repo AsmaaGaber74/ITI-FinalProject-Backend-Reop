@@ -22,15 +22,17 @@ namespace Jumia.Application.Services
         private readonly IOrderReposatory _orderRepository;
         private readonly IProductService _productService;
         private readonly IOrderProuduct _orderProuduct;
+        private readonly IProductReposatory _productReposatory;
         private readonly IMapper _mapper;
 
 
 
-        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct)
+        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct,IProductReposatory productReposatory)
         {
             _orderRepository = orderRepository;
             _productService = productService;
             _orderProuduct = orderProuduct;
+            _productReposatory = productReposatory;
             _mapper = mapper;
 
         }
@@ -44,14 +46,16 @@ namespace Jumia.Application.Services
                 decimal totalPrice = 0;
                 foreach (var orderProductDto in ProdactID)
                 {
-                    var product = await _productService.GetOne(orderProductDto.ProductID);
+                    var product = await _productService.GetOne(orderProductDto.productID);
                     if (product != null && product.Price >= 0)
                     {
 
-                        totalPrice += product.Price * orderProductDto.Quantity;
+                        totalPrice += product.Price * orderProductDto.quantity;
 
                     }
+                    product.StockQuantity -= orderProductDto.quantity;
                 }
+                await _productReposatory.SaveChangesAsync();
                 string status = "Pending";
                 DateTime datePlaced = DateTime.Now;
                 var order = new Order
@@ -70,10 +74,10 @@ namespace Jumia.Application.Services
                 {
                     var NewOrderPrd = _orderProuduct.CreateAsync(new OrderProduct
                     {
-                        ProductId = id.ProductID,
+                        ProductId = id.productID,
                         OrderId = newprd.Id,
                         TotalPrice = totalPrice,
-                        Quantity = id.Quantity,
+                        Quantity = id.quantity,
 
 
                     });
