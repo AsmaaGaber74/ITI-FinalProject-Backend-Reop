@@ -1,30 +1,16 @@
 ﻿using Jumia.Application.Contract;
 using Jumia.Context;
-using Jumia.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Jumia.Model; // Ensure this is the correct namespace for your Payment entity
 using System.Threading.Tasks;
 
 namespace Jumia.InfraStructure.Repository
 {
-    public class PaymentRepository : IPaymentReposatory
+    public class PaymentRepository : Repository<Payment, int>, IPaymentReposatory
     {
-        private readonly JumiaContext _context;
-
-        public PaymentRepository(JumiaContext context)
+        public PaymentRepository(JumiaContext jumiaContext) : base(jumiaContext)
         {
-            _context = context;
-        }
-        public async Task<Payment> Create(Payment payment)
-        {
-            return (await _context.payments.AddAsync(payment)).Entity;
         }
 
-        public async Task<int> SaveChanges()
-        {
-            return await _context.SaveChangesAsync();
-        }
+
     }
 }

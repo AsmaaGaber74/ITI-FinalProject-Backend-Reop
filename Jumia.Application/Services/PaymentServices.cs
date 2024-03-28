@@ -14,28 +14,36 @@ namespace Jumia.Application.Services
 {
     public class PaymentServices : IPaymentServices
     {
-        private readonly IPaymentReposatory _paymentReposatory;
+        private readonly IPaymentReposatory _paymentRepository;
         private readonly IMapper _mapper;
+        private readonly IOrderReposatory _orderRepository;
 
-        public PaymentServices(IPaymentReposatory paymentReposatory, IMapper mapper) 
+        public PaymentServices(IPaymentReposatory paymentRepository, IMapper mapper, IOrderReposatory orderRepository)
         {
-            _paymentReposatory = paymentReposatory;
+            _paymentRepository = paymentRepository;
             _mapper = mapper;
+            _orderRepository = orderRepository;
         }
 
-        public async Task<ResultView<PaymentDto>> Create(int orderid)
+        public async Task<PaymentDto> CreatePaymentAsync(int orderId)
         {
-            var paymentDt = new Payment()
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null)
             {
-                orderID = orderid,
-                DatePaid = DateTime.Now,
-                paymentMethod = "PayPal"
-            };            
-            var newPayment = await _paymentReposatory.Create(paymentDt);
-            await _paymentReposatory.SaveChanges();
+                throw new KeyNotFoundException("Order not found");
+            }
 
-            var paymentDtoResult = _mapper.Map<PaymentDto>(newPayment);
-            return new ResultView<PaymentDto> { Entity =  paymentDtoResult, IsSuccess = true, Message = "Created Successfully" };
+            var payment = new Payment
+            {
+                orderID = orderId,
+                DatePaid = DateTime.Now,
+                paymentMethod = "paypal"
+            };
+
+            var createdPayment = await _paymentRepository.CreateAsync(payment);
+            await _paymentRepository.SaveChangesAsync();
+
+            return _mapper.Map<PaymentDto>(createdPayment);
         }
     }
 }

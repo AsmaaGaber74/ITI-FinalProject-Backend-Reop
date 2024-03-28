@@ -1,28 +1,41 @@
-﻿using Jumia.Application.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Jumia.Application.Contract;
+using Jumia.Dtos;
+using System.Threading.Tasks;
+using Jumia.Application.Services;
+using Jumia.Model;
 
-namespace AmazonWebSite.Controllers
+namespace Jumia.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentServices _paymentServices;
+        private readonly IPaymentServices _paymentService;
 
-        public PaymentController(IPaymentServices paymentServices) 
+        public PaymentController(IPaymentServices paymentService)
         {
-            _paymentServices = paymentServices;
+            _paymentService = paymentService;
         }
+
+        // POST: api/Payment
         [HttpPost]
-        public IActionResult create(int orderid)
+        public async Task<ActionResult<PaymentDto>> CreatePayment(int orderId)
         {
-            if (orderid == 0) 
+            try
             {
-                return BadRequest("order not found");
+                var paymentDto = await _paymentService.CreatePaymentAsync(orderId);
+                return Ok(paymentDto);
             }
-            var paymentcreated = _paymentServices.Create(orderid);
-            return Ok(paymentcreated);
+            catch (KeyNotFoundException knfe)
+            {
+                return NotFound(knfe.Message);
+            }
+            catch (System.Exception ex)
+            {
+                // Generic exception handling, consider logging the exception details
+                return StatusCode(500, "An error occurred while creating the payment. Please try again later.");
+            }
         }
     }
 }
