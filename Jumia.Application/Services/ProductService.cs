@@ -70,10 +70,15 @@ namespace Jumia.Application.Services
             try
             {
                 var uproudect = await productReposatory.GetByIdAsync(proudect.Id);
-                uproudect.Name = proudect.Name;
+                uproudect.NameAr = proudect.NameAr;
+                uproudect.NameEn = proudect.NameEn;
+                uproudect.BrandNameAr = proudect.BrandNameEn;
+                uproudect.BrandNameEn = proudect.BrandNameEn;
+
                 uproudect.Price = proudect.Price;
                 uproudect.StockQuantity = proudect.StockQuantity;
-                uproudect.Description = proudect.Description;
+                uproudect.DescriptionAr = proudect.DescriptionAR;
+                uproudect.DescriptionEn = proudect.DescriptionEn;
                 uproudect.DateListed = proudect.DateListed;
                 uproudect.CategoryID = proudect.CategoryId;
                 uproudect.SellerID = proudect.SellerID;
@@ -107,15 +112,21 @@ namespace Jumia.Application.Services
             var proudects = activeProducts.Skip(items * (pagenumber - 1)).Take(items).Select(p => new ProuductViewModel()
             {
                 Id = p.Id,
-                Name = p.Name,
-                CategoryName = p.Category.Name,
+                NameAr = p.NameAr,
+                NameEn = p.NameEn,
+                BrandNameAr = p.BrandNameAr,
+                BrandNameEn = p.BrandNameEn,
+                CategoryNameAr = p.Category.NameEn,
+                CategoryNameEn = p.Category.NameEn,
+                
                 StockQuantity = p.StockQuantity,
                 Price = p.Price,
                 DateListed = p.DateListed,
-                Description = p.Description,
+                DescriptionAR = p.DescriptionAr,
+                DescriptionEn = p.DescriptionEn,
                 SellerName = p.Seller.UserName,
                 CategoryId = p.Category.Id,
-                BrandName=p.BrandName,
+               
                 // IsDeleted=p.IsDeleted,
                 // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();

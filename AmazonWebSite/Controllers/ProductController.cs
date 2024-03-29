@@ -30,10 +30,15 @@ namespace AmazonWebSite.Controllers
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 Price = p.Price,
-                Description = p.Description,
-                Name = p.Name,
+                DescriptionEn = p.DescriptionEn,
+                DescriptionAr=p.DescriptionAR,
+                StockQuantity = p.StockQuantity,
+                NameEn = p.NameEn,
+                NameAr=p.NameAr,
                 id = p.Id,
-                BrandName = p.BrandName,
+                BrandNameAr = p.BrandNameAr,
+                BrandNameEn = p.BrandNameEn,
+
                 ProductImages = new List<string>(), // Initialize here to ensure it's not null
                 itemscolor = new List<string>() // Assuming you'll populate this similarly
             }).ToList();
@@ -85,10 +90,14 @@ namespace AmazonWebSite.Controllers
             {
                 
                 price = product.Price,
-                Name = product.Name,
-                ProductDescription = product.Description,
+                NameEn = product.NameEn,
+                NameAr=product.NameAr,
+                StockQuantity = product.StockQuantity,
+                ProductDescriptionAr = product.DescriptionAR,
+                ProductDescriptionEn = product.DescriptionEn,
                 Id = product.Id,
-                BrandName = product.BrandName,
+                BrandNameAr = product.BrandNameAr,
+                BrandNameEn = product.BrandNameEn,
                 Productimages = new List<string>(), // Initialize here to ensure it's not null
                 itemimages = new List<string>(), // Assuming similar adjustment needed
                 colors = new List<string>() // Initialize here; assuming you'll populate this similarly
@@ -135,7 +144,8 @@ namespace AmazonWebSite.Controllers
             {
                 Id = p.Id,
                 categoryid = p.CategoryId,
-                Name = p.Name
+                NameAr = p.NameAr,
+                NameEn = p.NameEn,
             }).ToList();
             return Ok(productscatogery);
         }
@@ -147,9 +157,11 @@ namespace AmazonWebSite.Controllers
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 id = p.Id,
-                Name = p.Name,
+                NameAr = p.NameAr,
+                NameEn = p.NameEn,
                 Price = p.Price,
-                Description = p.Description,
+                DescriptionAr = p.DescriptionAR,
+                DescriptionEn = p.DescriptionEn,
                 ProductImages = new List<string>()
             }).ToList();
 

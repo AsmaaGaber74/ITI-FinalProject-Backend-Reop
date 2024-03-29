@@ -27,7 +27,8 @@ namespace Jumia.Application.Mapper
             CreateMap<GetAllProuductDTO, Product>().ReverseMap();
             CreateMap<ProuductViewModel, Product>().ReverseMap()
              .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryID))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.CategoryNameEn, opt => opt.MapFrom(src => src.Category.NameEn))
+                .ForMember(dest => dest.CategoryNameAr, opt => opt.MapFrom(src => src.Category.NameAr))
                 .ReverseMap();
             CreateMap<OrderProducutDTo, OrderProduct>().ReverseMap();
 

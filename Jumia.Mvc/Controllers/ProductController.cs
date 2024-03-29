@@ -29,7 +29,9 @@ namespace Jumia.Mvc.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                proudects = proudects.Where(p => p.Name.Contains(searchString)).ToList();
+                proudects = proudects.Where(p => p.NameEn.Contains(searchString)).ToList();
+                proudects = proudects.Where(p => p.NameAr.Contains(searchString)).ToList();
+
             }
 
 
@@ -40,7 +42,9 @@ namespace Jumia.Mvc.Controllers
             var categories = await _proudectService.GetAllCategories();
             var sellers = await _proudectService.GetAllSellers();
 
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = new SelectList(categories, "Id", "NameEn");
+            ViewBag.Categories = new SelectList(categories, "Id", "NameAr");
+
             ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
 
             return View();
@@ -62,7 +66,8 @@ namespace Jumia.Mvc.Controllers
                     TempData["ErrorMessage"] = result.Message;
                     var categories = await _proudectService.GetAllCategories();
                     var sellers = await _proudectService.GetAllSellers();
-                    ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                    ViewBag.Categories = new SelectList(categories, "Id", "NameEn");
+                    ViewBag.Categories = new SelectList(categories, "Id", "NameAr");
                     ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
                     return View(product);
                 }
@@ -71,7 +76,8 @@ namespace Jumia.Mvc.Controllers
             {
                 var categories = await _proudectService.GetAllCategories();
                 var sellers = await _proudectService.GetAllSellers();
-                ViewBag.Categories = new SelectList(categories, "Id", "Name");
+                ViewBag.Categories = new SelectList(categories, "Id", "NameEn");
+                ViewBag.Categories = new SelectList(categories, "Id", "NameAr");
                 ViewBag.Sellers = new SelectList(sellers, "Id", "UserName");
                 return View(product);
             }
@@ -89,7 +95,9 @@ namespace Jumia.Mvc.Controllers
             var categories = await _proudectService.GetAllCategories();
             var sellers = await _proudectService.GetAllSellers();
 
-            ViewBag.Categories = new SelectList(categories, "Id", "Name", product.CategoryId);
+            ViewBag.Categories = new SelectList(categories, "Id", "NameAr", product.CategoryId);
+            ViewBag.Categories = new SelectList(categories, "Id", "NameEn", product.CategoryId);
+
             ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", product.SellerID);
 
             return View(product);
@@ -121,7 +129,9 @@ namespace Jumia.Mvc.Controllers
 
             var categories = await _proudectService.GetAllCategories();
             var sellers = await _proudectService.GetAllSellers();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name", productViewModel.CategoryId);
+            ViewBag.Categories = new SelectList(categories, "Id", "NameAr", productViewModel.CategoryId);
+            ViewBag.Categories = new SelectList(categories, "Id", "NameEn", productViewModel.CategoryId);
+
             ViewBag.Sellers = new SelectList(sellers, "Id", "UserName", productViewModel.SellerID);
 
             return View(productViewModel);
@@ -153,13 +163,17 @@ namespace Jumia.Mvc.Controllers
                 return NotFound();
             }
             var categories = await _proudectService.GetAllCategories();
-            var categoryName = categories.FirstOrDefault(c => c.Id == product.CategoryId)?.Name;
+            var categoryNameEn = categories.FirstOrDefault(c => c.Id == product.CategoryId)?.NameEn;
+            var categoryNameAr = categories.FirstOrDefault(c => c.Id == product.CategoryId)?.NameAr;
+
 
             var sellers = await _proudectService.GetAllSellers();
             var sellerName = sellers.FirstOrDefault(s => s.Id == product.SellerID)?.UserName;
 
 
-            product.CategoryName = categoryName;
+            product.CategoryNameEn = categoryNameEn;
+            product.CategoryNameAr = categoryNameAr;
+
             product.SellerName = sellerName;
 
             return View(product);

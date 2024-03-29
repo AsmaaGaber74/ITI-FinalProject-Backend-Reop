@@ -9,10 +9,20 @@ namespace Jumia.Dtos.ViewModel.Product
     public class GetOneUser
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string BrandName { get; set; }
+        public string NameAr { get; set; }
+        public string NameEn { get; set; }
+
+        public int StockQuantity { get; set; }
+
+        public string BrandNameAr { get; set; }
+
+        public string BrandNameEn { get; set; }
+
         public ICollection<string> Productimages { get; set; }
-        public string ProductDescription { get; set; }
+        public string ProductDescriptionAr { get; set; }
+        public string ProductDescriptionEn { get; set; }
+
+
         public ICollection<string> colors { get; set; }
         public ICollection<string> itemimages { get; set; }
         public decimal price { get; set; }

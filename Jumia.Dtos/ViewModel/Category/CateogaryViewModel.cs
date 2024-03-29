@@ -11,7 +11,10 @@ namespace Jumia.Dtos.ViewModel.category
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; }
+        public string NameAr { get; set; }
+        [Required]
+        [MaxLength(256)]
+        public string NameEn { get; set; }
 
         public virtual ICollection<ProuductViewModel> Products { get; set; }
     }

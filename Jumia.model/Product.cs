@@ -17,15 +17,20 @@ namespace Jumia.Model
         [Required]
         public string SellerID { get; set; }
 
-        public string BrandName { get; set; } = "Amazon";
-        [Required]
-        public int CategoryID { get; set; }
+        public string BrandNameAr { get; set; } = "Amazon";
+        public string BrandNameEn { get; set; } = "Amazon";
+
+       
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; }
+        public string NameAr { get; set; }
+        public string NameEn { get; set; }
 
-        public string Description { get; set; }
+        public string DescriptionAr { get; set; }
+        public string DescriptionEn { get; set; }
+        [Required]
+        public int CategoryID { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

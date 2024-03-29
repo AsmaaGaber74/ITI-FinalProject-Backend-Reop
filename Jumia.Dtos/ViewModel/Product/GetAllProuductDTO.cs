@@ -22,9 +22,13 @@ namespace Jumia.Dtos.ViewModel.Product
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; }
+        public string NameAr { get; set; }
+        [Required]
+        [MaxLength(256)]
 
-        public string Description { get; set; }
+        public string NameEn { get; set; }
+        public string DescriptionAr { get; set; }
+        public string DescriptionEn { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

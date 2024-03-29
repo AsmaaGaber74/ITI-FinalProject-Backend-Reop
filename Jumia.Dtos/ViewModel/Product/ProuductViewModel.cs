@@ -20,9 +20,15 @@ namespace Jumia.Dtos.ViewModel.Product
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; }
-        public string BrandName { get; set; }
-        public string Description { get; set; }
+        public string NameAr { get; set; }
+        [Required]
+        [MaxLength(256)]
+        public string NameEn { get; set; }
+        public string BrandNameAr { get; set; }
+        public string BrandNameEn { get; set; }
+
+        public string DescriptionAR { get; set; }
+        public string DescriptionEn { get; set; }
 
         [Required]
         //[Column(TypeName = "decimal(18,2)")]
@@ -37,7 +43,9 @@ namespace Jumia.Dtos.ViewModel.Product
 
         //public virtual CateogaryViewModel Category { get; set; }
         public int CategoryId { get; set; }
-        public string? CategoryName { get; set; }
+        public string? CategoryNameAr { get; set; }
+        public string? CategoryNameEn { get; set; }
+
         public virtual LoginViewModel? Seller { get; set; }
         public string? SellerName { get; set; }
         public bool IsDeleted { get; set; } = false;

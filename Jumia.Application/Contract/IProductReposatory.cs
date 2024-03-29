@@ -14,5 +14,6 @@ namespace Jumia.Application.Contract
         Task<IQueryable<Product>> SearchByName(string name);
         Task<IQueryable<Product>> SearchByPrice(decimal minprice, decimal maxprice);
         Task<IQueryable<Product>> SearchByCategoriey(int catid);
+        Task<IQueryable<Product>> SearchByNameAr(string name);
     }
 }

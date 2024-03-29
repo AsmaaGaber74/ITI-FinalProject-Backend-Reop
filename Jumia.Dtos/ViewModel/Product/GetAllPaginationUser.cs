@@ -12,11 +12,16 @@ namespace Jumia.Dtos.ViewModel.Product
     public class GetAllPaginationUser
     {
         public int id { get; set; }
-        public string BrandName { get; set; } = "Amazon";
+        public string BrandNameAr { get; set; } = "Amazon";
+        public string BrandNameEn { get; set; } = "امازون";
+        [Required]
+        public int StockQuantity { get; set; }
         public ICollection<string> itemscolor { get; set; }
         public virtual ICollection<string> ProductImages { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string NameAr { get; set; }
+        public string NameEn { get; set; }
+        public string DescriptionAr { get; set; }
+        public string DescriptionEn { get; set; }
         public decimal Price { get; set; }
 
     }

@@ -28,9 +28,12 @@ namespace Jumia.InfraStructure
 
         public Task<IQueryable<Product>> SearchByName(string name)
         {
-            return Task.FromResult(_jumiacontext.products.Where(p => p.Name.Contains(name) || p.Description.Contains(name)));
+            return Task.FromResult(_jumiacontext.products.Where(p => p.NameEn.Contains(name) || p.DescriptionEn.Contains(name)));
         }
-
+        public Task<IQueryable<Product>> SearchByNameAr(string name)
+        {
+            return Task.FromResult(_jumiacontext.products.Where(p => p.NameAr.Contains(name) || p.DescriptionAr.Contains(name)));
+        }
         public Task<IQueryable<Product>> SearchByPrice(decimal minprice, decimal maxprice)
         {
             return Task.FromResult(_jumiacontext.products.Where(p => p.Price >= minprice && p.Price <= maxprice));

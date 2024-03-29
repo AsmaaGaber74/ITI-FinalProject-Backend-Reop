@@ -15,12 +15,16 @@ namespace Jumia.Dtos.ViewModel.Product
 
         public int SellerID { get; set; }
 
-        public string BrandName { get; set; }
+        public string BrandNameAr { get; set; }
+        public string BrandNameEn { get; set; }
+
         public int CategoryID { get; set; }
 
-        public string Name { get; set; }
+        public string NameAr { get; set; }
+        public string NameEn { get; set; }
 
-        public string Description { get; set; }
+        public string DescriptionAr { get; set; }
+        public string DescriptionEn { get; set; }
 
         public decimal Price { get; set; }
 

@@ -100,7 +100,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Name English</th>
+                    <th>Name Arabic</th>
+
+
                     <th>Price</th>
                     @* <th>Stock Quantity</th>
                     <th>Description</th>
@@ -115,7 +118,9 @@
                 @foreach (var product in Model)
                 {
                     <tr>
-                        <td>@product.Name</td>
+                        <td>@product.NameEn</td>
+                        <td>@product.NameAr</td>
+
                         <td>@product.Price</td>&nbsp &nbsp &nbsp
                         @*  <td>@product.StockQuantity</td>
                     <td>@product.Description</td>

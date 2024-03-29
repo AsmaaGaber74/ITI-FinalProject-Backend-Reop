@@ -20,11 +20,11 @@ namespace Jumia.InfraStructure.Repository
 
         public Task<int> GetProductID(string ProductName)
         {
-            return Task.FromResult(_context.products.Where(p => p.Name == ProductName).Select(p => p.Id).FirstOrDefault());
+            return Task.FromResult(_context.products.Where(p => p.NameEn == ProductName).Select(p => p.Id).FirstOrDefault());
         }
         public Task<string> GetProductName(int ID)
         {
-            return Task.FromResult(_context.products.Where(p => p.Id == ID).Select(p => p.Name).FirstOrDefault());
+            return Task.FromResult(_context.products.Where(p => p.Id == ID).Select(p => p.NameEn).FirstOrDefault());
         }
     }
 }

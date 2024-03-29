@@ -63,7 +63,8 @@ namespace Jumia.Application.Services
                                              {
                                                  Color = p.Color,
                                                  Quantity = p.Quantity,
-                                                 ProductName = p.Product.Name,
+                                                 ProductName = p.Product.NameEn,
+                                                 
                                                  ProductId = p.Product.Id,
                                                  Id = p.Id,
                                                  Size = p.Size,

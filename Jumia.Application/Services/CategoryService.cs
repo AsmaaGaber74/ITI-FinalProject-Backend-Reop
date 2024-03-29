@@ -24,7 +24,7 @@ namespace Jumia.Application.Services
 
         public async Task<ResultView<CategoryDto>> Create(CategoryDto categoryDto)
         {
-            var existingCategory = (await categoryRepository.GetAllAsync()).FirstOrDefault(c => c.Name == categoryDto.Name);
+            var existingCategory = (await categoryRepository.GetAllAsync()).FirstOrDefault(c => c.NameEn == categoryDto.NameEn || c.NameAr == categoryDto.NameAr);
             if (existingCategory != null)
             {
                 return new ResultView<CategoryDto> { Entity = null, IsSuccess = false, Message = "Already Exist" };
@@ -71,7 +71,8 @@ namespace Jumia.Application.Services
                 .Select(p => new CategoryDto
                 {
                     Id = p.Id,
-                    Name = p.Name,
+                    NameAr = p.NameAr,
+                    NameEn = p.NameEn,
                 }).ToList();
 
             var resultDataList = new ResultDataList<CategoryDto>
@@ -95,7 +96,8 @@ namespace Jumia.Application.Services
             var categoryDto = new CategoryDto
             {
                 Id = category.Id,
-                Name = category.Name,
+                NameAr = category.NameAr,
+                NameEn = category.NameEn,
 
             };
 
@@ -109,7 +111,8 @@ namespace Jumia.Application.Services
 
 
 
-                category.Name = categoryDto.Name;
+                category.NameAr = categoryDto.NameAr;
+                category.NameEn = categoryDto.NameEn;
 
 
 
