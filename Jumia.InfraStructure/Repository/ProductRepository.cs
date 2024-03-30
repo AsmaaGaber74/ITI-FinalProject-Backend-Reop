@@ -6,6 +6,7 @@ using Jumia.model;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,14 @@ namespace Jumia.InfraStructure
             _jumiacontext = jumiaContext;
         }
 
+        public Task<IQueryable<Product>> SearchByBrand(string brandName)
+        {
+            return Task.FromResult(_jumiacontext.products.Where(p => p.BrandName==(brandName) ));
+        }
+        public async Task<List<string>> GetAllBrands()
+        {
+            return await _jumiacontext.products.Select(p => p.BrandName).Distinct().ToListAsync();
+        }
         public Task<IQueryable<Product>> SearchByCategoriey(int catid)
         {
             return Task.FromResult(_jumiacontext.products.Select(p => p).Where(p => p.CategoryID == catid));
