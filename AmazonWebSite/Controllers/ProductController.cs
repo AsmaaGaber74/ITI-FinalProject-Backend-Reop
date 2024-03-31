@@ -205,6 +205,67 @@ namespace AmazonWebSite.Controllers
             var peoducts = await _productService.SearchByPrice(minprice, maxprice, 10, 1);
             return Ok(peoducts);
         }
+        [HttpGet("searchbrand")]
+        public async Task<IActionResult> SearchByBrand(string name)
+        {
+            var products = await _productService.SearchByBrand(name, 10, 1);
+
+            var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
+            {
+                id = p.Id,
+                NameEn = p.NameEn,
+                NameAr=p.NameAr,
+                Price = p.Price,
+                DescriptionEn = p.DescriptionEn,
+                DescriptionAr=p.DescriptionAR,
+                ProductImages = new List<string>()
+            }).ToList();
+
+            var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+            foreach (var product in productsDTO)
+            {
+                var productImagePaths = (await _productImageService.GetByProductIdAsync(product.id)).Select(p => p.Path).ToList();
+
+                foreach (var imagePath in productImagePaths)
+                {
+                    try
+                    {
+                        var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                            var base64String = Convert.ToBase64String(imageBytes);
+                            product.ProductImages.Add(base64String);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error
+                        // Consider how to handle errors; skipping image in this example
+                    }
+                }
+            }
+
+            return Ok(productsDTO);
+        }
+        [HttpGet("brands")]
+        public async Task<IActionResult> GetAllBrands()
+        {
+            try
+            {
+                var brands = await _productService.GetAllBrands();
+                return Ok(brands);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        ///end
+      
+    
+
 
     }
 }

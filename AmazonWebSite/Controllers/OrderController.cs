@@ -19,7 +19,7 @@ namespace AmazonWebSite.Controllers
             _orderService = orderService;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateOrderAsync([FromBody]Createorder createorder)
+        public async Task<IActionResult> CreateOrderAsync([FromBody] Createorder createorder)
         {
             try
             {
@@ -66,14 +66,14 @@ namespace AmazonWebSite.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateOrderProduct(int orderId, UpdateOrderProductDto updateOrderProductDto)
+        public async Task<IActionResult> UpdateOrderProduct(UpdateOrderProductDto updateOrderProductDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _orderService.UpdateOrderProductAsync(orderId, updateOrderProductDto.Quantity);
+            var result = await _orderService.UpdateOrderProductAsync(updateOrderProductDto);
 
             if (result.IsSuccess)
             {
@@ -100,6 +100,23 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpGet("orderid")]
+        public async Task<IActionResult> GetOrderdetailsByUserId(int orderId)
+        {
+            try
+            {
+                var orders = await _orderService.GetOrderDetailsByorderId(orderId);
+                if (orders == null)
+                {
+                    return NotFound();
+                }
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
-

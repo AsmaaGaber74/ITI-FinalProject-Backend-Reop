@@ -33,6 +33,9 @@ namespace Jumia.Application.Services
         Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber);
         Task<ResultDataList<ProuductViewModel>> SearchByPrice(decimal minprice, decimal maxprice, int items, int pagenumber);
         Task<ResultDataList<ProuductViewModel>> SearchByCategoriey(int catid, int items, int pagenumber);
+        Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber);
+        Task<List<string>> GetAllBrands();
+
 
     }
 }

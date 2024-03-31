@@ -16,7 +16,7 @@ namespace Jumia.InfraStructure.Repository
     {
         private readonly JumiaContext context;
 
-        public OrderRepository(JumiaContext context) : base(context) 
+        public OrderRepository(JumiaContext context) : base(context)
         {
             this.context = context;
         }
@@ -29,29 +29,101 @@ namespace Jumia.InfraStructure.Repository
                 .ToListAsync();
         }
 
+        //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
+        //{
+        //    var order = await context.orders.FindAsync(orderId);
+        //    if (order != null)
+        //    {
+        //        order.Status = newStatus;
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
+
         public async Task UpdateOrderStatusAsync(int orderId, string newStatus)
         {
+            // First, fetch the order to update its status
             var order = await context.orders.FindAsync(orderId);
-            if (order != null)
+            if (order == null) return; // Order not found, exit early
+
+            order.Status = newStatus;
+
+            // Then, fetch the related order items (OrderProducts) and their products to calculate the total price
+            var orderItems = await context.orderProducts
+                .Where(op => op.OrderId == orderId && op.IsDeleted == false) // Assuming there's an IsDeleted flag
+                .Include(op => op.Product) // Include product to access price
+                .ToListAsync();
+
+            decimal newTotalPrice = 0;
+            foreach (var item in orderItems)
             {
-                order.Status = newStatus;
-                await context.SaveChangesAsync();
+                // Calculate total price for each item and sum them up
+                newTotalPrice += item.Quantity * item.Product.Price;
             }
+
+            // Update the total price of the order
+            order.TotalPrice = newTotalPrice;
+
+            // Save changes
+            await context.SaveChangesAsync();
         }
 
-        public async Task DeleteOrderAsync(int orderId)
+
+        public async Task<List<OrderProduct>> GetByOrderIdAsync(int orderId)
         {
-            var order = await context.orders.FindAsync(orderId);
-            if (order != null)
-            {
-                context.orders.Remove(order);
-                await context.SaveChangesAsync();
-            }
+            return await context.orderProducts
+                .Where(op => op.OrderId == orderId && !op.IsDeleted)
+                .Include(op => op.Product)
+                .ToListAsync();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public async Task DeleteOrderAsync(int Orderitemid)
+        //{
+        //    var order = await context.orders.FindAsync(Orderitemid);
+        //    if (order != null)
+        //    {
+        //        context.orders.Remove(order);
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
         public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId)
         {
             var ordersDto = await context.orders
-           .Where(o => o.UserID == userId)
+           .Where(o => o.UserID == userId && o.IsDeleted == false)
            .Select(o => new OrderDto
            {
                Id = o.Id,
@@ -64,9 +136,29 @@ namespace Jumia.InfraStructure.Repository
 
             return ordersDto;
         }
+        public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
+        {
+            var ordersDto = from order in context.orders
+                            join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
+                            join product in context.products on orderdetails.ProductId equals product.Id
+                            where order.Id == orderdetails.OrderId
+                            select new OrderDetailsDTO
+                            {
+                                Quantity = orderdetails.Quantity,
+                                UserID = order.UserID,
+                                productname = product.NameEn,
+                                TotalPrice = orderdetails.TotalPrice,
+                                DatePlaced = order.DatePlaced,
+                                Status = order.Status,
+                                orderitemid = orderdetails.Id,
+                                orderid = order.Id,
+                                productid = product.Id
+                            };
+
+            return Task.FromResult(ordersDto);
+        }
 
     }
 
 }
-
 

@@ -182,6 +182,29 @@ namespace Jumia.Application.Services
         {
            return await productReposatory.SaveChangesAsync();
         }
-    }
 
+
+        public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber)
+        {
+            var Products = (await productReposatory.SearchByName(name)).Skip(items * (pagenumber - 1)).Take(items);
+            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
+            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
+        }
+        public async Task<List<string>> GetAllBrands()
+        {
+            try
+            {
+                var products = await productReposatory.GetAllAsync();
+                var brandNames = products.Select(p => p.BrandNameEn).Distinct().ToList();
+
+                return brandNames;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+    }
 }
+

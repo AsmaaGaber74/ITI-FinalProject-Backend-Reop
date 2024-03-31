@@ -19,7 +19,7 @@ namespace Jumia.Dtos.ViewModel.Order
         [Required]
         public DateTime DatePlaced { get; set; }
         public int Quantity { get; set; }
-
+        public decimal TotalPrice { get; set; }
         public int ProducutId { get; set; }
     }
 }

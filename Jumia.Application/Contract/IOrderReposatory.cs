@@ -10,11 +10,13 @@ using Jumia.Dtos.ViewModel.Order;
 
 namespace Jumia.Application.Contract
 {
-    public interface IOrderReposatory :IRepository<Order,int>
+    public interface IOrderReposatory : IRepository<Order, int>
     {
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task UpdateOrderStatusAsync(int orderId, string newStatus);
-        Task DeleteOrderAsync(int orderId);
+        //Task DeleteOrderAsync(int orderId);
         Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId);
+        Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid);
+        Task<List<OrderProduct>> GetByOrderIdAsync(int orderId);
     }
 }

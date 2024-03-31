@@ -6,6 +6,7 @@ using Jumia.model;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,15 @@ namespace Jumia.InfraStructure
         public Task<IQueryable<Product>> SearchByPrice(decimal minprice, decimal maxprice)
         {
             return Task.FromResult(_jumiacontext.products.Where(p => p.Price >= minprice && p.Price <= maxprice));
+        }
+
+        public Task<IQueryable<Product>> SearchByBrand(string brandName)
+        {
+            return Task.FromResult(_jumiacontext.products.Where(p => p.BrandNameEn == (brandName)));
+        }
+        public async Task<List<string>> GetAllBrands()
+        {
+            return await _jumiacontext.products.Select(p => p.BrandNameEn).Distinct().ToListAsync();
         }
     }
 }

@@ -3,7 +3,7 @@ using Jumia.Context;
 using Jumia.Model;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,5 +32,7 @@ namespace Jumia.InfraStructure.Repository
 
 
         }
+
+      
     }
 }

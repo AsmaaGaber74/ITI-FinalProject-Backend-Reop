@@ -24,19 +24,34 @@ namespace Jumia.Application.Services
         {
             var review = new Review
             {
-                // Map DTO to Review entity
                 ProductID = reviewDto.ProductID.Value,
                 UserID = reviewDto.UserID,
                 Rating = reviewDto.Rating,
                 Comment = reviewDto.Comment,
-                DatePosted = DateTime.UtcNow // Assuming UTC for example
+                DatePosted = DateTime.UtcNow,
             };
 
             await _reviewRepository.CreateAsync(review);
             await _reviewRepository.SaveChangesAsync();
 
-            return reviewDto; // Or map the created entity back to DTO
+            // Assuming userService has a method to get user by ID that returns an ApplicationUser or a similar user object.
+            var user = await userService.GetUserByIdAsync(review.UserID);
+
+            // Make sure to check if user is not null to avoid NullReferenceException
+            if (user != null)
+            {
+                // Update the DTO to include UserName before returning
+                reviewDto.UserName = user.UserName;
+            }
+            else
+            {
+                // Handle the case where user might not be found, possibly set UserName to "Unknown" or similar
+                reviewDto.UserName = "Unknown";
+            }
+
+            return reviewDto; // Return the DTO with UserName set
         }
+
 
         public async Task<List<ReviewAdminDTO>> GetAllReviewsAsync()
         {
@@ -77,17 +92,43 @@ namespace Jumia.Application.Services
         public async Task<List<ReviewUserDTO>> GetReviewsByProductIdAsync(int productId)
         {
             var reviews = await _reviewRepository.GetByProductIdAsync(productId);
-            var reviewDtos = reviews.Select(r => new ReviewUserDTO
+            var reviewDtos = new List<ReviewUserDTO>();
+
+            foreach (var review in reviews)
             {
-                Id = r.Id,
-                ProductID = r.ProductID,
-                UserID = r.UserID,
-                Rating = r.Rating,
-                Comment = r.Comment,
-                DatePosted = r.DatePosted
-            }).ToList();
+                // Assuming userService.GetUserByIdAsync() exists and fetches the user details.
+                var user = await userService.GetUserByIdAsync(review.UserID);
+
+                var reviewDto = new ReviewUserDTO
+                {
+                    Id = review.Id,
+                    ProductID = review.ProductID,
+                    UserID = review.UserID,
+                    UserName = user?.UserName ?? "Unknown", // Use "Unknown" if the user isn't found or the UserName is null
+                    Rating = review.Rating,
+                    Comment = review.Comment,
+                    DatePosted = review.DatePosted
+                };
+
+                reviewDtos.Add(reviewDto);
+            }
 
             return reviewDtos;
+        }
+
+        public async Task<bool> DeleteReviewAsync(int id)
+        {
+            var review = await _reviewRepository.GetByIdAsync(id);
+            if (review == null)
+            {
+                // Return false or throw an exception if the review doesn't exist
+                return false;
+            }
+
+            await _reviewRepository.DeleteAsync(review);
+            await _reviewRepository.SaveChangesAsync();
+
+            return true; // Return true to indicate the review was successfully deleted
         }
     }
 }

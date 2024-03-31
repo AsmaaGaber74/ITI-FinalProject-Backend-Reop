@@ -2,7 +2,7 @@
 using Jumia.Context;
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +12,7 @@ using Jumia.Dtos.ResultView;
 using Jumia.Model;
 using Jumia.Dtos;
 using System.Data.Entity;
+
 using Jumia.Dtos.ViewModel.category;
 using Jumia.Dtos.ViewModel.Product;
 
@@ -27,7 +28,7 @@ namespace Jumia.Application.Services
 
 
 
-        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct,IProductReposatory productReposatory)
+        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct, IProductReposatory productReposatory)
         {
             _orderRepository = orderRepository;
             _productService = productService;
@@ -46,7 +47,7 @@ namespace Jumia.Application.Services
                 decimal totalPrice = 0;
                 foreach (var orderProductDto in ProdactID)
                 {
-                    var product = await _productService.GetOne(orderProductDto.productID);
+                    var product = await _productReposatory.GetByIdAsync(orderProductDto.productID);
                     if (product != null && product.Price >= 0)
                     {
 
@@ -54,6 +55,7 @@ namespace Jumia.Application.Services
 
                     }
                     product.StockQuantity -= orderProductDto.quantity;
+                    await _productReposatory.UpdateAsync(product);
                 }
                 await _productReposatory.SaveChangesAsync();
                 string status = "Pending";
@@ -105,25 +107,66 @@ namespace Jumia.Application.Services
         }
 
 
-
-        public async Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(int orderId, int quantity)
+        public async Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(UpdateOrderProductDto updateOrderProduct)
         {
             try
             {
-                var orderProduct = await _orderProuduct.GetByIdAsync(orderId);
+                var orderProduct = await _orderProuduct.GetByIdAsync(updateOrderProduct.OrderItemId);
                 if (orderProduct == null)
                 {
                     return new ResultView<OrderProducutDTo>
                     {
                         IsSuccess = false,
-                        Message = $"Order id with ID {orderId} not found."
+                        Message = $"Order product with ID {updateOrderProduct.OrderItemId} not found."
                     };
                 }
 
-                orderProduct.Quantity = quantity;
+                var product = await _productReposatory.GetByIdAsync(updateOrderProduct.ProductId);
+                if (product == null)
+                {
+                    return new ResultView<OrderProducutDTo>
+                    {
+                        IsSuccess = false,
+                        Message = $"Product with ID {updateOrderProduct.ProductId} not found."
+                    };
+                }
 
-                var updatedOrder = await _orderProuduct.UpdateAsync(orderProduct);
+                // Adjust stock quantity based on the difference in ordered quantity
+                if (orderProduct.Quantity > updateOrderProduct.Quantity)
+                {
+                    product.StockQuantity += (orderProduct.Quantity - updateOrderProduct.Quantity);
+                }
+                else
+                {
+                    var diff = (updateOrderProduct.Quantity - orderProduct.Quantity);
+                    product.StockQuantity -= diff;
+                }
+
+                // Calculate and update the total price for the order product
+                orderProduct.Quantity = updateOrderProduct.Quantity;
+                orderProduct.TotalPrice = updateOrderProduct.Quantity * product.Price;
+
+                // Proceed to update the order's total price
+                var order = await _orderRepository.GetByIdAsync(orderProduct.OrderId);
+                if (order != null)
+                {
+                    // Recalculate the total price for the entire order
+                    var orderProducts = await _orderRepository.GetByOrderIdAsync(orderProduct.OrderId);
+                    order.TotalPrice = orderProducts.Sum(op => op.TotalPrice);
+
+                    // Save the updated order
+                    await _orderRepository.UpdateAsync(order);
+                    // Assuming your repository pattern includes a method for saving changes; if not, use your context directly
+                    await _orderRepository.SaveChangesAsync();
+                }
+
+                // Save changes for the order product and product stock quantity update
+                await _orderProuduct.UpdateAsync(orderProduct);
                 await _orderProuduct.SaveChangesAsync();
+                await _productReposatory.UpdateAsync(product);
+                await _productReposatory.SaveChangesAsync();
+
+                // Map the updated order product to DTO
                 var updatedOrderProductDto = _mapper.Map<OrderProducutDTo>(orderProduct);
 
                 return new ResultView<OrderProducutDTo>
@@ -142,6 +185,10 @@ namespace Jumia.Application.Services
                 };
             }
         }
+
+
+
+
 
 
 
@@ -174,18 +221,31 @@ namespace Jumia.Application.Services
 
         public async Task DeleteOrderAsync(int orderId)
         {
-            await _orderRepository.DeleteOrderAsync(orderId);
+            var orderitem = await _orderRepository.GetByIdAsync(orderId);
+            orderitem.IsDeleted = true;
+            await _orderRepository.SaveChangesAsync();
         }
 
 
 
         public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId)
         {
-            var orders = await _orderRepository.GetOrdersByUserId(userId);
-            var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
-            return orderDtos;
+            if (userId == "")
+            {
+                return null;
+            }
+            else
+            {
+                var orders = await _orderRepository.GetOrdersByUserId(userId);
+                var orderDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
+                return orderDtos;
+            }
         }
-
+        public async Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByorderId(int orderid)
+        {
+            var order = await _orderRepository.GetOrderDetailsByordrId(orderid);
+            return order;
+        }
 
     }
 }
