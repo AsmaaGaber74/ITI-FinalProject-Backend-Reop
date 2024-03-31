@@ -28,12 +28,11 @@ namespace Jumia.Application.Services
         Task<List<CateogaryViewModel>> GetAllCategories();
         Task<List<LoginViewModel>> GetAllSellers();
         Task<int> SaveShanges();
-
-
         Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber);
         Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber);
         Task<ResultDataList<ProuductViewModel>> SearchByPrice(decimal minprice, decimal maxprice, int items, int pagenumber);
         Task<ResultDataList<ProuductViewModel>> SearchByCategoriey(int catid, int items, int pagenumber);
         Task<List<string>> GetAllBrands();
+        Task<List<ProuductViewModel>> GetByCategory(int categoryId);
     }
 }
