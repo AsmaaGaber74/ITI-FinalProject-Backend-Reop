@@ -47,9 +47,12 @@ namespace Jumia.InfraStructure.Repository
 
             order.Status = newStatus;
 
+            // Optionally, here you could access order.AddressId or order.Address if you need to check or log the address details
+            // For example, logging the address ID or verifying the address exists if business logic requires such validation
+
             // Then, fetch the related order items (OrderProducts) and their products to calculate the total price
             var orderItems = await context.orderProducts
-                .Where(op => op.OrderId == orderId && op.IsDeleted == false) // Assuming there's an IsDeleted flag
+                .Where(op => op.OrderId == orderId && !op.IsDeleted) // Assuming there's an IsDeleted flag
                 .Include(op => op.Product) // Include product to access price
                 .ToListAsync();
 
@@ -70,9 +73,12 @@ namespace Jumia.InfraStructure.Repository
 
         public async Task<List<OrderProduct>> GetByOrderIdAsync(int orderId)
         {
+            // Include the Order to access its AddressId or Address navigation property
             return await context.orderProducts
                 .Where(op => op.OrderId == orderId && !op.IsDeleted)
                 .Include(op => op.Product)
+                .Include(op => op.Order) // Include Order to access Address
+                .ThenInclude(order => order.Address) // Include Address from Order
                 .ToListAsync();
         }
 

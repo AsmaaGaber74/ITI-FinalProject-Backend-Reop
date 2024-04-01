@@ -1,7 +1,9 @@
-﻿using Jumia.Dtos;
+﻿using Jumia.Context;
+using Jumia.Dtos;
 using Jumia.Dtos.ViewModel.User;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,19 @@ using System.Threading.Tasks;
 
 namespace Jumia.Application.Services
 {
-    public class AuthService:IAuthService
+    public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly JumiaContext context;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager,JumiaContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            this.context = context;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterViewModel model)
@@ -32,13 +36,13 @@ namespace Jumia.Application.Services
                 UserName = model.UserName,
                 Email = model.Email,
                 PasswordHash = model.Password,
-                
-                
+
+
 
             };
-            
+
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded )
+            if (result.Succeeded)
             {
                 // Perform the sign-in
                 await _signInManager.SignInAsync(user, isPersistent: false);
@@ -80,9 +84,21 @@ namespace Jumia.Application.Services
         {
             var user = await _userManager.FindByNameAsync(userName);
             return user;
+
         }
+
+        public async Task<int?> GetAddressIdByUserIdAsync(string userId)
+        {
+            // Directly query the Addresses table to find an address for the given userId
+            var address = await context.addresses
+                .Where(a => a.UserID == userId)
+                .FirstOrDefaultAsync(); // Get the first address that matches the userId
+
+            return address?.Id; // Return the ID of the address, or null if not found
+        }
+
+
+
     }
-
-
 }
-
+    

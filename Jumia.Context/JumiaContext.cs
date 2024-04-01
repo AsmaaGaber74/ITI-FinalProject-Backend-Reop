@@ -46,7 +46,11 @@ namespace Jumia.Context
           .HasForeignKey(c => c.ProductId) // Assuming CartItem has a foreign key called ProductId
           .OnDelete(DeleteBehavior.Restrict);
 
-
+            modelBuilder.Entity<Order>()
+       .HasOne(o => o.Address) 
+       .WithMany(a => a.Orders) 
+       .HasForeignKey(o => o.AddressId) 
+       .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .Entity<Item>().Property(s=>s.Id).UseIdentityColumn();

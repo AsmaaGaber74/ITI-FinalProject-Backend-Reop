@@ -148,5 +148,22 @@ namespace AmazonWebSite.Controllers
             return Ok(new { UserId = userId, UserName = userName });
         }
 
+        [HttpGet("addressid/{userId}")]
+        //[Authorize] // Optional: Use this if you want to secure your endpoint
+        public async Task<ActionResult<int?>> GetAddressIdByUserId(string userId)
+        {
+            var addressId = await _authService.GetAddressIdByUserIdAsync(userId);
+
+            if (addressId.HasValue)
+            {
+                return Ok(addressId.Value);
+            }
+            else
+            {
+                return NotFound("Address or user not found.");
+            }
+        }
     }
+
 }
+

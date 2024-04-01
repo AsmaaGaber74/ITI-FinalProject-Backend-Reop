@@ -23,7 +23,8 @@ namespace AmazonWebSite.Controllers
         {
             try
             {
-                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID);
+                // Now, also pass createorder.AddressId to the service method
+                var result = await _orderService.CreateOrderAsync(createorder.orderQuantities, createorder.UserID, createorder.AddressId);
                 if (result.IsSuccess)
                 {
                     return Ok(result);
@@ -38,6 +39,7 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         //// GET: api/Order
         [HttpGet]
         public async Task<IActionResult> Get()

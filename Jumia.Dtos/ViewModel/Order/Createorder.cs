@@ -10,6 +10,7 @@ namespace Jumia.Dtos.ViewModel.Order
     {
         public string UserID { get; set; }
         public List<OrderQuantity> orderQuantities {  get; set; }
+        public int AddressId { get; set; }
 
     }
 }

@@ -186,7 +186,7 @@ namespace Jumia.Application.Services
 
         public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber)
         {
-            var Products = (await productReposatory.SearchByName(name)).Skip(items * (pagenumber - 1)).Take(items);
+            var Products = (await productReposatory.SearchByBrand(name)).Skip(items * (pagenumber - 1)).Take(items);
             var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
             return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
         }
@@ -204,6 +204,13 @@ namespace Jumia.Application.Services
 
                 throw ex;
             }
+        }
+        public async Task<List<ProuductViewModel>> GetByCategory(int categoryId)
+        {
+            var products = await productReposatory.GetAllAsync();
+            return products.Where(p => p.CategoryID == categoryId)
+                           .Select(p => _mapper.Map<ProuductViewModel>(p))
+                           .ToList();
         }
     }
 }

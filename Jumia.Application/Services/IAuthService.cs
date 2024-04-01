@@ -18,6 +18,8 @@ namespace Jumia.Application.Services
 
         Task<List<UserViewModel>> GetAllUsersAsync();
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+        Task<int?> GetAddressIdByUserIdAsync(string userId);
+
 
     }
 }

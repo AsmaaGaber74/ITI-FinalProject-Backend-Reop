@@ -200,29 +200,6 @@ namespace Jumia.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DatePlaced = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_orders_AspNetUsers_UserID",
-                        column: x => x.UserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "reviews",
                 columns: table => new
                 {
@@ -283,25 +260,33 @@ namespace Jumia.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "payments",
+                name: "orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    orderID = table.Column<int>(type: "int", nullable: false),
-                    DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    paymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DatePlaced = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_payments", x => x.Id);
+                    table.PrimaryKey("PK_orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_payments_orders_orderID",
-                        column: x => x.orderID,
-                        principalTable: "orders",
+                        name: "FK_orders_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_orders_addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +307,27 @@ namespace Jumia.Context.Migrations
                     table.PrimaryKey("PK_items", x => x.Id);
                     table.ForeignKey(
                         name: "FK_items_products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_productImages_products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "products",
                         principalColumn: "Id",
@@ -358,22 +364,23 @@ namespace Jumia.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "productImages",
+                name: "payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    orderID = table.Column<int>(type: "int", nullable: false),
+                    DatePaid = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    paymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productImages", x => x.Id);
+                    table.PrimaryKey("PK_payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_productImages_products_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "products",
+                        name: "FK_payments_orders_orderID",
+                        column: x => x.orderID,
+                        principalTable: "orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -438,6 +445,11 @@ namespace Jumia.Context.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_orders_AddressId",
+                table: "orders",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_orders_UserID",
                 table: "orders",
                 column: "UserID");
@@ -472,9 +484,6 @@ namespace Jumia.Context.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -515,10 +524,13 @@ namespace Jumia.Context.Migrations
                 name: "products");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "addresses");
 
             migrationBuilder.DropTable(
                 name: "categories");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

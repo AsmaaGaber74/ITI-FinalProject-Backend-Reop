@@ -26,7 +26,9 @@ namespace Jumia.Dtos
         [MaxLength(20)]
         public string ZipCode { get; set; }
 
-        public int UserID { get; set; }
-        public virtual ApplicationUserDto User { get; set; }
+        public string UserID { get; set; }
+
+        public List<int>? OrderIds { get; set; } = new List<int>();
+        // public virtual ApplicationUserDto User { get; set; }
     }
 }

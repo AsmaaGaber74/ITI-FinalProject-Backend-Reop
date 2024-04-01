@@ -53,6 +53,8 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IOrderProuduct, OrderProductReposatory>();
             builder.Services.AddScoped<IPaymentReposatory, PaymentRepository>();
             builder.Services.AddScoped<IPaymentServices, PaymentServices>();
+            builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();

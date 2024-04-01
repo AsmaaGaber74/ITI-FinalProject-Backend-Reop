@@ -11,5 +11,6 @@ namespace Jumia.Dtos.ViewModel.Order
         public int quantity { get; set; }
 
         public int productID { get; set; }
+        public int unitAmount { get; set; }
     }
 }

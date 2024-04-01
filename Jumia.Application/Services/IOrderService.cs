@@ -17,8 +17,11 @@ namespace Jumia.Application.Services
 
         Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(UpdateOrderProductDto updateOrderProduct);
         Task<IEnumerable<OrderDto>> GetOrdersByUserId(string userId);
-        Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProdactID, String UserID);
+       // Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProdactID, String UserID);
         Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByorderId(int orderid);
-       
+
+        Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId);
+
+
     }
 }

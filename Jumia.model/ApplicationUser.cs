@@ -27,7 +27,7 @@ namespace Jumia.Model
         //[MaxLength(256)]
         ////public string ?FullName { get; set; }
 
-        public string? AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         [MaxLength(20)]
         public string? Phone { get; set; }

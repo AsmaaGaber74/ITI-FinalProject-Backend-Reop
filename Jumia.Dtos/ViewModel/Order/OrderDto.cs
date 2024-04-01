@@ -12,6 +12,7 @@ namespace Jumia.Dtos.ViewModel.Order
         [Required]
         public string UserID { get; set; }
         [Required] public string UserName { get; set; }
+        public int AddressId { get; set; }
 
         [Required]
         public DateTime DatePlaced { get; set; }

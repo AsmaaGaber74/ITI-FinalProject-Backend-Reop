@@ -24,70 +24,86 @@ namespace Jumia.Application.Services
         private readonly IProductService _productService;
         private readonly IOrderProuduct _orderProuduct;
         private readonly IProductReposatory _productReposatory;
+        private readonly IAddressRepository addressRepository;
         private readonly IMapper _mapper;
 
 
 
-        public OrderService(IOrderReposatory orderRepository, IMapper mapper, IProductService productService, IOrderProuduct orderProuduct, IProductReposatory productReposatory)
+        public OrderService(IOrderReposatory orderRepository, 
+            IMapper mapper, IProductService productService, IOrderProuduct orderProuduct,
+            IProductReposatory productReposatory,IAddressRepository addressRepository)
         {
             _orderRepository = orderRepository;
             _productService = productService;
             _orderProuduct = orderProuduct;
             _productReposatory = productReposatory;
+            this.addressRepository = addressRepository;
             _mapper = mapper;
 
         }
 
-        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProdactID, String UserID)
+        public async Task<ResultView<OrderDto>> CreateOrderAsync(List<OrderQuantity> ProductIDs, string UserID, int AddressId)
         {
             try
             {
-
-
                 decimal totalPrice = 0;
-                foreach (var orderProductDto in ProdactID)
+                foreach (var orderProductDto in ProductIDs)
                 {
-                    var product = await _productReposatory.GetByIdAsync(orderProductDto.productID);
-                    if (product != null && product.Price >= 0)
+                    // Assuming unitAmount is now provided by the orderProductDto
+                    decimal productPrice = orderProductDto.unitAmount;
+                    if (productPrice >= 0)
                     {
+                        totalPrice += productPrice * orderProductDto.quantity;
 
-                        totalPrice += product.Price * orderProductDto.quantity;
-
+                        // Optional: Fetch product to update stock quantity if necessary
+                        var product = await _productReposatory.GetByIdAsync(orderProductDto.productID);
+                        if (product != null)
+                        {
+                            product.StockQuantity -= orderProductDto.quantity; // Ensure stock doesn't go below 0 in real scenarios
+                            await _productReposatory.UpdateAsync(product);
+                        }
                     }
-                    product.StockQuantity -= orderProductDto.quantity;
-                    await _productReposatory.UpdateAsync(product);
                 }
                 await _productReposatory.SaveChangesAsync();
-                string status = "Pending";
-                DateTime datePlaced = DateTime.Now;
-                var order = new Order
+
+                // Verify the AddressId is valid
+                var address = await addressRepository.GetByIdAsync(AddressId);
+                if (address == null)
                 {
-                    DatePlaced = datePlaced,
-                    TotalPrice = totalPrice,
-                    Status = status,
-                    UserID = UserID,
-
-
-                };
-                var newprd = await _orderRepository.CreateAsync(order);
-                await _orderRepository.SaveChangesAsync();
-
-                foreach (var id in ProdactID)
-                {
-                    var NewOrderPrd = _orderProuduct.CreateAsync(new OrderProduct
+                    return new ResultView<OrderDto>
                     {
-                        ProductId = id.productID,
-                        OrderId = newprd.Id,
-                        TotalPrice = totalPrice,
-                        Quantity = id.quantity,
-
-
-                    });
+                        IsSuccess = false,
+                        Message = "Invalid address ID provided."
+                    };
                 }
 
+                var order = new Order
+                {
+                    DatePlaced = DateTime.Now,
+                    TotalPrice = totalPrice,
+                    Status = "Pending",
+                    UserID = UserID,
+                    AddressId = AddressId ,
+                   
+                };
+
+                var createdOrder = await _orderRepository.CreateAsync(order);
+                await _orderRepository.SaveChangesAsync();
+
+                foreach (var id in ProductIDs)
+                {
+                    await _orderProuduct.CreateAsync(new OrderProduct
+                    {
+                        ProductId = id.productID,
+                        OrderId = createdOrder.Id,
+                        TotalPrice = id.quantity * id.unitAmount, // Utilize the provided unitAmount
+                        Quantity = id.quantity
+                    });
+                }
                 await _orderProuduct.SaveChangesAsync();
 
-                var createdOrderDto = _mapper.Map<OrderDto>(order);
+                var createdOrderDto = _mapper.Map<OrderDto>(createdOrder);
+                // Optionally add address information to the createdOrderDto here if your OrderDto includes address details
 
                 return new ResultView<OrderDto>
                 {
@@ -105,6 +121,7 @@ namespace Jumia.Application.Services
                 };
             }
         }
+
 
 
         public async Task<ResultView<OrderProducutDTo>> UpdateOrderProductAsync(UpdateOrderProductDto updateOrderProduct)
@@ -207,8 +224,8 @@ namespace Jumia.Application.Services
                 UserName = o.User.UserName,
                 DatePlaced = o.DatePlaced,
                 TotalPrice = o.TotalPrice,
-                Status = o.Status
-
+                Status = o.Status,
+                AddressId = o.AddressId,
             }).ToList();
 
             return ordersDto;
