@@ -245,5 +245,6 @@ namespace Jumia.Mvc.Controllers
             return RedirectToAction(nameof(DisplayImages), new { productId = productImage.ProductID });
         }
 
+       
     }
 }

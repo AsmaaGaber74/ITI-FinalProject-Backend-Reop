@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\Dashboard.js" />
+    <Content Remove="wwwroot\js\reviewDashbord.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\Dashboard.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\reviewDashbord.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.2" />
@@ -33,6 +43,11 @@
     <Folder Include="Models\" />
     <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\ItemImages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\Dashboard.js" />
+    <None Include="wwwroot\js\reviewDashbord.js" />
   </ItemGroup>
 
 </Project>

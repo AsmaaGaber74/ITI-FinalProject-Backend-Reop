@@ -3,12 +3,12 @@
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" style="background-color: #232f3e; color: white;">
+            <div class="card" >
                 <div class="card-body">
                     @if (Model != null && Model.Any())
                     {
                         <table class="table table-striped">
-                            <thead style="background-color: #232f3e; color: white;">
+                            <thead >
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
@@ -22,8 +22,8 @@
                                         <td>@category.Id</td>
                                         <td>@category.Name</td>
                                         <td>
-                                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">Delete</a>
+                                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style="background-color: #08781f; color: #eaeded;">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style="background-color:#e31414; color: #eaeded;">Delete</a>
                                         </td>
                                     </tr>
                                 }
@@ -40,7 +40,7 @@
     </div>
     <div class="row justify-content-center mt-3">
         <div class="col-md-8">
-            <a asp-action="Create" class="btn " style="background-color: #232f3e; color: white;">Create</a>
+            <a asp-action="Create" class="btn " style="background-color: #232f3e; color:white">Create</a>
         </div>
     </div>
 </div>

@@ -155,7 +155,7 @@ namespace Jumia.Application.Services
         //new
         public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber)
         {
-            var Products = (await productReposatory.SearchByName(name));//.Skip(items * (pagenumber - 1)).Take(items);
+            var Products = (await productReposatory.SearchByBrand(name));//.Skip(items * (pagenumber - 1)).Take(items);
             var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
             return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
         }
