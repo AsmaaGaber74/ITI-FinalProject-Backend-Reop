@@ -72,7 +72,7 @@ namespace Jumia.Application.Services
                 var uproudect = await productReposatory.GetByIdAsync(proudect.Id);
                 uproudect.NameAr = proudect.NameAr;
                 uproudect.NameEn = proudect.NameEn;
-                uproudect.BrandNameAr = proudect.BrandNameEn;
+                uproudect.BrandNameAr = proudect.BrandNameAr;
                 uproudect.BrandNameEn = proudect.BrandNameEn;
 
                 uproudect.Price = proudect.Price;
