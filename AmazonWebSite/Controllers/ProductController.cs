@@ -1,4 +1,5 @@
 ﻿using Jumia.Application.Services;
+using Jumia.Dtos.ResultView;
 using Jumia.Dtos.ViewModel.Product;
 using Jumia.Model;
 using Microsoft.AspNetCore.Http;
@@ -23,11 +24,11 @@ namespace AmazonWebSite.Controllers
             this.configuration = configuration;
         }
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pagenumber,int itemsnumber)
         {
-            var products = await _productService.GetAllPagination(10, 1);
-            var items = await _itemServices.GetAllPagination(10, 1);
-            var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
+            var products = await _productService.GetAllPagination(itemsnumber, pagenumber);
+            var items = await _itemServices.GetAllPagination(itemsnumber, pagenumber);
+            var productsDTO = products.Entities.Select(p =>new GetAllPaginationUser
             {
                 Price = p.Price,
                 DescriptionEn = p.DescriptionEn,
@@ -42,7 +43,6 @@ namespace AmazonWebSite.Controllers
                 ProductImages = new List<string>(), // Initialize here to ensure it's not null
                 itemscolor = new List<string>() // Assuming you'll populate this similarly
             }).ToList();
-
             var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
 
             foreach (var item in productsDTO)
@@ -72,8 +72,12 @@ namespace AmazonWebSite.Controllers
                 var productColors = items.Entities.Where(p => p.ProductId == item.id).Select(p => p.Color).ToList();
                 item.itemscolor = productColors;
             }
-
-            return Ok(productsDTO);
+            var result = new ResultDataList<GetAllPaginationUser>
+            {
+                Entities = productsDTO,
+                Count = products.Count,
+            };
+            return Ok(result);
         }
 
 
