@@ -3,35 +3,35 @@
 <style>
 
     /* form{
-            background-color:#131921;
-            padding:10px;
-            width:30%;
-            display:flex;
-            flex-wrap:wrap;
-            gap:5px;
-            margin-left:30%
-        }
+                background-color:#131921;
+                padding:10px;
+                width:30%;
+                display:flex;
+                flex-wrap:wrap;
+                gap:5px;
+                margin-left:30%
+            }
 
 
-        form input.form-control {
-            border: none;
-            outline: none;
-            color: white;
-            padding: 5px 10px;
-            flex-grow: inherit;
-            background-color: red;
-            width:95% box-sizing: border-box;
-        }
+            form input.form-control {
+                border: none;
+                outline: none;
+                color: white;
+                padding: 5px 10px;
+                flex-grow: inherit;
+                background-color: red;
+                width:95% box-sizing: border-box;
+            }
 
-        form label {
-            color: white;
-            margin-bottom: 5px;
-        } */
+            form label {
+                color: white;
+                margin-bottom: 5px;
+            } */
     form {
         width: 70%;
         padding: 10%;
         margin-left: 20%;
-        background-color: #131921;
+        background-color: #323c58;
         margin-bottom: 5%;
         border-radius: 5%;
     }
@@ -91,13 +91,11 @@
             <input asp-for="BrandNameEn" class="form-control" />
             <span asp-validation-for="BrandNameEn" class="text-danger"></span>
         </div>
-
         <div class="form-group">
             <label asp-for="BrandNameAr"></label>
             <input asp-for="BrandNameAr" class="form-control" />
             <span asp-validation-for="BrandNameAr" class="text-danger"></span>
         </div>
-
         <div class="form-group">
             <label asp-for="DateListed"></label>
             <input asp-for="DateListed" class="form-control" />
@@ -117,7 +115,6 @@
             <input asp-for="CategoryNameEn" class="form-control" />
             <span asp-validation-for="CategoryNameEn" style="color:red"></span>
         </div>
-
         <div class="form-group">
             <label asp-for="CategoryNameAr"></label>
             <input asp-for="CategoryNameAr" class="form-control" />

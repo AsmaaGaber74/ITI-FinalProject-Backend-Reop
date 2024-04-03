@@ -40,8 +40,8 @@
                         <td>@r.Color</td>
                         <td> @r.Quantity</td>
                         <td>@r.Size</td>
-                        <td class="link"> <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id">Edit</a></td>
-                        <td class="link"><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id">Delete</a></td>
+                        <td class="link"> <a asp-controller="Item" asp-action="Update" asp-route-id="@r.Id" style="background-color:forestgreen">Edit...</a></td>
+                        <td class="link"><a asp-controller="Item" asp-action="Delete" asp-route-id="@r.Id" style="background-color:red">Delete</a></td>
                     </tr>
                 }
             </tbody>

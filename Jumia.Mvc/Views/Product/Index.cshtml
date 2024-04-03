@@ -17,128 +17,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Table</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
 
-        h3 {
-            text-align: center;
-        }
-
-        .container {
-            max-width: 100%;
-            margin: 20px;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 8px;
-            border-bottom: 1px solid #e16009;
-            text-align: left;
-        }
-
-        th {
-            color: black;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        a {
-            display: inline-block;
-            padding: 8px 12px;
-            margin: 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
-
-            a:hover {
-                opacity: 0.7;
-            }
-
-        input[type="text"] {
-            padding: 8px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        /*    button[type="submit"] {
-                    cursor: pointer;
-                    padding: 8px 15px;
-                    border: 1px solid #dfc33b color: white;
-                    border: none;
-                    border-radius: 5px;
-                    margin-left: 10px;
-                } */
-
-
-    </style>
 </head>
 <body>
-    <h3>Number Of Products Now: @Model.Count</h3>
+    <h3 style="text-align:center">Number Of Products Now: @Model.Count</h3>
     <div class="container">
-        @*  <a asp-action="Create" class="add1">Add new Product</a> *@
-        <a asp-action="Create" class="add1" style="color:black; text-decoration: none; width: 180px; height: 50px; border: 1px solid #dfc33b; margin: 10px;">Add new Proudect</a>
+        <button type="submit" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #323c58; margin: 10px; background-color:white">
+            <a asp-action="Create" class="add1" style="color:black">Add new Proudect</a>
+        </button>
         <form asp-controller="Product" asp-action="Index" method="get">
             <input type="text" name="searchString" placeholder="Enter product name">
-            <button type="submit" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #dfc33b; margin: 10px; background-color:white">Search</button>
+            <button type="submit" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #323c58; margin: 10px; background-color:white">Search</button>
         </form>
 
-        <table>
+
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped"
             <thead>
                 <tr>
-                    <th>Name English</th>
-                    <th>Name Arabic</th>
-
-
+                    <th>NameEn</th>
+                    <th>NameAr</th>
                     <th>Price</th>
-                    @* <th>Stock Quantity</th>
+                            @* <th>Stock Quantity</th>
                     <th>Description</th>
                     <th>Date Listed</th>
                     <th>Seller Name</th> *@
-                    @* <th>Category</th> *@
-                    @*   <th style="margin-left:90%">Actions</th> *@
+                            @* <th>Category</th> *@
+                            @*   <th style="margin-left:90%">Actions</th> *@
                     <th colspan="5" style="text-align: center;">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.NameEn</td>
-                        <td>@product.NameAr</td>
-
-                        <td>@product.Price</td>&nbsp &nbsp &nbsp
-                        @*  <td>@product.StockQuantity</td>
+                        @foreach (var product in Model)
+                        {
+                        <tr>
+                            <td>@product.NameEn</td>
+                            <td>@product.NameAr</td>
+                            <td>@product.Price</td>&nbsp &nbsp &nbsp
+                                @*  <td>@product.StockQuantity</td>
                     <td>@product.Description</td>
                     <td>@product.DateListed</td> *@
-                        @*   <td>@product.SellerName</td>
+                                @*   <td>@product.SellerName</td>
                     <td>@product.CategoryName</td>  *@
-                        <td class="crud" colspan="7" style="text-align: center;">
+                            <td class="crud" colspan="7" style="text-align: center;">
 
-                            <a asp-action="Edit" asp-route-id="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #e16009; margin: 10px;margin-left:65px ">Edit..</a> |
-                            <a asp-action="Delete" asp-route-id="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #e16009; margin: 10px;margin-left:15px">Delete</a>
-                            <a asp-action="AssignImage" asp-route-productId="@product.Id" style="color:black; text-decoration: none; width: 150px; height: 50px; border: 1px solid #e16009; margin: 10px;margin-left:15px">Assign Image</a> |
-                            <a asp-action="DisplayImages" asp-route-productId="@product.Id" style="color:black; text-decoration: none; width: 150px; height: 50px; border: 1px solid #e16009; margin: 10px;">Display Images</a>
-                            <a asp-action="Details" asp-route-id="@product.Id" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #e16009; margin: 10px;margin-left:15px">Details..</a>
-                        </td>
-                    </tr>
-                }
+                                    <a asp-action="Edit" asp-route-id="@product.Id" style=" background-color:#08781f;color:white;padding:2px">Edit..</a> |
+                                        <a asp-action="Delete" asp-route-id="@product.Id" style="background-color:#e31414;color:white;padding:2px">Delete</a>|
+                                <a asp-action="AssignImage" asp-route-productId="@product.Id" style="color:black;">Assign Image</a> |
+                                <a asp-action="DisplayImages" asp-route-productId="@product.Id" style="color:black;">Display Images</a>|
+                                <a asp-action="Details" asp-route-id="@product.Id" style="color:black;">Details..</a>
+                            </td>
+                        </tr>
+                        }
             </tbody>
         </table>
+            </div>
+        </div>
     </div>
 </body>
 
