@@ -25,8 +25,8 @@ namespace AmazonWebSite.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _productService.GetAllPagination(10, 1);
-            var items = await _itemServices.GetAllPagination(10, 1);
+            var products = await _productService.GetAllPagination(100, 1);
+            var items = await _itemServices.GetAllPagination(100, 1);
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 Price = p.Price,
