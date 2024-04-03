@@ -263,8 +263,65 @@ namespace AmazonWebSite.Controllers
             }
         }
         ///end
-      
-    
+        [HttpGet("ByCategoryAndName")]
+        public async Task<IActionResult> FilterProductsByCategoryAndName(int categoryId, string name)
+        {
+            try
+            {
+                // Get products filtered by category
+                var productsByCategory = await _productService.GetByCategory(categoryId);
+
+                // Filter products by name within the selected category
+                var filteredProducts = productsByCategory
+                    .Where(p => p.NameEn.Contains(name, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                var productsDTO = filteredProducts.Select(p => new GetAllPaginationUser
+                {
+                    id = p.Id,
+                    NameEn = p.NameEn,
+                    NameAr=p.NameAr,
+                    Price = p.Price,
+                    DescriptionEn = p.DescriptionEn,
+                    DescriptionAr=p.DescriptionAR,
+                    ProductImages = new List<string>()
+                }).ToList();
+
+                var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+                // Fetch and append product images
+                foreach (var product in productsDTO)
+                {
+                    var productImagePaths = (await _productImageService.GetByProductIdAsync(product.id)).Select(p => p.Path).ToList();
+
+                    foreach (var imagePath in productImagePaths)
+                    {
+                        try
+                        {
+                            var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                            if (System.IO.File.Exists(fullPath))
+                            {
+                                var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                                var base64String = Convert.ToBase64String(imageBytes);
+                                product.ProductImages.Add(base64String);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the error
+                            // Consider how to handle errors; skipping image in this example
+                        }
+                    }
+                }
+
+                return Ok(productsDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
 
     }
