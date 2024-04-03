@@ -45,5 +45,11 @@ namespace Jumia.Application.Services
 
             return _mapper.Map<PaymentDto>(createdPayment);
         }
+        public async Task<List<PaymentDto>> GetAllPaymentsAsync()
+        {
+            var payments = await _paymentRepository.GetAllAsync();
+            return _mapper.Map<List<PaymentDto>>(payments);
+        }
+
     }
 }

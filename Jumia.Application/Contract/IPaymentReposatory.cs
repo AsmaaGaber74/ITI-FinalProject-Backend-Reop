@@ -11,5 +11,6 @@ namespace Jumia.Application.Contract
     {
         Task<Payment> CreateAsync(Payment payment);
         Task<int> SaveChangesAsync();
+        Task<List<Payment>> GetAllAsync();
     }
 }

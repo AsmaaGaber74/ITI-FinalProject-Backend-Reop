@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jumia.Dtos.ViewModel.Order;
+
 //using System.Data.Entity;
 
 namespace Jumia.InfraStructure.Repository
@@ -24,9 +25,9 @@ namespace Jumia.InfraStructure.Repository
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await context.orders
-                .Include(o => o.User)
-                .AsNoTracking()
-                .ToListAsync();
+                        .Include(o => o.Address)
+                        .Include(o=>o.User)// Eager loading the Address
+                        .ToListAsync();
         }
 
         //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)

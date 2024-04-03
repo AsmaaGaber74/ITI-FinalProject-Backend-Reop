@@ -16,7 +16,12 @@
                     <th scope="col">User Name</th>
                     <th scope="col">DatePlaced</th>
                     <th scope="col">TotalPrice</th>
+                    
+                    <th scope="col">City</th>
+
+                    <th scope="col">Street</th>
                     <th scope="col">Status</th>
+
                 </tr>
             </thead>
 
@@ -29,6 +34,8 @@
                         <td>@order.UserName</td>
                         <td>@order.DatePlaced.ToString("dd/MM/yyyy")</td>
                         <td>@order.TotalPrice</td>
+                        <td>@order.City</td>
+                        <td>@order.Street</td>
                         <td>@order.Status</td>
                         <td>
                             @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))

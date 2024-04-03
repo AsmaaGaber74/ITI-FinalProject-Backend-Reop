@@ -12,5 +12,7 @@ namespace Jumia.Application.Services
     public interface IPaymentServices
     {
         Task<PaymentDto> CreatePaymentAsync(int orderId);
+        Task<List<PaymentDto>> GetAllPaymentsAsync();
+
     }
 }

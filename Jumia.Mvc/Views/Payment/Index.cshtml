@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Jumia.Dtos.PaymentDto>
+
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Payments</h2>
+    <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Date Paid</th>
+                <th scope="col">Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model)
+            {
+                <tr>
+                    <td>@payment.OrderId</td>
+                    <td>@payment.DatePaid.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@payment.paymentMethod</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
