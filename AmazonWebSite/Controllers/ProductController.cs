@@ -270,6 +270,7 @@ namespace AmazonWebSite.Controllers
                 NameEn = p.NameEn,
                 NameAr=p.NameAr,
                 Price = p.Price,
+                StockQuantity = p.StockQuantity,
                 DescriptionEn = p.DescriptionEn,
                 DescriptionAr=p.DescriptionAR,
                 ProductImages = new List<string>()
