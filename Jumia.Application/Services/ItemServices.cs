@@ -109,5 +109,11 @@ namespace Jumia.Application.Services
             string ProductID = await _IItemRepostoty.GetProductName(ID);
             return ProductID;
         }
+
+        public async Task<string> GetColorByProductId(int productId)
+        {
+            var color = await _IItemRepostoty.GetColorByProductIdAsync(productId);
+            return color;
+        }
     }
 }

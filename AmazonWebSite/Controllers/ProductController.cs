@@ -138,17 +138,71 @@ namespace AmazonWebSite.Controllers
         [HttpGet("bycatogry")]
         public async Task<IActionResult> Getbycatogery(int catid)
         {
-            var products = (await _productService.GetAllPagination(10, 1)).Entities;
-            var productscatogery = products.Where(p => p.CategoryId == catid)
-            .Select(p => new GetByCategory
+            try
             {
-                Id = p.Id,
-                categoryid = p.CategoryId,
-                NameAr = p.NameAr,
-                NameEn = p.NameEn,
-            }).ToList();
-            return Ok(productscatogery);
+                // Assuming GetAllPagination asynchronously retrieves all products with pagination,
+                // and we're interested in the first page with a size of 10 for this example.
+                var products = (await _productService.GetAllPagination(10, 1)).Entities;
+
+                // Initialize an empty list for your DTOs
+                var productsDTO = new List<GetAllPaginationUser>();
+
+                // Process each product to include its color and images
+                foreach (var product in products.Where(p => p.CategoryId == catid))
+                {
+                    // Fetch color for the current product by its ID using the ItemService
+                    var color = await _itemServices.GetColorByProductId(product.Id);
+
+                    // Prepare to fetch and process product images
+                    var productImagePaths = (await _productImageService.GetByProductIdAsync(product.Id)).Select(p => p.Path).ToList();
+                    var imagesBase64 = new List<string>();
+
+                    var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+                    foreach (var imagePath in productImagePaths)
+                    {
+                        try
+                        {
+                            var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                            if (System.IO.File.Exists(fullPath))
+                            {
+                                var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                                var base64String = Convert.ToBase64String(imageBytes);
+                                imagesBase64.Add(base64String);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log the error. For simplicity, the error handling is omitted in this snippet.
+                        }
+                    }
+
+                    // Add the fully populated product DTO to the list
+                    productsDTO.Add(new GetAllPaginationUser
+                    {
+                        id = product.Id,
+                        NameEn = product.NameEn,
+                        NameAr = product.NameAr,
+                        Price = product.Price,
+                        DescriptionEn = product.DescriptionEn,
+                        DescriptionAr = product.DescriptionAR,
+                        BrandNameAr = product.BrandNameAr,
+                        BrandNameEn = product.BrandNameEn,
+                        StockQuantity = product.StockQuantity,
+                        itemscolor = new List<string> { color }, // Set the dynamically fetched color
+                        ProductImages = imagesBase64
+                    });
+                }
+
+                return Ok(productsDTO);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+
         [HttpGet("searchname")]
         public async Task<IActionResult> SearchByName(string name)
         {
@@ -276,23 +330,19 @@ namespace AmazonWebSite.Controllers
                     .Where(p => p.NameEn.Contains(name, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                var productsDTO = filteredProducts.Select(p => new GetAllPaginationUser
-                {
-                    id = p.Id,
-                    NameEn = p.NameEn,
-                    NameAr=p.NameAr,
-                    Price = p.Price,
-                    DescriptionEn = p.DescriptionEn,
-                    DescriptionAr=p.DescriptionAR,
-                    ProductImages = new List<string>()
-                }).ToList();
+                // Initialize an empty list for your DTOs
+                var productsDTO = new List<GetAllPaginationUser>();
 
-                var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
-
-                // Fetch and append product images
-                foreach (var product in productsDTO)
+                // Process each filtered product
+                foreach (var product in filteredProducts)
                 {
-                    var productImagePaths = (await _productImageService.GetByProductIdAsync(product.id)).Select(p => p.Path).ToList();
+                    // Fetch color for the current product by its ID using the ItemService
+                    var color = await _itemServices.GetColorByProductId(product.Id);
+
+                    var productImagePaths = (await _productImageService.GetByProductIdAsync(product.Id)).Select(p => p.Path).ToList();
+                    var imagesBase64 = new List<string>();
+
+                    var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
 
                     foreach (var imagePath in productImagePaths)
                     {
@@ -303,15 +353,30 @@ namespace AmazonWebSite.Controllers
                             {
                                 var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
                                 var base64String = Convert.ToBase64String(imageBytes);
-                                product.ProductImages.Add(base64String);
+                                imagesBase64.Add(base64String);
                             }
                         }
                         catch (Exception ex)
                         {
-                            // Log the error
-                            // Consider how to handle errors; skipping image in this example
+                            // Optionally handle the error, e.g., by logging it. Skipping the image in this case.
                         }
                     }
+
+                    // Add the fully populated product DTO to the list
+                    productsDTO.Add(new GetAllPaginationUser
+                    {
+                        id = product.Id,
+                        NameEn = product.NameEn,
+                        NameAr = product.NameAr,
+                        Price = product.Price,
+                        DescriptionEn = product.DescriptionEn,
+                        DescriptionAr = product.DescriptionAR,
+                        BrandNameAr = product.BrandNameAr,
+                        BrandNameEn = product.BrandNameEn,
+                        StockQuantity = product.StockQuantity,
+                        itemscolor = new List<string> { color }, // Set the fetched color, wrapped in a List
+                        ProductImages = imagesBase64
+                    });
                 }
 
                 return Ok(productsDTO);
@@ -321,7 +386,6 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
 
 
     }

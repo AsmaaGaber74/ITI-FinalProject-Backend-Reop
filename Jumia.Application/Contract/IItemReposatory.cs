@@ -11,5 +11,6 @@ namespace Jumia.Application.Contract
     {
          Task<int> GetProductID(string ProductName);
         Task<string> GetProductName(int ID);
+        Task<string> GetColorByProductIdAsync(int productId);
     }
 }

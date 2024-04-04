@@ -17,5 +17,6 @@ namespace Jumia.Application.Services
         Task<ResultDataList<ItemViewModel>> GetAllPagination(int item , int pagenumber);
         Task<int> GetProductID(string ProductName);
         Task<string> GetProductName(int ID);
+        Task<string> GetColorByProductId(int productId);
     }
 }

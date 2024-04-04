@@ -1,6 +1,7 @@
 ﻿using Jumia.Application.Contract;
 using Jumia.Context;
 using Jumia.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,17 @@ namespace Jumia.InfraStructure.Repository
         {
             return Task.FromResult(_context.products.Where(p => p.Id == ID).Select(p => p.NameEn).FirstOrDefault());
         }
+
+        public async Task<string> GetColorByProductIdAsync(int productId)
+        {
+            
+            var color = await _context.items
+                                      .Where(i => i.ProductID == productId && !i.IsDeleted)
+                                      .Select(i => i.Color)
+                                      .FirstOrDefaultAsync();
+
+            return color;
+        }
+
     }
 }
