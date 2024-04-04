@@ -1,4 +1,5 @@
 ﻿using Jumia.Application.Services;
+using Jumia.Dtos.ResultView;
 using Jumia.Dtos.ViewModel.Product;
 using Jumia.Model;
 using Microsoft.AspNetCore.Http;
@@ -23,10 +24,10 @@ namespace AmazonWebSite.Controllers
             this.configuration = configuration;
         }
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pagenumber,int itemsperpage)
         {
-            var products = await _productService.GetAllPagination(100, 1);
-            var items = await _itemServices.GetAllPagination(100, 1);
+            var products = await _productService.GetAllPagination(itemsperpage, pagenumber);
+            var items = await _itemServices.GetAllPagination(itemsperpage, pagenumber);
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 Price = p.Price,
@@ -72,8 +73,12 @@ namespace AmazonWebSite.Controllers
                 var productColors = items.Entities.Where(p => p.ProductId == item.id).Select(p => p.Color).ToList();
                 item.itemscolor = productColors;
             }
-
-            return Ok(productsDTO);
+            var result = new ResultDataList<GetAllPaginationUser>
+            {
+                Entities = productsDTO,
+                Count = productsDTO.Count,
+            };
+            return Ok(result);
         }
 
 
@@ -150,9 +155,9 @@ namespace AmazonWebSite.Controllers
             return Ok(productscatogery);
         }
         [HttpGet("searchname")]
-        public async Task<IActionResult> SearchByName(string name)
+        public async Task<IActionResult> SearchByName(string name , int pagenumber,int items)
         {
-            var products = await _productService.SearchByName(name, 10, 1);
+            var products = await _productService.SearchByName(name, items, pagenumber);
 
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
@@ -190,8 +195,12 @@ namespace AmazonWebSite.Controllers
                     }
                 }
             }
-
-            return Ok(productsDTO);
+            var result = new ResultDataList<GetAllPaginationUser>
+            {
+                Entities = productsDTO,
+                Count = products.Count
+            };
+            return Ok(result);
         }
         [HttpGet("searchbycategory")]
         public async Task<IActionResult> SearchByCategory(int catid)
