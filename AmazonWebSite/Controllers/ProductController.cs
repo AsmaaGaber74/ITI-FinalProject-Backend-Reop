@@ -273,6 +273,8 @@ namespace AmazonWebSite.Controllers
                 StockQuantity = p.StockQuantity,
                 DescriptionEn = p.DescriptionEn,
                 DescriptionAr=p.DescriptionAR,
+                BrandNameAr=p.BrandNameAr,
+                BrandNameEn=p.BrandNameEn,
                 ProductImages = new List<string>()
             }).ToList();
 
