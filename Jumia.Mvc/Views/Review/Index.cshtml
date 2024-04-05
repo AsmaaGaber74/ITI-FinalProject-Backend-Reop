@@ -1,19 +1,25 @@
 ﻿@model IEnumerable<Jumia.Dtos.ViewModel.Review.ReviewAdminDTO>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
 
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
 @{
     ViewData["Title"] = "Review Index";
 }
 
-<h2>Review Index</h2>
+<h2>@localizer["Review Details"]</h2>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Product ID</th>
-            <th>User ID</th>
+            <th>@localizer["ProductId"]</th>
+            <th hidden>User ID</th>
             <th>Rating</th>
-            <th>Comment</th>
-            <th>Date Posted</th>
+            <th>@localizer["Comment"]</th>
+            <th>@localizer["Date Posted"]</th>
         </tr>
     </thead>
     <tbody>
@@ -21,7 +27,7 @@
         {
             <tr>
                 <td>@review.ProductID</td>
-                <td>@review.UserID</td>
+                <td hidden>@review.UserID</td>
                 <td>@review.Rating</td>
                 <td>@review.Comment</td>
                 <td>@review.DatePosted.ToString("yyyy-MM-dd")</td>

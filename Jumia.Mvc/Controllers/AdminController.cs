@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 namespace Jumia.Mvc.Controllers
 {
     [Authorize]
@@ -13,18 +16,36 @@ namespace Jumia.Mvc.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IConfiguration _configuration;
-
-        public AdminController(IOrderService orderService, IConfiguration configuration) 
+        private readonly IStringLocalizer<AdminController> _localizer;
+        public AdminController(IOrderService orderService, IConfiguration configuration,IStringLocalizer<AdminController> localizer) 
         {
             this.orderService = orderService;
             _configuration = configuration;
-
+            _localizer = localizer;
         }
         [Authorize]
         public IActionResult Index()
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult setLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddMonths(1) }
+            );
+
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            {
+                // Fallback URL if the returnUrl is null, empty, or not local
+                returnUrl = Url.Action("Index"); // Or any other default route
+            }
+
+            return LocalRedirect(returnUrl);
+        }
+
 
         public async Task<IActionResult> DisplayOrders()
         {

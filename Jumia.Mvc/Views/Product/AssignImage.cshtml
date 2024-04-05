@@ -1,9 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Assign Image to Product";
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using System.Globalization
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
+    ViewData["Title"] = @localizer["Assign Image to Product"];
 }
 <style>
     form {
-        width: 70%;
+        width: 95%;
         padding: 10%;
         margin-left: 20%;
         background-color: #3a495b;
@@ -65,11 +72,11 @@
     <form asp-action="AssignImage" method="post" enctype="multipart/form-data">
         <input type="hidden" name="productId" value="@ViewBag.ProductId" />
         <div class="form-group">
-            <label for="imageFile">Image File</label>
+            <label for="imageFile">@localizer["Image File"]</label>
             <input type="file" name="imageFile" class="form-control" />
         </div>
-        <button type="submit" class="btn">Upload Image</button>
-        <a asp-action="Index" style="color:white; text-decoration: none; width: 90px; height: 100px; border: 1px solid #e16009; margin: 10px;">Back  TO List..</a>
+        <button type="submit" class="btn">@localizer["Upload Image"]</button>
+        <a asp-action="Index" style="color:white; text-decoration: none; width: 90px; height: 100px; border: 1px solid #e16009; margin: 10px;">@localizer["Back  TO List"]..</a>
 
     </form>
 

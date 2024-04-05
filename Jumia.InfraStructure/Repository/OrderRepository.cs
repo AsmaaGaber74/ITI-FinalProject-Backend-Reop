@@ -24,10 +24,13 @@ namespace Jumia.InfraStructure.Repository
 
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
-            return await context.orders
-                        .Include(o => o.Address)
-                        .Include(o=>o.User)// Eager loading the Address
-                        .ToListAsync();
+            // Fetch orders with related users and addresses eagerly loaded
+            var orders = await context.orders
+                                      .Include(o => o.User)
+                                          .ThenInclude(u => u.Addresses) // Include addresses related to the user
+                                      .ToListAsync();
+
+            return orders;
         }
 
         //public async Task UpdateOrderStatusAsync(int orderId, string newStatus)

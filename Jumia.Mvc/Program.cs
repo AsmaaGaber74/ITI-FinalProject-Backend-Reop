@@ -6,7 +6,12 @@ using Jumia.InfraStructure;
 using Jumia.InfraStructure.Repository;
 using Jumia.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace Jumia.Mvc
 {
@@ -56,7 +61,31 @@ namespace Jumia.Mvc
             builder.Services.AddScoped<IAddressRepository, AddressRepository>();
             builder.Services.AddScoped<IAddressService, AddressService>();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddLocalization();
+            builder.Services.AddSingleton<IStringLocalizerFactory,jsonStringLocalizerFactory>();
+            builder.Services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(jsonStringLocalizerFactory));
+                   
+                     
+                   
+                }
+                );
 
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCulture = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ar-EG")
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: supportedCulture[0]);
+                options.SupportedCultures = supportedCulture;
+                options.SupportedUICultures = supportedCulture;
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -67,6 +96,12 @@ namespace Jumia.Mvc
             app.UseStaticFiles();
 
             app.UseRouting();
+            var suppotedCulture = new[] { "en-Us", "ar-Eg" };
+            var localizationOptions = new RequestLocalizationOptions()
+                .SetDefaultCulture(suppotedCulture[0])
+                .AddSupportedCultures(suppotedCulture)
+                .AddSupportedUICultures(suppotedCulture);
+            app.UseRequestLocalization(localizationOptions);
             app.UseAuthentication();//to check the cockie
             app.UseAuthorization();
 

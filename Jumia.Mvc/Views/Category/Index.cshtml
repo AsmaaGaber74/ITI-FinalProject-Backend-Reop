@@ -1,6 +1,14 @@
 ﻿@model List<CategoryDto>
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
 
-<div class="container mt-5 mb-5">
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+
+
+<div class="container mt-5 mb-5 @(isRtl ? "RTL" : "LTR")">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card" style="background-color: #232f3e; color: white;">
@@ -10,9 +18,9 @@
                         <table class="table table-striped">
                             <thead style="background-color: #232f3e; color: white;">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>English Name</th>
-                                    <th>Arabic  Name</th>
+                                    <th>@localizer["Id"]</th>
+                                    <th>@localizer["English Name"]</th>
+                                    <th>@localizer["Arabic Name"]</th>
 
 
                                     <th>Actions</th>
@@ -27,8 +35,8 @@
                                         <td>@category.NameAr</td>
 
                                         <td>
-                                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">Delete</a>
+                                            <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">@localizer["Edit"]</a>
+                                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style="background-color: #232f3e; color: #eaeded;">@localizer["Delete"]</a>
                                         </td>
                                     </tr>
                                 }
@@ -37,7 +45,7 @@
                     }
                     else
                     {
-                        <p>No categories found.</p>
+                        <p>@localizer["No categories found"].</p>
                     }
                 </div>
             </div>
@@ -45,7 +53,7 @@
     </div>
     <div class="row justify-content-center mt-3">
         <div class="col-md-8">
-            <a asp-action="Create" class="btn " style="background-color: #232f3e; color: white;">Create</a>
+            <a asp-action="Create" class="btn " style="background-color: #232f3e; color: white;">@localizer["Create"]</a>
         </div>
     </div>
 </div>

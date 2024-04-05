@@ -1,6 +1,15 @@
-﻿@{
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
+@{
     ViewData["Title"] = "Employee";
 }@*
+
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -67,14 +76,14 @@
             </div>
             <!-- ./col -->
         </div> *@
-<div class="row">
+<div class="row" dir="@(isRtl ? "RTL":"LTR")" >
 
     <!-- small box number of proudect-->
     <div class="col-lg-3 col-6">
         <div class="small-box  bg-info">
             <div class="inner">
                 <h3 id="productCount"></h3> <!-- Display the product count  -->
-                <h4>Total Proudect</h4>
+                <h4>@localizer["Total Products"]</h4>
             </div>
             <div class="icon">
                 <i class="fas fa-shopping-cart"></i>
@@ -88,7 +97,7 @@
         <div class="small-box  bg-warning">
             <div class="inner">
                 <h3 id="orderCount"></h3> <!-- Display the order  -->
-                <h4>Total order</h4>
+                <h4>@localizer["Total orders"]</h4>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -103,7 +112,7 @@
         <div class="small-box  bg-success">
             <div class="inner">
                 <h3 id="paymentCount"></h3> <!-- Display payment -->
-                <h4>Total Payment</h4>
+                <h4>@localizer["Total Payment"]</h4>
             </div>
             <div class="icon">
                 <i class="fas fa-dollar-sign"></i>
@@ -116,7 +125,7 @@
         <div class="small-box  bg-danger">
             <div class="inner">
                 <h3 id="userCount"></h3> <!-- Display user -->
-                <h4>User Registrations</h4>
+                <h4>@localizer["User Registrations"]</h4>
             </div>
             <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -142,7 +151,7 @@
             <script src="https://code.highcharts.com/modules/accessibility.js"></script>
             <script src="/AadminLTE/plugins/sparklines/sparkline.js"></script>
 
-            <figure class="highcharts-figure"> gttt
+            <figure class="highcharts-figure"> 
                 <div id="container"></div>
                 <p class="highcharts-description">
 

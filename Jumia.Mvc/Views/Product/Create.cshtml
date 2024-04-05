@@ -1,5 +1,11 @@
 ﻿  @model ProuductViewModel
+  @using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
 
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
 @{
 
     ViewData["Title"] = "Creat";
@@ -8,10 +14,10 @@
 <style>
 
     form {
-        width: 70%;
+        width: 100%;
         padding: 10%;
-        margin-left: 20%;
-        background-color: #323c58;
+/*         margin-left: 0%;
+ */        background-color: #323c58;
         margin-bottom: 5%;
         border-radius: 5%;
     }
@@ -75,53 +81,53 @@
 
 
 
-<h3> You Can Add New Product Now OR <a asp-action="Index" style="color:black; text-decoration: none; width: 90px; height: 50px; border: 1px solid #e16009; margin: 10px;">Back  TO List..</a>  </h3>
+<h3>  @localizer["You Can Add New Product Now OR "]<a asp-action="Index" style="color:black; text-decoration: none; width: 90px; height: 50px; border: 1px solid #e16009; margin: 10px;">@localizer["Back  TO List"]..</a>  </h3>
 
-<body>
+<body dir="@(isRtl ? "RTL":"LTR")">
 
     <form method="post">
         <div class="form-group">
-            <label asp-for="NameEn"></label>
+            <label asp-for="NameEn">@localizer["English Name"]</label>
             <input asp-for="NameEn" class="form-control" />
 
             <span asp-validation-for="NameEn" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="NameAr"></label>
+            <label asp-for="NameAr">@localizer["Arabic Name"]</label>
             <input asp-for="NameAr" class="form-control" />
 
             <span asp-validation-for="NameAr" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Price"></label>
+            <label asp-for="Price">@localizer["Price"]</label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="StockQuantity"></label>
+            <label asp-for="StockQuantity">@localizer["StockQuantity"]</label>
             <input asp-for="StockQuantity" class="form-control" />
             <span asp-validation-for="StockQuantity" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="DescriptionEn"></label>
+            <label asp-for="DescriptionEn">@localizer["DescriptionEn"]</label>
             <input asp-for="DescriptionEn" class="form-control" />
             <span asp-validation-for="DescriptionEn" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="DescriptionAR"></label>
+            <label asp-for="DescriptionAR">@localizer["DescriptionAR"]</label>
             <input asp-for="DescriptionAR" class="form-control" />
             <span asp-validation-for="DescriptionAR" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="BrandNameEn"></label>
+            <label asp-for="BrandNameEn">@localizer["BrandNameEn"]</label>
             <input asp-for="BrandNameEn" class="form-control" />
             <span asp-validation-for="BrandNameEn" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="BrandNameAr"></label>
+            <label asp-for="BrandNameAr">@localizer["BrandNameAR"]</label>
             <input asp-for="BrandNameAr" class="form-control" />
             <span asp-validation-for="BrandNameAr" class="text-danger"></span>
         </div>
@@ -132,7 +138,7 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="DateListed"></label>
+            <label asp-for="DateListed">@localizer["DateListed"]</label>
             <input asp-for="DateListed" class="form-control" />
             <span asp-validation-for="DateListed" style="color:red"></span>
         </div>
@@ -140,13 +146,13 @@
 
 
         <div>
-            <label asp-for="CategoryId">Ctegory</label>
+            <label asp-for="CategoryId">@localizer["Category"]</label>
             <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
             <span asp-validation-for="CategoryId" style="color:red"></span>
         </div>
 
 
-        <button type="submit" class="btn ">Creat</button>
+        <button type="submit" class="btn ">@localizer["Create"]</button>
     </form>
 
 </body>

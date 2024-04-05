@@ -214,6 +214,9 @@ namespace AmazonWebSite.Controllers
                 NameAr = p.NameAr,
                 NameEn = p.NameEn,
                 Price = p.Price,
+                BrandNameAr= p.BrandNameAr,
+                BrandNameEn = p.BrandNameEn,
+                StockQuantity= p.StockQuantity,
                 DescriptionAr = p.DescriptionAR,
                 DescriptionEn = p.DescriptionEn,
                 ProductImages = new List<string>()
