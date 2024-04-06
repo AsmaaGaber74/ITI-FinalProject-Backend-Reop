@@ -220,17 +220,17 @@ namespace Jumia.Application.Services
             var ordersDto = orders.Select(o => new OrderDto
             {
                 Id = o.Id,
-                UserID = o.User?.Id ?? string.Empty, // Assuming UserID is a string. Adjust accordingly.
-                UserName = o.User?.UserName ?? "Unknown User", // Provide a default value or handle null differently.
+                UserID = o.User?.Id ?? string.Empty, 
+                UserName = o.User?.UserName ?? "Unknown User", 
                 DatePlaced = o.DatePlaced,
                 TotalPrice = o.TotalPrice,
                 Status = o.Status,
-                AddressId = o.AddressId, // Check if this needs handling; assuming it's an int that could be 0 if not set.
-                City = o.Address?.City ?? "Unknown City", // Provide a default value or handle null differently.
-                Street = o.Address?.Street ?? "Unknown Street" // Provide a default value or handle null differently.
+                AddressId = o.AddressId,
+                Cities = o.User?.Addresses.Select(a => a.City).ToList() ?? new List<string> { "Unknown City" },
+                Streets = o.User?.Addresses.Select(a => a.Street).ToList() ?? new List<string> { "Unknown Street" }
             }).ToList();
 
-
+            
             return ordersDto;
         }
 

@@ -1,5 +1,12 @@
 ﻿@model LoginViewModel
 
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization;
+
+@inject IViewLocalizer localizer
+@{
+    var isRtl = CultureInfo.CurrentCulture.Name.StartsWith("ar");
+}
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_loginLayout.cshtml";
@@ -85,23 +92,23 @@
 <main class="main">
     <div class="registration-container">
         <header class="header">
-            <a href="#" class="logo">
+           @*  <a href="#" class="logo">
                 <img src="~/images/amazon.webp" alt="Company Logo">
-            </a>
+            </a> *@
         </header>
-        <h1 class="create">Sign in</h1>
+        <h1 class="create"> @localizer["Sign in"]</h1>
         <form asp-action="Login">
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-label-for="Name">Your UserName</label>
+                <label asp-label-for="Name">@localizer["UserName"]</label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
-                <label asp-label-for="Password">Password</label>
+                <label asp-label-for="Password">@localizer["Password"]</label>
                 <input asp-for="Password" class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
 
@@ -111,7 +118,7 @@
                 <div class="form-check">
 
                     <label class="form-check-label" for="agreeCheckbox">
-                        By continuing, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.
+                       @localizer["By continuing, you agree to Amazon's"] <a href="#">@localizer["Conditions of Use"]</a> and <a href="#">Privacy Notice</a>.
                     </label>
                 </div>
             </div>
@@ -120,20 +127,20 @@
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="rememberMeCheckbox" asp-for="RememberMe">
                     <label class="form-check-label" for="rememberMeCheckbox">
-                        Keep me signed in
+                        @localizer["Keep me signed in"]
                     </label>
                 </div>
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn">Sign In</button>
+                <button type="submit" class="btn">@localizer["Sign in"]</button>
             </div>
             @*       <a asp-action="ForgotPassword">Forgot password?</a> *@
 
         </form>
 
         <div class="footer">
-            <p>New to Amazon? <a asp-action="Register" class="btn">Create your Amazon account</a></p>
+            <p>@localizer["New to Amazon"] <a asp-action="Register" class="btn">@localizer["Create your Amazon account"]</a></p>
         </div>
     </div>
 

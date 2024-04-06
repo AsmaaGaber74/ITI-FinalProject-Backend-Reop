@@ -60,14 +60,41 @@
   "Color":"اللون",
   "Quantity":"الكمية",
   "Size":"الحجم",
-  "Order ID":"الرقم التعريفى للطلبات",
+  "Order ID":"الرقم التعريفى ",
   "Date Paid":"تاريخ الدفع",
   "Payment Method":"طريقة الدفع",
   "Rating":"التقييمات",
   "Comment":"التعليقات",
   "Review Details":"تفاصيل التقييمات",
   "Date Posted":"تاريخ التقييم",
-  "RoleName":"اسم الدور "
+  "RoleName":"اسم الدور ",
+  "RegisterUserWithRole":"سجل مستخدم مع دور",
+  "UserName":"اسم المستخدم",
+  "Email":"البريد الالكترونى",
+  "Password":"كلمة المرور",
+  "Confirm Password":"تأكيد كلمة المرور",
+  "Role":"الدور",
+  "Register":"سجل",
+  "Sign in":"تسجيل الدخول",
+  "By continuing, you agree to Amazon's":"باستمرارك انت توافق على",
+  "Conditions of Use":"شروط استخدام امازون",
+  "Keep me signed in":"احتفظ بتسجيلى للدخول",
+  "New to Amazon":"جديد على امازون",
+  "Create your Amazon account":"انشيء حسابك على امازون ",
+  "Create account":"انشىء حساب",
+  "Already have an account":"بالفعل تملك حساب",
+  "At least 6 characters":"على الاقل ست حروف",
+  "Orders":"الطلبات",
+  "Total Price":"المبلغ الكلى",
+  "City":"المدينة",
+  "Street":"الشارع",
+  "Status":"حالة الطلب",
+  "Action":"تغيير الحالة",
+  "Update":"تحديث"
+
+
+
+
 
 
 

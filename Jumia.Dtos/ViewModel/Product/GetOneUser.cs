@@ -19,8 +19,8 @@ namespace Jumia.Dtos.ViewModel.Product
         public string BrandNameEn { get; set; }
 
         public ICollection<string> Productimages { get; set; }
-        public string ProductDescriptionAr { get; set; }
-        public string ProductDescriptionEn { get; set; }
+        public string descriptionAr { get; set; }
+        public string descriptionEn { get; set; }
 
 
         public ICollection<string> colors { get; set; }
