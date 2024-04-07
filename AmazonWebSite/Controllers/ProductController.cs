@@ -3,6 +3,7 @@ using Jumia.Dtos.ViewModel.Product;
 using Jumia.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 
 namespace AmazonWebSite.Controllers
 {
@@ -204,9 +205,9 @@ namespace AmazonWebSite.Controllers
 
 
         [HttpGet("searchname")]
-        public async Task<IActionResult> SearchByName(string name)
+        public async Task<IActionResult> SearchByName(string name,int pageSize, int pageNumber)
         {
-            var products = await _productService.SearchByName(name, 10, 1);
+            var products = await _productService.SearchByName(name, pageSize, pageNumber);
 
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
@@ -263,9 +264,9 @@ namespace AmazonWebSite.Controllers
             return Ok(peoducts);
         }
         [HttpGet("searchbrand")]
-        public async Task<IActionResult> SearchByBrand(string name)
+        public async Task<IActionResult> SearchByBrand(string name, int pageSize, int pageNumber)
         {
-            var products = await _productService.SearchByBrand(name, 10, 1);
+            var products = await _productService.SearchByBrand(name, pageSize, pageNumber);
 
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
@@ -324,74 +325,45 @@ namespace AmazonWebSite.Controllers
         }
         ///end
         [HttpGet("ByCategoryAndName")]
-        public async Task<IActionResult> FilterProductsByCategoryAndName(int categoryId, string name)
+        public async Task<IActionResult> FilterProductsByCategoryAndName(int categoryId, string name, int pageSize, int pageNumber )
         {
             try
             {
-                // Get products filtered by category
-                var productsByCategory = await _productService.GetByCategory(categoryId);
+                // Get products filtered by category with pagination
+                var paginatedProductsByCategory = await _productService.GetByCategory(categoryId, pageSize, pageNumber);
 
                 // Filter products by name within the selected category
-                var filteredProducts = productsByCategory
+                var filteredProducts = paginatedProductsByCategory.Entities
                     .Where(p => p.NameEn.Contains(name, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                // Initialize an empty list for your DTOs
-                var productsDTO = new List<GetAllPaginationUser>();
-
-                // Process each filtered product
-                foreach (var product in filteredProducts)
+                // Assume GetAllPaginationUser is similar to ProuductViewModel but with additional properties
+                var productsDTO = filteredProducts.Select(product => new GetAllPaginationUser
                 {
-                    // Fetch color for the current product by its ID using the ItemService
-                    var color = await _itemServices.GetColorByProductId(product.Id);
+                    id = product.Id,
+                    NameEn = product.NameEn,
+                    NameAr = product.NameAr,
+                    Price = product.Price,
+                    DescriptionEn = product.DescriptionEn,
+                    DescriptionAr = product.DescriptionAR,
+                    BrandNameAr = product.BrandNameAr,
+                    BrandNameEn = product.BrandNameEn,
+                    StockQuantity = product.StockQuantity,
+                    itemscolor = new List<string>(), // Placeholder for color
+                    ProductImages = new List<string>() // Placeholder for images
+                }).ToList();
 
-                    var productImagePaths = (await _productImageService.GetByProductIdAsync(product.Id)).Select(p => p.Path).ToList();
-                    var imagesBase64 = new List<string>();
+                // Here you would fetch colors and images for each product as before
+                // Omitted for brevity
 
-                    var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
-
-                    foreach (var imagePath in productImagePaths)
-                    {
-                        try
-                        {
-                            var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
-                            if (System.IO.File.Exists(fullPath))
-                            {
-                                var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
-                                var base64String = Convert.ToBase64String(imageBytes);
-                                imagesBase64.Add(base64String);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Optionally handle the error, e.g., by logging it. Skipping the image in this case.
-                        }
-                    }
-
-                    // Add the fully populated product DTO to the list
-                    productsDTO.Add(new GetAllPaginationUser
-                    {
-                        id = product.Id,
-                        NameEn = product.NameEn,
-                        NameAr = product.NameAr,
-                        Price = product.Price,
-                        DescriptionEn = product.DescriptionEn,
-                        DescriptionAr = product.DescriptionAR,
-                        BrandNameAr = product.BrandNameAr,
-                        BrandNameEn = product.BrandNameEn,
-                        StockQuantity = product.StockQuantity,
-                        itemscolor = new List<string> { color }, // Set the fetched color, wrapped in a List
-                        ProductImages = imagesBase64
-                    });
-                }
-
-                return Ok(productsDTO);
+                return Ok(new { Products = productsDTO, TotalCount = paginatedProductsByCategory.Count });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
     }

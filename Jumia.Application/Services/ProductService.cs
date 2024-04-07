@@ -180,11 +180,24 @@ namespace Jumia.Application.Services
             return sellerViewModels;
         }
 
-        public async Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int items, int pagenumber)
+        public async Task<ResultDataList<ProuductViewModel>> SearchByName(string name, int pageSize, int pageNumber)
         {
-            var Products = (await productReposatory.SearchByName(name)).Skip(items * (pagenumber - 1)).Take(items);
-            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
-            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
+            // Assuming SearchByName returns IQueryable for efficient querying
+            var queryableProducts = await productReposatory.SearchByName(name);
+
+            // Get total count before applying Skip and Take
+            var totalCount = queryableProducts.Count();
+
+            // Apply pagination
+            var paginatedProducts = queryableProducts.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            var productsViewModel = _mapper.Map<List<ProuductViewModel>>(paginatedProducts);
+
+            // Return the result with entities and total count
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = productsViewModel,
+                Count = totalCount // Total count of items that match the criteria
+            };
         }
 
         public async Task<ResultDataList<ProuductViewModel>> SearchByPrice(decimal minprice, decimal maxprice, int items, int pagenumber)
@@ -207,12 +220,26 @@ namespace Jumia.Application.Services
         }
 
 
-        public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pagenumber)
+        public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pageNumber)
         {
-            var Products = (await productReposatory.SearchByBrand(name)).Skip(items * (pagenumber - 1)).Take(items);
-            var productsviewmodel = _mapper.Map<List<ProuductViewModel>>(Products);
-            return new ResultDataList<ProuductViewModel> { Entities = productsviewmodel.ToList(), Count = productsviewmodel.Count() };
+            var allProducts = await productReposatory.SearchByBrand(name);
+            var totalCount = allProducts.Count(); // Get total count before pagination
+
+            // Apply pagination
+            var paginatedProducts = allProducts
+                                    .Skip(items * (pageNumber - 1))
+                                    .Take(items)
+                                    .ToList();
+
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(paginatedProducts);
+
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = productViewModels,
+                Count = totalCount // Include total count for pagination
+            };
         }
+
         public async Task<List<string>> GetAllBrands()
         {
             try
@@ -228,13 +255,24 @@ namespace Jumia.Application.Services
                 throw ex;
             }
         }
-        public async Task<List<ProuductViewModel>> GetByCategory(int categoryId)
+        public async Task<ResultDataList<ProuductViewModel>> GetByCategory(int categoryId, int pageSize, int pageNumber)
         {
-            var products = await productReposatory.GetAllAsync();
-            return products.Where(p => p.CategoryID == categoryId)
-                           .Select(p => _mapper.Map<ProuductViewModel>(p))
-                           .ToList();
+            var allData = await productReposatory.GetAllAsync();
+            var filteredData = allData.Where(p => p.CategoryID == categoryId && !p.IsDeleted);
+
+            var paginatedData = filteredData
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => _mapper.Map<ProuductViewModel>(p))
+                .ToList();
+
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = paginatedData,
+                Count = filteredData.Count() // Total count before pagination
+            };
         }
+
     }
 }
 
