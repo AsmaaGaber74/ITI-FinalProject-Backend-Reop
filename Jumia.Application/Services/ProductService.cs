@@ -136,6 +136,29 @@ namespace Jumia.Application.Services
             return resultDataList;
         }
 
+        public async Task<ResultDataList<ProuductViewModel>> GetAllPaginatedByCategoryId(int categoryId, int items, int pageNumber)
+        {
+            // Fetch all products (consider fetching only necessary fields to improve performance)
+            var query = await productReposatory.GetAllAsync();
+
+            // Filter by category
+            var filteredQuery = query.Where(p => p.CategoryID == categoryId && !p.IsDeleted);
+
+            // Apply pagination
+            var paginatedProducts = filteredQuery.Skip((pageNumber - 1) * items).Take(items);
+
+            // Map to view model
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(paginatedProducts);
+
+            // Return result
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = productViewModels,
+                Count = filteredQuery.Count() // Total count before pagination
+            };
+        }
+
+
         public async Task<List<CateogaryViewModel>> GetAllCategories()
         {
             try

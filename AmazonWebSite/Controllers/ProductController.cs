@@ -23,10 +23,10 @@ namespace AmazonWebSite.Controllers
             this.configuration = configuration;
         }
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int pageSize , [FromQuery] int pageNumber )
         {
-            var products = await _productService.GetAllPagination(100, 1);
-            var items = await _itemServices.GetAllPagination(100, 1);
+            var products = await _productService.GetAllPagination(pageSize, pageNumber);
+            var items = await _itemServices.GetAllPagination(pageSize, pageNumber);
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {
                 Price = p.Price,
@@ -136,13 +136,13 @@ namespace AmazonWebSite.Controllers
             return Ok(productDTO);
         }
         [HttpGet("bycatogry")]
-        public async Task<IActionResult> Getbycatogery(int catid)
+        public async Task<IActionResult> Getbycatogery(int catid, [FromQuery] int pageSize, [FromQuery] int pageNumber)
         {
             try
             {
                 // Assuming GetAllPagination asynchronously retrieves all products with pagination,
                 // and we're interested in the first page with a size of 10 for this example.
-                var products = (await _productService.GetAllPagination(10, 1)).Entities;
+                var products = (await _productService.GetAllPaginatedByCategoryId(catid,pageSize, pageNumber)).Entities;
 
                 // Initialize an empty list for your DTOs
                 var productsDTO = new List<GetAllPaginationUser>();

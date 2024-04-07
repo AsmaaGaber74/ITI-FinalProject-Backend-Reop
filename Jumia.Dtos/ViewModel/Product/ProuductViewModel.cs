@@ -26,7 +26,7 @@ namespace Jumia.Dtos.ViewModel.Product
         public string NameEn { get; set; }
         public string BrandNameAr { get; set; }
         public string BrandNameEn { get; set; }
-
+        public int? TotalCount { get; set; }
         public string DescriptionAR { get; set; }
         public string DescriptionEn { get; set; }
 

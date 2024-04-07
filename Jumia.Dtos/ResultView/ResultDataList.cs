@@ -10,6 +10,7 @@ namespace Jumia.Dtos.ResultView
     {
         public List<TEntity> Entities { get; set; }
         public int Count { get; set; }
+        public int ?TotalCount { get; set; }
         public ResultDataList()
         {
             Entities = new List<TEntity>();
