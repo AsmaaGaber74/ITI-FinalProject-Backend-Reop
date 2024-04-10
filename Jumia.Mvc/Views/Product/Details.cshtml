@@ -33,30 +33,37 @@
                 color: white;
                 margin-bottom: 5px;
             } */
-    form {
-        width: 95%;
-        padding: 10%;
-        margin-left: 20%;
-        background-color: #323c58;
+    .form {
+        width: 79%;
+        padding: 3%;
+        margin-left: 10%;
+        background-color: white !important;
         margin-bottom: 5%;
-        border-radius: 5%;
+        border-radius: 2%;
+        margin-top: 0px;
+        position: relative;
+        top: 34px;
     }
-
-        form input.form-control {
+       form input{
+        border-radius: 1rem !important;
+       }
+        form input .form-control {
             border: none;
             outline: none;
             color: black;
             padding: 5px 10px;
+            border-radius:1rem !important;
         }
 
     label {
-        color: white;
+        color: black;
     }
 </style>
 
 <body>
     <h2>@localizer["Proudect Details"]</h2>
     <form method="post">
+        <div class="form">
         <div class="form-group">
             <label asp-for="NameEn">@localizer["English Name"]</label>
             <input asp-for="NameEn" class="form-control" />
@@ -126,7 +133,7 @@
             <input asp-for="CategoryNameAr" class="form-control" />
             <span asp-validation-for="CategoryNameAr" style="color:red"></span>
         </div>
-
+        </div>
     </form>
     @*
     <div>

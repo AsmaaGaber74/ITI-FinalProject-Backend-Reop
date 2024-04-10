@@ -13,20 +13,24 @@
 
 <style>
 
-    form {
-        width:95%;
-        padding: 10%;
-        margin-left: 20%;
-        background-color: #323c58;
+    .form {
+        width: 79%;
+        padding: 3%;
+        margin-left: 9%;
         margin-bottom: 5%;
-        border-radius: 5%;
+        border-radius: 3%;
+        background-color: white !important;
     }
 
     label {
-        color: white;
+        color: black;
     }
-
+    input{
+        border-radius:1rem !important;
+    }
     .btn {
+        position: relative;
+        left: 42%;
         padding: 10px 25px;
         font-family: "Roboto", sans-serif;
         font-weight: 500;
@@ -36,10 +40,11 @@
         transition: all 0.3s ease;
         position: relative;
         display: inline-block;
+        background-color: #2275fc;
     }
 
     .btn {
-        border: 2px solid #e16009;
+        border: 2px solid #2275fc;
         z-index: 1;
         color: white;
         margin: 3%
@@ -73,12 +78,19 @@
     }
 </style>
 
-<h3> @localizer["You Can Make Update here OR"] <a asp-action="Index" style="color:black; text-decoration: none; width: 90px; height: 50px; border: 1px solid #e16009; margin: 10px;">@localizer["Back  TO List"]..</a>  </h3>
+<h3>
+    @localizer["You Can Make Update here OR"] <a asp-action="Index" style="color: #2275fc;
+    text-decoration: none;
+    width: 90px;
+    height: 50px;
+    /* border: 1px solid #e16009; */
+    margin: 10px;">@localizer["Back  TO List"]..</a>
+</h3>
 
 <body>
 
 
-    <form method="post">
+    <form method="post" class="form">
         <div class="form-group">
             <label asp-for="NameEn">@localizer["English Name"]</label>
             <input asp-for="NameEn" class="form-control" />

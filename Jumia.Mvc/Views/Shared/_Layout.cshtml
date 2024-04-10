@@ -15,7 +15,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/AadminLTE/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
@@ -38,30 +38,58 @@
     <link rel="stylesheet" href="~/AadminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <style>
         .nav-item {
-            color: white;
+            color: #191c24;
             padding: 7px;
             font-size: 20px;
         }
 
             .nav-item:hover {
-                background-color: white;
-                color: black
+                background-color: #edecec;
+                color: #009CFF;
             }
+            .p-4{
+            text-align: center;
+            margin-left: 14vw;
+            }
+
+        .sidebar a{
+            color: #191c24 !important;
+        }
+        .sidebar a:hover{
+                color: #009CFF !important
+        }
+        .main-sidebar{
+            background-color: white !important;
+        }
+
+        .nav-item:hover{
+            border-radius: 16px;
+        }
+        .nav-item p{
+            margin-bottom:0.5rem;
+        }
+
+        .nav-item p a {
+                color: #191c24 !important;
+        }
+        .nav-item:hover p a{
+            color: #009CFF !important;
+        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+@*         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="~/AadminLTE/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-        </div>
+        </div> *@
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
+@*         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+ *@            <!-- Left navbar links -->
+@*             <ul class="navbar-nav">
+ *@                @* <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
@@ -69,14 +97,14 @@
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">@localizer["Contact"]</a>
-                </li>
+                </li> *@
                 <div class="p-4 ">
                     <partial name="_selectLanguage" />
                 </div>
-            </ul>
-
+@*             </ul>
+ *@
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
+@*             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -97,10 +125,10 @@
                             </div>
                         </form>
                     </div>
-                </li>
+                </li> *@
 
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
+                @* <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
                         <span class="badge badge-danger navbar-badge">3</span>
@@ -120,8 +148,8 @@
                                 </div>
                             </div>
                             <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
+                        </a> *@
+                      @*   <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
@@ -134,11 +162,11 @@
                                     <p class="text-sm">@localizer["I got your message bro"]</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@localizer["4 Hours Ago"]</p>
                                 </div>
-                            </div>
+                            </div> *@
                             <!-- Message End -->
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                       @*  <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item"> *@
                             <!-- Message Start -->
                             @* <div class="media">
                                 <img src="~/AadminLTE/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
@@ -152,13 +180,13 @@
                                 </div>
                             </div> *@
                             <!-- Message End -->
-                        </a>
+       @*                  </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">@localizer["See All Messages"]</a>
-                    </div>
+                    </div> *@
                 </li>
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
+@*                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
                         <span class="badge badge-warning navbar-badge">15</span>
@@ -188,14 +216,14 @@
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
-                </li>
+                </li> *@
                 @* <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li> *@
-            </ul>
-        </nav>
+@*             </ul>
+        </nav> *@
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#323c58;color:white" >
@@ -203,7 +231,7 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #009CFF;">
 
                     <div class="info">
                         <a href="#" class="d-block"> <a class="nav-link " asp-area="" asp-controller="Account" asp-action="logout">Welcome @User.Identity.Name</a></a>
@@ -246,7 +274,13 @@
                         </li>
                         <li class="nav-item menu-open">
                             <p>
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fa-solid fa-file"></i>
+                                <a asp-area="" asp-controller="Admin" asp-action="DisplayOrders">@localizer["Orders"]</a>
+                            </p>
+                        </li>
+                        <li class="nav-item menu-open">
+                            <p>
+                                <i class="fa-solid fa-p"></i>
                                 <a asp-area="" asp-controller="Payment" asp-action="Index">@localizer["Payments"]</a>
                             </p>
                         </li>
@@ -292,7 +326,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="background-color:#ebebeb;">
             <!-- Content Header (Page header) -->
             <!-- /.content-header -->
             <!-- Main content -->

@@ -29,9 +29,7 @@ namespace Jumia.Mvc.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                proudects = proudects.Where(p => p.NameEn.Contains(searchString)).ToList();
-                proudects = proudects.Where(p => p.NameAr.Contains(searchString)).ToList();
-
+                proudects = proudects.Where(p => p.NameEn.Contains(searchString) || p.NameAr.Contains(searchString)).Select(p=>p).ToList();
             }
 
 
