@@ -51,5 +51,15 @@ namespace Jumia.InfraStructure
         {
             return await _jumiacontext.products.Select(p => p.BrandNameEn).Distinct().ToListAsync();
         }
+
+        public async Task<IEnumerable<Product>> GetByBrandAsync(string brandName)
+        {
+            return await _jumiacontext.products.Where(p => p.BrandNameEn.Equals(brandName) && !p.IsDeleted).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetByCategoryAndBrandAsync(int categoryId, string brandName)
+        {
+            return await _jumiacontext.products.Where(p => p.CategoryID == categoryId && p.BrandNameEn.Equals(brandName) && !p.IsDeleted).ToListAsync();
+        }
     }
 }

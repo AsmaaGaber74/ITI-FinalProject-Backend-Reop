@@ -273,6 +273,111 @@ namespace Jumia.Application.Services
             };
         }
 
+        public async Task<List<ProuductViewModel>> GetAll()
+        {
+            var products = await productReposatory.GetAllAsync();
+
+            var productsViewModel = _mapper.Map<List<ProuductViewModel>>(products);
+
+            return productsViewModel;
+        }
+
+
+        public async Task<List<ProuductViewModel>> GetByCategory(int categoryId)
+        {
+            var products = await productReposatory.GetAllAsync();
+
+            var filteredProducts = products.Where(p => p.CategoryID == categoryId && !p.IsDeleted);
+
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(filteredProducts);
+
+            return productViewModels;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<ResultDataList<ProuductViewModel>> GetFilteredProducts(ProductFilterCriteria criteria, int pageSize, int pageNumber)
+        {
+            // Fetch all products
+            var query = await productReposatory.GetAllAsync();
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(criteria.Name))
+            {
+                query = query.Where(p => p.NameEn.Contains(criteria.Name) || p.NameAr.Contains(criteria.Name));
+            }
+
+            if (criteria.CategoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryID == criteria.CategoryId.Value);
+            }
+
+            if (!string.IsNullOrEmpty(criteria.Brand))
+            {
+                query = query.Where(p => p.BrandNameEn == criteria.Brand || p.BrandNameAr == criteria.Brand);
+            }
+
+            if (criteria.MinPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= criteria.MinPrice.Value);
+            }
+
+            if (criteria.MaxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= criteria.MaxPrice.Value);
+            }
+
+            // Apply sorting based on PriceSortOrder
+            switch (criteria.PriceSortOrder)
+            {
+                case PriceSortOrder.Ascending:
+                    query = query.OrderBy(p => p.Price);
+                    break;
+                case PriceSortOrder.Descending:
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+                    // No need for a case for None, as it implies no sorting is to be applied.
+            }
+
+            // Apply pagination
+            var paginatedQuery = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            // Map to DTO
+            var products = _mapper.Map<List<ProuductViewModel>>(paginatedQuery);
+
+            // Prepare and return result
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = products,
+                Count = query.Count() // Get the total count before pagination for client-side pagination
+            };
+        }
+        public async Task<List<ProuductViewModel>> GetByBrand(string brandName)
+        {
+            var productsByBrand = await productReposatory.GetByBrandAsync(brandName);
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(productsByBrand);
+            return productViewModels;
+        }
+
+        public async Task<List<ProuductViewModel>> GetByCategoryAndBrand(int categoryId, string brandName)
+        {
+            var productsByCategoryAndBrand = await productReposatory.GetByCategoryAndBrandAsync(categoryId, brandName);
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(productsByCategoryAndBrand);
+            return productViewModels;
+        }
+
+
+
+
     }
 }
 

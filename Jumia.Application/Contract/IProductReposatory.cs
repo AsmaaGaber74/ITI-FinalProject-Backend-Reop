@@ -18,5 +18,8 @@ namespace Jumia.Application.Contract
         Task<IQueryable<Product>> SearchByBrand(string name);
 
         Task<List<string>> GetAllBrands();
+
+        Task<IEnumerable<Product>> GetByBrandAsync(string brandName);
+        Task<IEnumerable<Product>> GetByCategoryAndBrandAsync(int categoryId, string brandName);
     }
 }

@@ -37,6 +37,12 @@ namespace Jumia.Application.Services
             Task<List<string>> GetAllBrands();
         Task<ResultDataList<ProuductViewModel>> GetByCategory(int categoryId, int pageSize, int pageNumber);
         Task<ResultDataList<ProuductViewModel>> GetAllPaginatedByCategoryId(int categoryId, int items, int pageNumber);
+        Task<ResultDataList<ProuductViewModel>> GetFilteredProducts(ProductFilterCriteria criteria, int pageSize, int pageNumber);
+        Task<List<ProuductViewModel>> GetByCategory(int categoryId);
+        Task<List<ProuductViewModel>> GetAll();
+        Task<List<ProuductViewModel>> GetByCategoryAndBrand(int categoryId, string brandName);
+        Task<List<ProuductViewModel>> GetByBrand(string brandName);
+      
 
 
 

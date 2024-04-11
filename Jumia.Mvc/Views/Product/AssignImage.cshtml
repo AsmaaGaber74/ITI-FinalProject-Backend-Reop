@@ -65,19 +65,15 @@
             }
 </style>
 <body>
-
-
     <h3>@ViewData["Title"]</h3>
 
-    <form asp-action="AssignImage" method="post" enctype="multipart/form-data">
+    <form asp-action="AssignImages" method="post" enctype="multipart/form-data">
         <input type="hidden" name="productId" value="@ViewBag.ProductId" />
         <div class="form-group">
-            <label for="imageFile">@localizer["Image File"]</label>
-            <input type="file" name="imageFile" class="form-control" />
+            <label for="imageFiles">@localizer["Image File"]</label>
+            <input type="file" name="imageFiles" class="form-control" multiple />
         </div>
-        <button type="submit" class="btn">@localizer["Upload Image"]</button>
-        <a asp-action="Index" style="color:white; text-decoration: none; width: 90px; height: 100px; border: 1px solid #e16009; margin: 10px;">@localizer["Back  TO List"]..</a>
-
+        <button type="submit" class="btn btn-primary">@localizer["Upload Image"]</button>
+        <a asp-action="Index" class="btn btn-secondary" style="margin: 10px;">@localizer["Back  TO List"]</a>
     </form>
-
 </body>

@@ -74,11 +74,15 @@
                 <img src="@image.Path" class="img-fluid" alt="Product Image" />
                 <form asp-action="DeleteImage" method="post" class="mt-2">
                     <input type="hidden" name="id" value="@image.Id" />
-                        <button type="submit" class="btn ">@localizer["Delete"]</button>
-                    <a asp-action="Index" style="color:black; text-decoration: none; width: 90px; height: 1000px; border: 1px solid #e16009; margin: 10px;">@localizer["Back  TO List"]..</a>
+                    <button type="submit" class="btn btn-danger">@localizer["Delete"]</button>
                 </form>
             </div>
         }
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a asp-action="Index" class="btn btn-primary">@localizer["Back  TO List"]</a>
+        </div>
     </div>
 }
 else

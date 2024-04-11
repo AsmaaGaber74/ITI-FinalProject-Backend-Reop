@@ -189,41 +189,47 @@ namespace Jumia.Mvc.Controllers
 
         // Action to save the assigned image
         [HttpPost]
-        public async Task<ActionResult> AssignImage(int productId, IFormFile imageFile)
+        public async Task<ActionResult> AssignImages(int productId, IEnumerable<IFormFile> imageFiles)
         {
-            if (imageFile != null && imageFile.Length > 0)
+            if (imageFiles != null && imageFiles.Any())
             {
-                var fileName = Path.GetFileName(imageFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", fileName);
-
-                // Ensure the directory exists
-                var directory = Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(directory))
+                foreach (var imageFile in imageFiles)
                 {
-                    Directory.CreateDirectory(directory);
+                    if (imageFile.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(imageFile.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", fileName);
+
+                        // Ensure the directory exists
+                        var directory = Path.GetDirectoryName(filePath);
+                        if (!Directory.Exists(directory))
+                        {
+                            Directory.CreateDirectory(directory);
+                        }
+
+                        // Save the file to the server
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(fileStream);
+                        }
+
+                        // Save each file path and product ID in your database
+                        var productImageDto = new ProductImageDto
+                        {
+                            Path = $"/images/products/{fileName}", // Relative path to be used in your web app
+                            ProductID = productId
+                        };
+
+                        await _productImageService.CreateAsync(productImageDto);
+                    }
                 }
-
-                // Save the file to the server
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(fileStream);
-                }
-
-                // Save the file path (relative to wwwroot) and product ID in your database
-                var productImageDto = new ProductImageDto
-                {
-                    Path = $"/images/products/{fileName}", // Relative path to be used in your web app
-                    ProductID = productId
-                };
-
-                await _productImageService.CreateAsync(productImageDto);
             }
 
             return RedirectToAction(nameof(DisplayImages), new { productId = productId });
         }
 
-        [HttpGet]
 
+        [HttpGet]
         public async Task<ActionResult> DisplayImages(int productId)
         {
             var images = await _productImageService.GetByProductIdAsync(productId);
@@ -231,7 +237,6 @@ namespace Jumia.Mvc.Controllers
         }
 
 
-        [HttpPost]
         [HttpPost]
         public async Task<IActionResult> DeleteImage(int id)
         {
@@ -258,6 +263,8 @@ namespace Jumia.Mvc.Controllers
             // Adjust redirection as needed
             return RedirectToAction(nameof(DisplayImages), new { productId = productImage.ProductID });
         }
+
+
 
     }
 }
