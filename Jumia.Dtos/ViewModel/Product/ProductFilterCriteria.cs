@@ -19,8 +19,8 @@ namespace Jumia.Dtos.ViewModel.Product
     public enum PriceSortOrder
     {
         None,
-        Ascending,
-        Descending
+        asc,
+        desc
     }
 
 }

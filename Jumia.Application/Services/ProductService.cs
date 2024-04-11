@@ -339,10 +339,10 @@ namespace Jumia.Application.Services
             // Apply sorting based on PriceSortOrder
             switch (criteria.PriceSortOrder)
             {
-                case PriceSortOrder.Ascending:
+                case PriceSortOrder.asc:
                     query = query.OrderBy(p => p.Price);
                     break;
-                case PriceSortOrder.Descending:
+                case PriceSortOrder.desc:
                     query = query.OrderByDescending(p => p.Price);
                     break;
                     // No need for a case for None, as it implies no sorting is to be applied.
