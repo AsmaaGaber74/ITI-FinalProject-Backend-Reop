@@ -7,7 +7,7 @@
     flex-wrap: wrap;
     margin-bottom: 20vh;
     margin-top: 10vh;
-    width: 65%;
+    width: 96%;
 }
 
 th {
@@ -40,15 +40,20 @@ h2 {
 }
 
 .btn {
-    background-color: #f3a847;
+    background-color: #2275fc;
     border: none;
     font-size: 1.3vw;
 }
 
     .btn:hover {
-        background-color: #f3a847;
+        background-color: #2275fc;
         color: black;
     }
+
+.table {
+    border-radius: 1rem;
+    border: 0;
+}
 
 @media (min-width: 501px) and (max-width: 768px) {
     .container {
@@ -111,6 +116,7 @@ h2 {
     .btn {
         background-color: #f3a847;
         border: none;
-        font-size: 2.6vw;
+        font-size:  2.6vw;
+            
     }
 }

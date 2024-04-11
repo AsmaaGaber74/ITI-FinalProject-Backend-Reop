@@ -1,5 +1,4 @@
-﻿
-* {
+﻿* {
     font-family: Arial,sans-serif;
 }
 
@@ -26,8 +25,14 @@ img {
     position: relative;
     /* height: 27%; */
     /*    left: 14px;
-*/ /* margin-bottom: 16px; */
+/ / margin-bottom: 16px; */
     border-radius: 10px;
+}
+
+.table {
+    color: inherit;
+    background-color: white !important;
+    border-radius: 11px !important;
 }
 
 table .link a {
@@ -35,9 +40,17 @@ table .link a {
     color: white;
     /* border: 2px solid black; */
     padding: 10px;
-    background-color: #f3a847;
+    /*    background-color: #f3a847;*/
     font-size: 16px;
     border-radius: 5px;
+}
+
+tr:hover {
+    background-color: #caccd059 !important;
+}
+
+.table {
+    border: 1px solid #8080808a;
 }
 
 a:hover {
@@ -52,7 +65,7 @@ button {
     margin-top: 22px;
     width: 15%;
     height: 47px;
-    background-color: #f3a847;
+    background-color: #2275fc;
     border: 0;
     font-weight: 600;
     font-size: 1.1vw;
@@ -94,7 +107,7 @@ button {
         position: relative;
         /* height: 27%; */
         /*    left: 14px;
-*/ /* margin-bottom: 16px; */
+/ / margin-bottom: 16px; */
         border-radius: 10px;
     }
 
@@ -154,7 +167,7 @@ button {
         position: relative;
         /* height: 27%; */
         /*    left: 14px;
-*/ /* margin-bottom: 16px; */
+/ / margin-bottom: 16px; */
         border-radius: 10px;
     }
 
@@ -191,5 +204,6 @@ button {
             color: black;
             /*        background-color: #80808059;
 */
+                    
         }
 }
