@@ -1,6 +1,4 @@
-﻿
-
-@model List<ProuductViewModel>
+﻿@model List<ProuductViewModel>
 @using System.Globalization
 @using Microsoft.AspNetCore.Mvc.Localization;
 
@@ -21,27 +19,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Table</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+    <style>
+        tr:hover {
+            background-color: #caccd059 !important;
+        }
+
+        .add1:hover {
+            background-color: #2275fc !important;
+            color: white;
+        }
+
+        .search:hover {
+            background-color: #2275fc !important;
+            color: white;
+        }
+    </style>
 </head>
 <body dir="@(isRtl ? "RTL":"LTR")">
-    <h3 style="text-align:center">@localizer["Number Of Products Now"]: @Model.Count</h3>
+    <h3 style="text-align:center;padding: 25px;">@localizer["Number Of Products Now"]: @Model.Count</h3>
     <div class="container">
-        <button type="submit" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #323c58; margin: 10px; background-color:white">
+        <button type="submit" class="add1" style=" color: black;text-decoration: none; width: 147px; height:40px; position: absolute;right: 62px;
+    top: 10vw; border: 1px solid #2275fc;margin: 10px;background-color: white; border-radius: 5px;">
             <a asp-action="Create" class="add1" style="color:black">@localizer["Add new Proudect"]</a>
         </button>
         <form asp-controller="Product" asp-action="Index" method="get">
-            <input type="text" name="searchString" placeholder="Enter product name">
-            <button type="submit" style="color:black; text-decoration: none; width: 80px; height: 50px; border: 1px solid #323c58; margin: 10px; background-color:white">@localizer["Search"]</button>
+            <input type="text" name="searchString" placeholder="Enter product name" style="width: 24%;
+    padding: 7px;
+    border-radius: 10px;
+    border: 1px solid #2275fc;">
+            <button type="submit" class="search" style="color:black; text-decoration: none; width: 80px; height: 39px; border: 1px solid #2275fc; margin: 10px; background-color:white;border-radius: 5px;">@localizer["Search"]</button>
         </form>
 
 
-        <div class="card">
-            <div class="card-header">
-            </div>
+        <div class="card" style="width: 112%;
+    margin-left: -71px;">
+            @*             <div class="card-header">
+            </div> *@
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped"
+                <table id="example1" class="table table-striped"
             <thead>
-                <tr>
+                <tr style="background-color:white">
                     <th>@localizer["English Name"]</th>
                     <th>@localizer["Arabic Name"]</th>
                     <th>@localizer["Price"]</th>
@@ -57,24 +76,25 @@
             <tbody>
                         @foreach (var product in Model)
                         {
-                        <tr>
-                            <td>@product.NameEn</td>
-                            <td>@product.NameAr</td>
-                            <td>@product.Price</td>&nbsp &nbsp &nbsp
+                                <tr style="background-color:white">
+                                <td style="width:22%">@product.NameEn</td>
+                                <td>@product.NameAr</td>
+                                <td>@product.Price</td>&nbsp &nbsp &nbsp
                                 @*  <td>@product.StockQuantity</td>
                     <td>@product.Description</td>
                     <td>@product.DateListed</td> *@
                                 @*   <td>@product.SellerName</td>
                     <td>@product.CategoryName</td>  *@
-                            <td class="crud" colspan="7" style="text-align: center;">
+                                <td class="crud" colspan="7" style="text-align: center;">
 
-                                        <a asp-action="Edit" asp-route-id="@product.Id" style=" background-color:#08781f;color:white;padding:2px">@localizer["Edit"]</a> |
-                                            <a asp-action="Delete" asp-route-id="@product.Id" style="background-color:#e31414;color:white;padding:2px">@localizer["Delete"]</a>|
-                                        <a asp-action="AssignImage" asp-route-productId="@product.Id" style="color:black;">@localizer["Assign Image"]</a> |
-                                        <a asp-action="DisplayImages" asp-route-productId="@product.Id" style="color:black;">@localizer["Display Images"]</a>|
-                                        <a asp-action="Details" asp-route-id="@product.Id" style="color:black;">@localizer["Details"]..</a>
-                            </td>
-                        </tr>
+                                    <a asp-action="Edit" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a> |
+                                    <a asp-action="AssignImage" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #29bc2c;"></i></a> |
+                                    <a asp-action="DisplayImages" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #74C0FC;"></i></a>|
+                                    <a asp-action="Details" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-eye" style="color: #74C0FC;"></i></a>|
+                                    <a asp-action="Delete" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
+
+                                </td>
+                            </tr>
                         }
             </tbody>
         </table>

@@ -10,15 +10,33 @@
 @{
     ViewData["Title"] = "Payments";
 }
+<head>
+    <style>
+        th {
+            color: black !important;
+            background-color: white !important;
+            border-color: #383f45;
+        }
 
+        td {
+            color: black !important;
+            background-color: white !important;
+            border-color: #383f45;
+        }
+
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
+</head>
 <div class="container mt-5">
     <h2 class="mb-4">@localizer["Payments"]</h2>
-    <table class="table table-hover table-bordered">
+    <table class="table" style=" border-radius: 1rem;">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">@localizer["Order ID"]</th>
-                <th scope="col">@localizer["Date Paid"]</th>
-                <th scope="col">@localizer["Payment Method"]</th>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Order ID"]</th>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Date Paid"]</th>
+                <th class="color: #fff;background-color: #0a2435 !important;border-color: #383f45;" scope="col">@localizer["Payment Method"]</th>
             </tr>
         </thead>
         <tbody>

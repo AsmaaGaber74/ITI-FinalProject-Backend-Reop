@@ -15,11 +15,16 @@
 <head>
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/css/Ordersdisplay.css" />
+    <style>
+        tr:hover {
+            background-color: #caccd094 !important;
+        }
+    </style>
 </head>
 <body>
     <h2>@localizer["Orders"]</h2>
     <div class="container col-md-12 col-sm-12">
-        <table class="table">
+        <table class="table" style="background-color:white;">
             <thead>
                 <tr>
                     <th scope="col">@localizer["Order ID"]</th>
@@ -30,7 +35,7 @@
                     <th scope="col">@localizer["Street"]</th>
                     <th scope="col">@localizer["Status"]</th>
                     <th scope="col">@localizer["Action"]</th>
-
+                    <th scope="col">@localizer["Action"]</th>
 
                 </tr>
             </thead>
@@ -51,52 +56,53 @@
                         <td>@order.Cities[cityIndex]</td>
                         <td>@order.Streets[streetIndex]</td>
                         <td>@order.Status</td>
+
                         <td>
-                                    @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+                            @using (Html.BeginForm("UpdateStatus", "Admin", FormMethod.Post))
+                            {
+                                @Html.Hidden("orderId", order.Id)
+                                <select name="status" class="form-control">
+                                    @if (order.Status == "Pending")
                                     {
-                                        @Html.Hidden("orderId", order.Id)
-                                        <select name="status" class="form-control">
-                                            @if (order.Status == "Pending")
-                                            {
-                                                <option value="Pending" selected>Pending</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="Pending">Pending</option>
-                                            }
-                                            @if (order.Status == "Processing")
-                                            {
-                                                <option value="Processing" selected>Processing</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="Processing">Processing</option>
-                                            }
-                                            @if (order.Status == "Shipped")
-                                            {
-                                                <option value="Shipped" selected>Shipped</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="Shipped">Shipped</option>
-                                            }
-                                            @if (order.Status == "Delivered")
-                                            {
-                                                <option value="Delivered" selected>Delivered</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="Delivered">Delivered</option>
-                                            }
-                                        </select>
-                                <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button>
+                                        <option value="Pending" selected>Pending</option>
                                     }
-                                </td>
-                            }
-                        </tr>
+                                    else
+                                    {
+                                        <option value="Pending">Pending</option>
+                                    }
+                                    @if (order.Status == "Processing")
+                                    {
+                                        <option value="Processing" selected>Processing</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Processing">Processing</option>
+                                    }
+                                    @if (order.Status == "Shipped")
+                                    {
+                                        <option value="Shipped" selected>Shipped</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Shipped">Shipped</option>
+                                    }
+                                    @if (order.Status == "Delivered")
+                                    {
+                                        <option value="Delivered" selected>Delivered</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Delivered">Delivered</option>
+                                    }
+                                </select>
+                              <td>  <button type="submit" class="btn btn-primary btn-sm">@localizer["Update"]</button><td/>
+                           
+                        </td>
+                        }
+                    </tr>
                     index++;
-                    }
                 }
+               
             </tbody>
         </table>
     </div>

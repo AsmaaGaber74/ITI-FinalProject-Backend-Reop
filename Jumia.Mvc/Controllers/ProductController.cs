@@ -24,19 +24,30 @@ namespace Jumia.Mvc.Controllers
 
         public async Task<IActionResult> Index(string searchString)
         {
-            var proudectsDataList = await _proudectService.GetAllPagination(100, 1);
-            var proudects = proudectsDataList.Entities;
-
-            if (!String.IsNullOrEmpty(searchString))
+            try
             {
-                proudects = proudects.Where(p => p.NameEn.Contains(searchString)).ToList();
-                proudects = proudects.Where(p => p.NameAr.Contains(searchString)).ToList();
+                var productsDataList = await _proudectService.GetAllPagination(100, 1);
+                var products = productsDataList.Entities;
 
+                // If a search string is provided, filter products based on it
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    // Assuming p.NameEn and p.NameAr are the properties you want to search in
+                    products = products.Where(p => p.NameEn.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                                || p.NameAr.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                                      .ToList();
+                }
+
+                return View(products);
             }
-
-
-            return View(proudects);
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                TempData["ErrorMessage"] = "An error occurred while retrieving products: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
+
         public async Task<ActionResult> Create()
         {
             var categories = await _proudectService.GetAllCategories();

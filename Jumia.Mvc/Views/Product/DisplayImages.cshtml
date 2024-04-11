@@ -39,10 +39,11 @@
     }
 
     .btn {
-        border: 2px solid #e16009;
+        border: 2px solid #2275fc;
         z-index: 1;
         color: black;
         margin: 3%;
+        background-color: #2275fc;
     }
 
         .btn:after {
@@ -59,7 +60,7 @@
 
         .btn:hover {
             color: rgb(0, 0, 0);
-            background-color: red;
+            background-color: #2275fc;
         }
 </style>
 
@@ -74,15 +75,11 @@
                 <img src="@image.Path" class="img-fluid" alt="Product Image" />
                 <form asp-action="DeleteImage" method="post" class="mt-2">
                     <input type="hidden" name="id" value="@image.Id" />
-                    <button type="submit" class="btn btn-danger">@localizer["Delete"]</button>
+                    <button type="submit" class="btn ">@localizer["Delete"]</button>
+                    <a asp-action="Index" style="color:#2275fc; text-decoration: none; width: 90px; height: 1000px; margin: 10px;">@localizer["Back  TO List"]..</a>
                 </form>
             </div>
         }
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-12 text-center">
-            <a asp-action="Index" class="btn btn-primary">@localizer["Back  TO List"]</a>
-        </div>
     </div>
 }
 else
