@@ -5,6 +5,7 @@ using Jumia.Application.Services;
 using Jumia.Dtos.ResultView;
 using Jumia.Dtos.ViewModel.Product;
 using Jumia.Model;
+using System.Configuration;
 namespace AmazonWebSite.Controllers
 {
     [Route("api/[controller]")]
@@ -13,10 +14,12 @@ namespace AmazonWebSite.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IConfiguration configuration;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IConfiguration configuration)
         {
             _orderService = orderService;
+            this.configuration = configuration;
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrderAsync([FromBody] Createorder createorder)
@@ -102,6 +105,27 @@ namespace AmazonWebSite.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        //[HttpGet("orderid")]
+        //public async Task<IActionResult> GetOrderdetailsByUserId(int orderId)
+        //{
+        //    try
+        //    {
+        //        var orders = await _orderService.GetOrderDetailsByorderId(orderId);
+        //        if (orders == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        return Ok(orders);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, "Internal server error");
+        //    }
+        //}
+
+
+
         [HttpGet("orderid")]
         public async Task<IActionResult> GetOrderdetailsByUserId(int orderId)
         {
@@ -112,11 +136,45 @@ namespace AmazonWebSite.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(orders);
+
+                var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+                var ordersDTO = new List<OrderDetailsDTO>(); // Assuming OrderDetailsDTO is your DTO class
+
+                foreach (var order in orders)
+                {
+                    var fullPath = Path.Combine(basePath, order.ProductImage.Replace("/", "\\").TrimStart('\\'));
+                    string base64String = null;
+
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                        base64String = Convert.ToBase64String(imageBytes);
+                    }
+
+                    // Manual mapping
+                    ordersDTO.Add(new OrderDetailsDTO
+                    {
+                        // Assuming these are the properties of your OrderDetailsDTO
+                        orderid = order.orderid,
+                        UserID = order.UserID,
+                        productname = order.productname,
+                        TotalPrice = order.TotalPrice,
+                        DatePlaced = order.DatePlaced,
+                        Status = order.Status,
+                        ProductDescription = order.ProductDescription,
+                        ProductImage = base64String, // Set the base64 string here
+                        ProductPrice = order.ProductPrice,
+                        orderitemid = order.orderitemid,
+                        Quantity = order.Quantity,
+                        productid = order.productid,
+
+                    });
+                }
+
+                return Ok(ordersDTO);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, "Internal server error");
             }
         }

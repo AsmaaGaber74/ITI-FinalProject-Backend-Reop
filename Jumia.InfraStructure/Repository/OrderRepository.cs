@@ -98,6 +98,30 @@ namespace Jumia.InfraStructure.Repository
 
 
 
+        public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
+        {
+            var ordersDto = from order in context.orders
+                            join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
+                            join product in context.products on orderdetails.ProductId equals product.Id
+                            where order.Id == orderdetails.OrderId
+                            select new OrderDetailsDTO
+                            {
+                                Quantity = orderdetails.Quantity,
+                                UserID = order.UserID,
+                                productname = product.NameEn,
+                                TotalPrice = orderdetails.TotalPrice,
+                                DatePlaced = order.DatePlaced,
+                                Status = order.Status,
+                                orderitemid = orderdetails.Id,
+                                orderid = order.Id,
+                                productid = product.Id,
+                                ProductDescription = product.DescriptionEn,
+                                ProductImage = product.ProductImages.Select(p => p.Path).FirstOrDefault() ?? "null",
+                                ProductPrice = product.Price
+                            };
+
+            return Task.FromResult(ordersDto);
+        }
 
 
 
@@ -146,27 +170,27 @@ namespace Jumia.InfraStructure.Repository
 
             return ordersDto;
         }
-        public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
-        {
-            var ordersDto = from order in context.orders
-                            join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
-                            join product in context.products on orderdetails.ProductId equals product.Id
-                            where order.Id == orderdetails.OrderId
-                            select new OrderDetailsDTO
-                            {
-                                Quantity = orderdetails.Quantity,
-                                UserID = order.UserID,
-                                productname = product.NameEn,
-                                TotalPrice = orderdetails.TotalPrice,
-                                DatePlaced = order.DatePlaced,
-                                Status = order.Status,
-                                orderitemid = orderdetails.Id,
-                                orderid = order.Id,
-                                productid = product.Id
-                            };
+        //public Task<IQueryable<OrderDetailsDTO>> GetOrderDetailsByordrId(int orderid)
+        //{
+        //    var ordersDto = from order in context.orders
+        //                    join orderdetails in context.orderProducts.Where(p => p.IsDeleted == false) on order.Id equals orderid
+        //                    join product in context.products on orderdetails.ProductId equals product.Id
+        //                    where order.Id == orderdetails.OrderId
+        //                    select new OrderDetailsDTO
+        //                    {
+        //                        Quantity = orderdetails.Quantity,
+        //                        UserID = order.UserID,
+        //                        productname = product.NameEn,
+        //                        TotalPrice = orderdetails.TotalPrice,
+        //                        DatePlaced = order.DatePlaced,
+        //                        Status = order.Status,
+        //                        orderitemid = orderdetails.Id,
+        //                        orderid = order.Id,
+        //                        productid = product.Id
+        //                    };
 
-            return Task.FromResult(ordersDto);
-        }
+        //    return Task.FromResult(ordersDto);
+        //}
 
     }
 

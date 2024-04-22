@@ -26,5 +26,8 @@ namespace Jumia.Dtos.ViewModel.Product
         public ICollection<string> colors { get; set; }
         public ICollection<string> itemimages { get; set; }
         public decimal price { get; set; }
+
+        public string? CategoryNameAr { get; set; }
+        public string? CategoryNameEn { get; set; }
     }
 }

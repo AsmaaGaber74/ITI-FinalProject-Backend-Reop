@@ -22,12 +22,14 @@ namespace Jumia.Application.Services
         private readonly IMapper _mapper;
         private readonly ICategoryReposatory categoryRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public ProductService(IProductReposatory productReposatory, IMapper mapper, ICategoryReposatory categoryRepository, UserManager<ApplicationUser> userManager)
+        private readonly ICategoryService _categoryService;
+        public ProductService(IProductReposatory productReposatory, IMapper mapper, ICategoryReposatory categoryRepository, UserManager<ApplicationUser> userManager, ICategoryService categoryService)
         {
             this.productReposatory = productReposatory;
             _mapper = mapper;
             this.categoryRepository = categoryRepository;
             _userManager = userManager;
+            _categoryService = categoryService;
         }
 
         public async Task<ResultView<ProuductViewModel>> Create(ProuductViewModel product)
@@ -98,11 +100,28 @@ namespace Jumia.Application.Services
         }
 
 
-        public async Task<ProuductViewModel> GetOne(int ID)
+        //public async Task<ProuductViewModel> GetOne(int ID)
+        //{
+        //    var product = await productReposatory.GetByIdAsync(ID);
+        //    var REturnproudect = _mapper.Map<ProuductViewModel>(product);
+        //    return REturnproudect;
+        //}
+
+
+        public async Task<ProuductViewModel> GetOne(int id)
         {
-            var product = await productReposatory.GetByIdAsync(ID);
-            var REturnproudect = _mapper.Map<ProuductViewModel>(product);
-            return REturnproudect;
+            var product = await productReposatory.GetByIdAsync(id);
+            var productViewModel = _mapper.Map<ProuductViewModel>(product);
+
+
+            var category = await _categoryService.GetById(product.CategoryID);
+            if (category != null)
+            {
+                productViewModel.CategoryNameAr = category.NameAr;
+                productViewModel.CategoryNameEn = category.NameEn;
+            }
+
+            return productViewModel;
         }
 
         public async Task<ResultDataList<ProuductViewModel>> GetAllPagination(int items, int pagenumber)
@@ -118,7 +137,7 @@ namespace Jumia.Application.Services
                 BrandNameEn = p.BrandNameEn,
                 CategoryNameAr = p.Category.NameEn,
                 CategoryNameEn = p.Category.NameEn,
-                
+
                 StockQuantity = p.StockQuantity,
                 Price = p.Price,
                 DateListed = p.DateListed,
@@ -126,7 +145,7 @@ namespace Jumia.Application.Services
                 DescriptionEn = p.DescriptionEn,
                 SellerName = p.Seller.UserName,
                 CategoryId = p.Category.Id,
-               
+
                 // IsDeleted=p.IsDeleted,
                 // ImgPath = p.ProductImages.FirstOrDefault().Path
             }).ToList();
@@ -216,13 +235,32 @@ namespace Jumia.Application.Services
 
         public async Task<int> SaveShanges()
         {
-           return await productReposatory.SaveChangesAsync();
+            return await productReposatory.SaveChangesAsync();
         }
 
 
-        public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int items, int pageNumber)
+        public async Task<ResultDataList<ProuductViewModel>> SearchByBrand(string name, int categoryId, int items, int pageNumber)
         {
-            var allProducts = await productReposatory.SearchByBrand(name);
+            var allProducts = await productReposatory.SearchByBrand(name, categoryId);
+            var totalCount = allProducts.Count(); // Get total count before pagination
+
+            // Apply pagination
+            var paginatedProducts = allProducts
+                                    .Skip(items * (pageNumber - 1))
+                                    .Take(items)
+                                    .ToList();
+
+            var productViewModels = _mapper.Map<List<ProuductViewModel>>(paginatedProducts);
+
+            return new ResultDataList<ProuductViewModel>
+            {
+                Entities = productViewModels,
+                Count = totalCount // Include total count for pagination
+            };
+        }
+        public async Task<ResultDataList<ProuductViewModel>> SearchInAllBrand(string name, int items, int pageNumber)
+        {
+            var allProducts = await productReposatory.SearchInAllBrand(name);
             var totalCount = allProducts.Count(); // Get total count before pagination
 
             // Apply pagination

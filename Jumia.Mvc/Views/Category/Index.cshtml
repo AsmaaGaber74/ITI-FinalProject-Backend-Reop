@@ -29,7 +29,7 @@
 <div style="background-color:#ebebeb;">
     <div class="row justify-content-center mt-3" style="text-align: end; background-color:#ebebeb;">
         <div class="col-md-8" style="margin-top: 4vw;
-    margin-left: 14vw;">
+   margin-left: 23vw;">
             <a asp-action="Create" class="btn-1" style="">@localizer["Create"]</a>
         </div>
     </div>
@@ -37,14 +37,14 @@
         <div class="row justify-content-center" style="background-color:#ebebeb;">
             <div class="col-md-8">
                 <div class="card" style="background-color: #F3F6F9 !important;
-    color: #00000087;
-    width: 138%;
-    margin-left: -130px; border-radius:1.25rem;padding: 9px;">
+    color: black;
+        width: 163%;
+    margin-left: -227px; border-radius:0.25rem;">
                     <div class="card-body">
                         @if (Model != null && Model.Any())
                         {
                             <table class="table table-striped">
-                                <thead style="background-color: #F3F6F9 !important; color: #00000087;">
+                                <thead style="background-color:white !important; color:black">
                                     <tr>
 
                                         <th>@localizer["English Name"]</th>
@@ -64,8 +64,8 @@
                                             <td>@category.Id</td>
 
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style="">@localizer["Edit"]<i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a>
-                                                <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style="">@localizer["Delete"]<i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
+                                                <a asp-action="Edit" asp-route-id="@category.Id" class="btn " style=""><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a>
+                                                <a asp-action="Delete" asp-route-id="@category.Id" class="btn " style=""><i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
                                             </td>
                                         </tr>
                                     }

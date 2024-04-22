@@ -26,7 +26,7 @@ namespace Jumia.Mvc.Controllers
         {
             try
             {
-                var productsDataList = await _proudectService.GetAllPagination(100, 1);
+                var productsDataList = await _proudectService.GetAllPagination(500, 1);
                 var products = productsDataList.Entities;
 
                 // If a search string is provided, filter products based on it

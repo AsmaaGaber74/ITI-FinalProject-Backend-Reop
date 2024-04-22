@@ -57,5 +57,7 @@ namespace Jumia.Dtos.ViewModel.Product
         public virtual ICollection<CartItemDto> OrderDetails { get; set; }
         public virtual ICollection<ItemDto> items { get; set; }
         public virtual ICollection<ProductImageDto> ProductImages { get; set; }
+        public string? CategoryNameAr { get; set; }
+        public string? CategoryNameEn { get; set; }
     }
 }

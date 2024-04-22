@@ -29,5 +29,8 @@ namespace Jumia.Dtos.ViewModel.Order
         public string productname { get; set; }
         public int orderid { get; set; }
         public int productid { get; set; }
+        public string ProductImage { get; set; }
+        public string ProductDescription { get; set; }
+        public decimal ProductPrice { get; set; }
     }
 }

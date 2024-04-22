@@ -38,7 +38,7 @@
     </style>
 </head>
 <body dir="@(isRtl ? "RTL":"LTR")">
-    <h3 style="text-align:center;padding: 25px;">@localizer["Number Of Products Now"]: @Model.Count</h3>
+    <h3 style="text-align:start;padding: 25px;">@localizer["Number Of Products Now"]: @Model.Count</h3>
     <div class="container">
         <button type="submit" class="add1" style=" color: black;text-decoration: none; width: 147px; height:40px; position: absolute;right: 62px;
     top: 10vw; border: 1px solid #2275fc;margin: 10px;background-color: white; border-radius: 5px;">
@@ -53,14 +53,16 @@
         </form>
 
 
-        <div class="card" style="width: 112%;
-    margin-left: -71px;">
+        <div class="card" style="    width: 109%;
+    margin-left: -48px;">
             @*             <div class="card-header">
             </div> *@
             <div class="card-body">
                 <table id="example1" class="table table-striped"
             <thead>
                 <tr style="background-color:white">
+                            <th>Number</th> 
+
                     <th>@localizer["English Name"]</th>
                     <th>@localizer["Arabic Name"]</th>
                     <th>@localizer["Price"]</th>
@@ -76,25 +78,27 @@
             <tbody>
                         @foreach (var product in Model)
                         {
-                                <tr style="background-color:white">
-                                <td style="width:22%">@product.NameEn</td>
-                                <td>@product.NameAr</td>
-                                <td>@product.Price</td>&nbsp &nbsp &nbsp
+                                    <tr style="background-color:white">
+                                                        <td style="width:5%">@(Model.IndexOf(product) + 1)</td> <!-- Add this line to display the product number -->
+
+                                    <td style="width:22%">@product.NameEn</td>
+                                    <td>@product.NameAr</td>
+                                    <td>@product.Price</td>&nbsp &nbsp &nbsp
                                 @*  <td>@product.StockQuantity</td>
                     <td>@product.Description</td>
                     <td>@product.DateListed</td> *@
                                 @*   <td>@product.SellerName</td>
                     <td>@product.CategoryName</td>  *@
-                                <td class="crud" colspan="7" style="text-align: center;">
+                                    <td class="crud" colspan="7" style="text-align: center;">
 
-                                    <a asp-action="Edit" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a> |
-                                    <a asp-action="AssignImage" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #29bc2c;"></i></a> |
-                                    <a asp-action="DisplayImages" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #74C0FC;"></i></a>|
-                                    <a asp-action="Details" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-eye" style="color: #74C0FC;"></i></a>|
-                                    <a asp-action="Delete" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-pen-to-square" style="color: #158b13;"></i></a> |
+                                        <a asp-action="AssignImage" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #29bc2c;"></i></a> |
+                                        <a asp-action="DisplayImages" asp-route-productId="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-image" style="color: #74C0FC;"></i></a>|
+                                        <a asp-action="Details" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-eye" style="color: #74C0FC;"></i></a>|
+                                        <a asp-action="Delete" asp-route-id="@product.Id" style=" padding: 7px; border-radius: 7px; padding-left: 16px; padding-right: 16px;"><i class="fa-solid fa-trash" style="color: #f20202;"></i></a>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                         }
             </tbody>
         </table>

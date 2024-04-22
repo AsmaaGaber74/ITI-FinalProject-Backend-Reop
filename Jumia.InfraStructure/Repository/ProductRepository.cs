@@ -43,9 +43,13 @@ namespace Jumia.InfraStructure
             return Task.FromResult(_jumiacontext.products.Where(p => p.Price >= minprice && p.Price <= maxprice));
         }
 
-        public Task<IQueryable<Product>> SearchByBrand(string brandName)
+        public Task<IQueryable<Product>> SearchInAllBrand(string brandName)
         {
             return Task.FromResult(_jumiacontext.products.Where(p => p.BrandNameEn == (brandName)));
+        }
+        public Task<IQueryable<Product>> SearchByBrand(string brandName, int categoryId)
+        {
+            return Task.FromResult(_jumiacontext.products.Where(p => p.BrandNameEn == (brandName) && p.CategoryID == categoryId));
         }
         public async Task<List<string>> GetAllBrands()
         {

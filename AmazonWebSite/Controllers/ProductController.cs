@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Jumia.Application.Contract;
 
 
 namespace AmazonWebSite.Controllers
@@ -18,15 +19,16 @@ namespace AmazonWebSite.Controllers
         private readonly IItemServices _itemServices;
         private readonly IProductImageService _productImageService;
         private readonly IConfiguration configuration;
+        private readonly ICategoryService _categoryService;
 
-        public ProductController(IProductService productService, IItemServices itemServices, IProductImageService productImageService, IConfiguration configuration)
+        public ProductController(IProductService productService, IItemServices itemServices, IProductImageService productImageService, IConfiguration configuration, ICategoryReposatory categoryRepository, ICategoryService categoryService)
         {
             _productService = productService;
             _itemServices = itemServices;
             _productImageService = productImageService;
             this.configuration = configuration;
+            _categoryService = categoryService;
         }
-
 
         //[HttpGet("all/sorted")]
         //public async Task<IActionResult> GetAllSorted([FromQuery] int pageSize, [FromQuery] int pageNumber, [FromQuery] string sortOrder = "asc", [FromQuery] int categoryId = 0)
@@ -283,10 +285,73 @@ namespace AmazonWebSite.Controllers
         }
 
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetOne(int id)
+        //{
+        //    var product = await _productService.GetOne(id);
+        //    if (product == null)
+        //    {
+        //        return NotFound("Product not found.");
+        //    }
+
+        //    var productDTO = new GetOneUser
+        //    {
+
+        //        price = product.Price,
+        //        NameEn = product.NameEn,
+        //        NameAr = product.NameAr,
+        //        StockQuantity = product.StockQuantity,
+        //        descriptionAr = product.DescriptionAR,
+        //        descriptionEn = product.DescriptionEn,
+        //        Id = product.Id,
+        //        BrandNameAr = product.BrandNameAr,
+        //        BrandNameEn = product.BrandNameEn,
+        //        Productimages = new List<string>(), // Initialize here to ensure it's not null
+        //        itemimages = new List<string>(), // Assuming similar adjustment needed
+        //        colors = new List<string>() // Initialize here; assuming you'll populate this similarly
+        //    };
+
+        //    var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+        //    var productImagePaths = (await _productImageService.GetByProductIdAsync(id)).Select(p => p.Path).ToList();
+
+        //    foreach (var imagePath in productImagePaths)
+        //    {
+        //        try
+        //        {
+        //            var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+        //            if (System.IO.File.Exists(fullPath))
+        //            {
+        //                var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+        //                var base64String = Convert.ToBase64String(imageBytes);
+        //                productDTO.Productimages.Add(base64String);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+
+        //        }
+        //    }
+
+        //    // Assuming there's a method to fetch items related to this product
+        //    // For item images and colors, apply similar logic as needed based on your model
+        //    //var items = await _itemServices.GetOne(id); // This method needs to be defined or adjusted according to your actual service layer
+        //    //var itemColors = items.Select(i => i.Color).ToList();
+        //    //productDTO.colors = itemColors;
+
+
+
+
+        //    return Ok(productDTO);
+        //}
+
+
+
         [HttpGet]
         public async Task<IActionResult> GetOne(int id)
         {
             var product = await _productService.GetOne(id);
+
+
             if (product == null)
             {
                 return NotFound("Product not found.");
@@ -338,9 +403,18 @@ namespace AmazonWebSite.Controllers
 
 
 
-
+            //--------------------- get category name
+            var category = await _categoryService.GetById(product.CategoryId);
+            if (category != null)
+            {
+                productDTO.CategoryNameEn = category.NameEn;
+                productDTO.CategoryNameAr = category.NameAr;
+            }
             return Ok(productDTO);
         }
+
+
+
         [HttpGet("bycatogry")]
         public async Task<IActionResult> Getbycatogery(int catid, [FromQuery] int pageSize, [FromQuery] int pageNumber)
         {
@@ -469,9 +543,56 @@ namespace AmazonWebSite.Controllers
             return Ok(peoducts);
         }
         [HttpGet("searchbrand")]
-        public async Task<IActionResult> SearchByBrand(string name, int pageSize, int pageNumber)
+        public async Task<IActionResult> SearchByBrand(string name, int categoryId, int pageSize, int pageNumber)
         {
-            var products = await _productService.SearchByBrand(name, pageSize, pageNumber);
+            var products = await _productService.SearchByBrand(name, categoryId, pageSize, pageNumber);
+
+            var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
+            {
+                id = p.Id,
+                NameEn = p.NameEn,
+                NameAr = p.NameAr,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                DescriptionEn = p.DescriptionEn,
+                DescriptionAr = p.DescriptionAR,
+                BrandNameAr = p.BrandNameAr,
+                BrandNameEn = p.BrandNameEn,
+                ProductImages = new List<string>()
+            }).ToList();
+
+            var basePath = configuration.GetValue<string>("MvcProject:WwwRootPath");
+
+            foreach (var product in productsDTO)
+            {
+                var productImagePaths = (await _productImageService.GetByProductIdAsync(product.id)).Select(p => p.Path).ToList();
+
+                foreach (var imagePath in productImagePaths)
+                {
+                    try
+                    {
+                        var fullPath = Path.Combine(basePath, imagePath.Replace("/", "\\").TrimStart('\\'));
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            var imageBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                            var base64String = Convert.ToBase64String(imageBytes);
+                            product.ProductImages.Add(base64String);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the error
+                        // Consider how to handle errors; skipping image in this example
+                    }
+                }
+            }
+
+            return Ok(productsDTO);
+        }
+        [HttpGet("searchAllbrand")]
+        public async Task<IActionResult> SearchInAllBrand(string name, int pageSize, int pageNumber)
+        {
+            var products = await _productService.SearchInAllBrand(name, pageSize, pageNumber);
 
             var productsDTO = products.Entities.Select(p => new GetAllPaginationUser
             {

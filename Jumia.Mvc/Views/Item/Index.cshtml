@@ -32,9 +32,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">@localizer["Item Image"]</th>
                     <th scope="col">@localizer["Product Name"]</th>
                     <th scope="col">@localizer["ProductId"]</th>
+                    <th scope="col">@localizer["Item Image"]</th>
                     <th scope="col">@localizer["Color"]</th>
                     <th scope="col">@localizer["Quantity"]</th>
                     <th scope="col">@localizer["Size"]</th>
@@ -47,9 +47,9 @@
                 @foreach (var r in Model.Entities)
                 {
                     <tr>
-                        <td style="width:22%"><img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true"></td>
                         <td style="width:22%">@r.ProductName</td>
                         <td style="width:15%">@r.ProductId</td>
+                        <td style="width:22%"><img src="~/ItemImages/@r.ItemImagestring" alt="@r.ItemImagestring" asp-append-version="true"></td>
                         <td>@r.Color</td>
                         <td> @r.Quantity</td>
                         <td>@r.Size</td>

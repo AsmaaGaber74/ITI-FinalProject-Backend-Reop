@@ -19,10 +19,10 @@
                     <form asp-action="AddRole" method="post">
                         <div class="form-group">
                             <label asp-for="RoleName">@localizer["RoleName"]</label>
-                            <input asp-for="RoleName" class="form-control" style="border-radius: 22px; color: white;" />
+                            <input asp-for="RoleName" class="form-control" style="border-radius: 22px; color: black;" />
                             <span asp-validation-for="RoleName" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block mt-3" style="background-color: #2275fc;color: white;border-radius: 15px;width: 8rem; padding: 8px; align-content: center; margin-left: 12rem;">
+                        <button type="submit" class="btn btn-primary btn-block mt-3" style="background-color: #2275fc;color: black;border-radius: 15px;width: 8rem; padding: 8px; align-content: center; margin-left: 12rem;">
                             @localizer["Add Role"]
                         </button>
                     </form>
